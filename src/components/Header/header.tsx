@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import NavLink from "./NavLink";
+import MobileMenu from "./MobileMenu";
 
 const navItems = [
   { href: "/about", label: "About us" },
@@ -11,15 +12,16 @@ const navItems = [
 
 export default function Header() {
   return (
-    <header className="w-full flex justify-center pt-6 px-4 bg-[#F5F1E9]">
-      <div className="w-full max-w-6xl flex items-center justify-between rounded-full border-[1.5] border-[#DE814A] bg-[#FBF3EA] px-6 py-3">
-        <Link href="/">
+    <header className="w-full flex justify-center pt-4 sm:pt-6 px-4 bg-[#F5F1E9]">
+      <div className="w-full max-w-6xl flex items-center justify-between rounded-full border border-[#E8A47E] bg-[#FBF3EA] px-4 sm:px-6 py-2.5 sm:py-3">
+        <Link href="/" className="shrink-0">
           <Image
             src="/Icons/logo.png"
             alt="TalentQ"
             width={120}
             height={32}
             priority
+            className="h-7 sm:h-8 w-auto"
           />
         </Link>
 
@@ -31,7 +33,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <Link
             href="/sign-in"
             className="rounded-md border border-[#1F3B33] px-4 py-2 text-sm font-medium text-[#1F3B33] hover:bg-[#F1E8DA] transition-colors"
@@ -46,6 +48,8 @@ export default function Header() {
             <ArrowRight size={14} />
           </Link>
         </div>
+
+        <MobileMenu navItems={navItems} />
       </div>
     </header>
   );
