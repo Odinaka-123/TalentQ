@@ -13,7 +13,7 @@ const navItems = [
 export default function Header() {
   return (
     <header className="w-full flex justify-center pt-4 sm:pt-6 px-4 bg-[#F5F1E9]">
-      <div className="w-full max-w-6xl flex items-center justify-between rounded-full border border-[#E8A47E] bg-[#FBF3EA] px-4 sm:px-6 py-2.5 sm:py-3">
+      <div className="w-full max-w-6xl flex items-center justify-between rounded-full border-[1.5] border-[#E8A47E] bg-[#FBF3EA] px-4 sm:px-6 py-2.5 sm:py-3">
         <Link href="/" className="shrink-0">
           <Image
             src="/Icons/logo.png"
