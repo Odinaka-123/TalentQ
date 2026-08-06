@@ -81,7 +81,7 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="bg-white rounded-2xl p-4 sm:p-5 flex flex-col gap-3"
+            className="bg-white rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A]"
           >
             <div
               className={`w-9 h-9 rounded-lg flex items-center justify-center ${stat.bg} ${stat.fg}`}
@@ -99,7 +99,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Skills verification banner */}
-      <div className="bg-[#FCEFE3] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="bg-[#FFF2E4] border border-[#DE814A] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex items-start gap-3 min-w-0 flex-1">
           <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0 text-[#D97757] font-semibold text-sm">
             <ShieldCheck size={17} />

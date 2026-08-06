@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter, usePathname } from "next/navigation";
 import { Menu, Search, Bell, Bookmark, Briefcase } from "lucide-react";
 
 interface TopbarProps {
@@ -11,6 +12,10 @@ export default function Topbar({
   onMenuClick,
   greetingName = "Ebiuwa Henrieta",
 }: TopbarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const isFindJobsActive = pathname.startsWith("/find-jobs");
+
   return (
     <header className="bg-[#F5F1E9] px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 pb-4">
       <div className="flex items-start justify-between gap-3">
@@ -45,7 +50,15 @@ export default function Topbar({
           >
             <Bell size={17} />
           </button>
-          <button className="flex items-center gap-2 bg-[#A8531E] text-white text-sm font-medium px-3.5 sm:px-4 py-2 rounded-md hover:bg-[#B24932] transition-colors">
+          <button
+            onClick={() => router.push("/find-jobs")}
+            aria-current={isFindJobsActive ? "page" : undefined}
+            className={`flex items-center gap-2 text-white text-sm font-medium px-3.5 sm:px-4 py-2 rounded-md transition-colors ${
+              isFindJobsActive ? "bg-[#732700]" : (
+                "bg-[#A8531E] hover:bg-[#732700]"
+              )
+            }`}
+          >
             <Briefcase size={15} />
             <span className="hidden xs:inline sm:inline">Find a job</span>
           </button>
