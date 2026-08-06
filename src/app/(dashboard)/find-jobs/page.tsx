@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Award } from "lucide-react";
+import { Award, Check } from "lucide-react";
 import JobCard, { type Job } from "../components/JobCard";
 
-const jobs: Job[] = [
+const jobs: (Job & { firstGig?: boolean })[] = [
   {
     id: "1",
     title: "Senior React Developer",
@@ -43,6 +44,7 @@ const jobs: Job[] = [
     priceRange: "$300-500",
     duration: "Ongoing",
     level: "Beginner",
+    firstGig: true,
   },
   {
     id: "4",
@@ -69,6 +71,7 @@ const jobs: Job[] = [
     priceRange: "$800-900/month",
     duration: "Long term",
     level: "Beginner",
+    firstGig: true,
   },
   {
     id: "6",
@@ -87,6 +90,9 @@ const jobs: Job[] = [
 
 export default function FindJobsPage() {
   const router = useRouter();
+  const [firstGigsOnly, setFirstGigsOnly] = useState(false);
+
+  const visibleJobs = firstGigsOnly ? jobs.filter((j) => j.firstGig) : jobs;
 
   return (
     <div>
@@ -98,22 +104,40 @@ export default function FindJobsPage() {
               First Gig Opportunities
             </p>
             <p className="text-xs text-[#6B7A73] mt-0.5">
-              2 jobs reserved for new freelancers — lower competition,
-              beginner-friendly.
+              {firstGigsOnly ?
+                "No reviews required — lower competition, beginner-friendly."
+              : "2 jobs reserved for new freelancers — lower competition, beginner-friendly."
+              }
             </p>
           </div>
         </div>
-        <button className="shrink-0 bg-white border border-[#C6543A] text-[#C6543A] text-sm font-medium px-4 py-2 rounded-md hover:bg-[#C6543A] hover:text-white transition-colors">
-          View First Gigs
-        </button>
+        {firstGigsOnly ?
+          <button
+            onClick={() => setFirstGigsOnly(false)}
+            aria-pressed="true"
+            aria-label="Showing first gigs only, click to show all jobs"
+            className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-[#A8531E] text-white hover:bg-[#732700] transition-colors"
+          >
+            <Check size={16} />
+          </button>
+        : <button
+            onClick={() => setFirstGigsOnly(true)}
+            className="shrink-0 border border-[#C6543A] text-[#C6543A] text-sm font-medium px-4 py-2 rounded-full hover:bg-[#C6543A] hover:text-white transition-colors"
+          >
+            View First Gigs
+          </button>
+        }
       </div>
 
-      <p className="text-sm text-[#6B7A73] mb-3">
-        {jobs.length} jobs match your profile
+      <p className="text-sm mb-3">
+        <span className="font-semibold text-[#1B3A2F]">
+          {visibleJobs.length} jobs
+        </span>{" "}
+        <span className="text-[#6B7A73]">match your profile</span>
       </p>
 
       <div className="flex flex-col gap-3 sm:gap-4">
-        {jobs.map((job) => (
+        {visibleJobs.map((job) => (
           <JobCard
             key={job.id}
             job={job}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, Search, Bell, Bookmark, Briefcase } from "lucide-react";
+import { Menu, Search, Bell, Bookmark, Briefcase, Mail } from "lucide-react";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -15,6 +15,7 @@ export default function Topbar({
   const router = useRouter();
   const pathname = usePathname();
   const isFindJobsActive = pathname.startsWith("/find-jobs");
+  const isMessagesActive = pathname.startsWith("/messages");
 
   return (
     <header className="bg-[#F5F1E9] px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 pb-4">
@@ -27,14 +28,19 @@ export default function Topbar({
           >
             <Menu size={22} />
           </button>
-          <div className="min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#000] truncate">
-              Hello {greetingName}
+          {isMessagesActive ?
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1B3A2F]">
+              Messages
             </h1>
-            <p className="text-sm text-[#6B7A73] mt-0.5">
-              What are we locking in today?
-            </p>
-          </div>
+          : <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#000] truncate">
+                Hello {greetingName}
+              </h1>
+              <p className="text-sm text-[#6B7A73] mt-0.5">
+                What are we locking in today?
+              </p>
+            </div>
+          }
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
@@ -43,6 +49,18 @@ export default function Topbar({
             className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5"
           >
             <Bookmark size={17} />
+          </button>
+          <button
+            onClick={() => router.push("/messages")}
+            aria-label="Messages"
+            aria-current={isMessagesActive ? "page" : undefined}
+            className={`hidden sm:flex w-9 h-9 items-center justify-center rounded-full transition-colors ${
+              isMessagesActive ?
+                "bg-[#A8531E] text-white"
+              : "bg-white text-[#1B3A2F] hover:bg-black/5"
+            }`}
+          >
+            <Mail size={17} />
           </button>
           <button
             aria-label="Notifications"
@@ -65,17 +83,19 @@ export default function Topbar({
         </div>
       </div>
 
-      <div className="relative mt-4 max-w-xl">
-        <Search
-          size={16}
-          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9AA79F]"
-        />
-        <input
-          type="text"
-          placeholder="Search jobs, skills, or clients..."
-          className="w-full bg-white rounded-full pl-10 pr-4 py-2.5 text-sm text-[#1B3A2F] placeholder:text-[#9AA79F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
-        />
-      </div>
+      {!isMessagesActive && (
+        <div className="relative mt-4 max-w-xl">
+          <Search
+            size={16}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9AA79F]"
+          />
+          <input
+            type="text"
+            placeholder="Search jobs, skills, or clients..."
+            className="w-full bg-white rounded-full pl-10 pr-4 py-2.5 text-sm text-[#1B3A2F] placeholder:text-[#9AA79F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
+          />
+        </div>
+      )}
     </header>
   );
 }
