@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, Search, Bell, Bookmark, Briefcase, Mail } from "lucide-react";
+import { Menu, Search, Bell, Briefcase, Mail } from "lucide-react";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -33,7 +33,7 @@ export default function Topbar({
               Messages
             </h1>
           : <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#000] truncate">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
                 Hello {greetingName}
               </h1>
               <p className="text-sm text-[#6B7A73] mt-0.5">
@@ -44,12 +44,6 @@ export default function Topbar({
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <button
-            aria-label="Saved jobs"
-            className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5"
-          >
-            <Bookmark size={17} />
-          </button>
           <button
             onClick={() => router.push("/messages")}
             aria-label="Messages"
