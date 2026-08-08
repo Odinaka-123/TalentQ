@@ -186,7 +186,7 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-140px)] min-h-[520px] bg-white rounded-2xl border border-black/5 overflow-hidden">
+    <div className="flex h-[calc(100vh-140px)] min-h-130 bg-white rounded-2xl border border-black/5 overflow-hidden">
       {/* Conversation list */}
       <div className="w-full sm:w-72 shrink-0 border-r border-black/5 flex flex-col">
         <div className="px-4 py-4 border-b border-black/5">
