@@ -70,6 +70,7 @@ export default function PaymentsOverview() {
           iconColor="#B9862F"
           label="Available Balance"
           value="$2,020.50"
+          meta="Ready to withdraw"
         />
         <StatCard
           icon={Lock}
@@ -77,6 +78,7 @@ export default function PaymentsOverview() {
           iconColor="#3E8E5A"
           label="In Escrow"
           value="$1,800.00"
+          meta="2 active contracts"
         />
         <StatCard
           icon={Clock}
@@ -84,6 +86,7 @@ export default function PaymentsOverview() {
           iconColor="#DE814A"
           label="Pending Release"
           value="$112.50"
+          meta="Awaiting client approval"
         />
         <StatCard
           icon={TrendingUp}
@@ -91,6 +94,7 @@ export default function PaymentsOverview() {
           iconColor="#8A5FC7"
           label="Total Earned (2026)"
           value="$2,020.50"
+          meta="Across 12 projects"
         />
       </div>
 

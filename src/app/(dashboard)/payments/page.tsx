@@ -16,7 +16,7 @@ export default function PaymentsPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-[#1F2A22]">Payments</h1>
+      <h1 className="text-2xl font-bold text-[#1F2A22]">Payments</h1>
       <p className="text-sm text-[#8A8A7E] mb-6">
         Track your performance and growth
       </p>

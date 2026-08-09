@@ -6,7 +6,6 @@ type VerificationBadgeCardProps = {
   icon: LucideIcon;
   iconColor: string;
   iconBg: string;
-  borderColor: string;
   title: string;
   note: string;
   noteColor: string;
@@ -17,7 +16,6 @@ export default function VerificationBadgeCard({
   icon: Icon,
   iconColor,
   iconBg,
-  borderColor,
   title,
   note,
   noteColor,
@@ -26,10 +24,7 @@ export default function VerificationBadgeCard({
   const isVerified = status === "verified";
 
   return (
-    <div
-      className="rounded-2xl bg-white px-5 py-4 border"
-      style={{ borderColor }}
-    >
+    <div className="rounded-2xl bg-white px-5 py-4 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A]">
       <div className="flex items-center justify-between mb-4">
         <div
           className="flex items-center justify-center w-9 h-9 rounded-full"

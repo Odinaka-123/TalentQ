@@ -6,6 +6,7 @@ type StatCardProps = {
   iconColor: string;
   label: string;
   value: string;
+  meta: string;
 };
 
 export default function StatCard({
@@ -14,18 +15,23 @@ export default function StatCard({
   iconColor,
   label,
   value,
+  meta,
 }: StatCardProps) {
   return (
-    <div className="rounded-2xl border border-[#E5E0D6] bg-white px-5 py-4 flex items-center gap-3">
+    <div className="bg-white rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A]">
       <div
-        className="flex items-center justify-center w-10 h-10 rounded-full shrink-0"
+        className="w-9 h-9 rounded-lg flex items-center justify-center"
         style={{ backgroundColor: iconBg }}
       >
-        <Icon size={18} style={{ color: iconColor }} />
+        <Icon size={17} style={{ color: iconColor }} />
       </div>
-      <div className="min-w-0">
-        <p className="text-lg font-semibold text-[#1F2A22] truncate">{value}</p>
-        <p className="text-xs text-[#8A8A7E] truncate">{label}</p>
+
+      <div>
+        <p className="text-xl sm:text-2xl font-semibold text-[#1B3A2F]">
+          {value}
+        </p>
+        <p className="text-xs text-[#6B7A73] mt-0.5">{label}</p>
+        <p className="text-xs text-[#8A8A7E] mt-2">{meta}</p>
       </div>
     </div>
   );

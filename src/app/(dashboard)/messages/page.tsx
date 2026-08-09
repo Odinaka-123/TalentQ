@@ -190,7 +190,7 @@ export default function MessagesPage() {
       {/* Conversation list */}
       <div className="w-full sm:w-72 shrink-0 border-r border-black/5 flex flex-col">
         <div className="px-4 py-4 border-b border-black/5">
-          <h2 className="text-lg font-bold text-[#1B3A2F]">Messages</h2>
+          <h2 className="text-2xl font-bold text-[#1B3A2F]">Messages</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto">
