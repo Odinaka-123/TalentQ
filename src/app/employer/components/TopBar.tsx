@@ -28,7 +28,7 @@ export default function TopBar({
             <Menu size={22} />
           </button>
           <div className="min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#1B3A2F] truncate">
+            <h1 className="text-xl sm:text-3xl font-bold text-[#000000] truncate">
               Hello {greetingName}
             </h1>
             <p className="text-sm text-[#6B7A73] mt-0.5">

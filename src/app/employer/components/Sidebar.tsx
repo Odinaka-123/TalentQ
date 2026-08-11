@@ -1,4 +1,3 @@
-// Sidebar.tsx
 "use client";
 
 import Image from "next/image";
@@ -126,8 +125,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      <aside className="hidden md:flex flex-col justify-between w-60 shrink-0 h-screen sticky top-0 bg-[#0F2A20] px-4 py-6">
-        <div>
+      <aside className="hidden md:flex flex-col w-60 shrink-0 h-screen sticky top-0 bg-[#0F2A20] px-4 py-6">
+        <div className="flex-1">
           <Link
             href="/employer/dashboard"
             className="flex items-center gap-2 px-2 mb-8"
@@ -143,7 +142,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <TopNav pathname={pathname} onNavigate={onClose} />
         </div>
 
-        <BottomNav pathname={pathname} onNavigate={onClose} />
+        <div className="mt-8">
+          <BottomNav pathname={pathname} onNavigate={onClose} />
+        </div>
       </aside>
 
       <div
@@ -160,11 +161,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
-        className={`md:hidden fixed inset-y-0 left-0 z-50 w-72 max-w-[80vw] flex flex-col justify-between bg-[#0F2A20] px-4 py-6 transform transition-transform duration-200 ease-out ${
+        className={`md:hidden fixed inset-y-0 left-0 z-50 w-72 max-w-[80vw] flex flex-col bg-[#0F2A20] px-4 py-6 transform transition-transform duration-200 ease-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div>
+        <div className="flex-1">
           <div className="flex items-center justify-between px-2 mb-8">
             <Link
               href="/employer/dashboard"
@@ -190,7 +191,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <TopNav pathname={pathname} onNavigate={onClose} />
         </div>
 
-        <BottomNav pathname={pathname} onNavigate={onClose} />
+        <div className="mt-8">
+          <BottomNav pathname={pathname} onNavigate={onClose} />
+        </div>
       </aside>
     </>
   );
