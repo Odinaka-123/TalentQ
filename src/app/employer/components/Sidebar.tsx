@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/employer", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/employer/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/employer/post-job", label: "Post a job", icon: Briefcase },
   { href: "/employer/find-talent", label: "Find Talent", icon: Search },
   { href: "/employer/candidates", label: "Candidates", icon: Users },
@@ -56,7 +56,7 @@ function TopNav({ pathname, onNavigate }: NavLinksProps) {
             onClick={onNavigate}
             className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
               isActive ?
-                "bg-[#C6543A] text-white"
+                "bg-[#8CABA1] text-white"
               : "text-[#8CABA1] hover:bg-[#1B3A2F] hover:text-white"
             }`}
           >
@@ -128,7 +128,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     <>
       <aside className="hidden md:flex flex-col justify-between w-60 shrink-0 h-screen sticky top-0 bg-[#0F2A20] px-4 py-6">
         <div>
-          <Link href="/employer" className="flex items-center gap-2 px-2 mb-8">
+          <Link
+            href="/employer/dashboard"
+            className="flex items-center gap-2 px-2 mb-8"
+          >
             <Image
               src="/Icons/logo-light.png"
               alt="TalentQ"
@@ -164,7 +167,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div>
           <div className="flex items-center justify-between px-2 mb-8">
             <Link
-              href="/employer"
+              href="/employer/dashboard"
               onClick={onClose}
               className="flex items-center gap-2"
             >
