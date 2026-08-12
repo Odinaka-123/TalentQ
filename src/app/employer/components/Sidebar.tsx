@@ -43,6 +43,14 @@ interface NavLinksProps {
   onNavigate: () => void;
 }
 
+const NAV_SCROLL_CLASSES =
+  "flex-1 min-h-0 overflow-y-auto -mx-1 px-1 " +
+  "[scrollbar-width:thin] [scrollbar-color:#1B3A2F_transparent] " +
+  "[&::-webkit-scrollbar]:w-1.5 " +
+  "[&::-webkit-scrollbar-track]:bg-transparent " +
+  "[&::-webkit-scrollbar-thumb]:bg-[#1B3A2F] " +
+  "[&::-webkit-scrollbar-thumb]:rounded-full";
+
 function TopNav({ pathname, onNavigate }: NavLinksProps) {
   return (
     <nav className="flex flex-col gap-1">
@@ -104,7 +112,7 @@ function BottomNav({ pathname, onNavigate }: NavLinksProps) {
       >
         <div className="w-9 h-9 rounded-full bg-[#3E5C50] overflow-hidden shrink-0">
           <Image
-            src="/images/avatar-placeholder.jpg"
+            src="/images/testimonials/edgar.png"
             alt="Edgar John"
             width={36}
             height={36}
@@ -126,23 +134,24 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       <aside className="hidden md:flex flex-col w-60 shrink-0 h-screen sticky top-0 bg-[#0F2A20] px-4 py-6">
-        <div className="flex-1">
-          <Link
-            href="/employer/dashboard"
-            className="flex items-center gap-2 px-2 mb-8"
-          >
-            <Image
-              src="/Icons/logo-light.png"
-              alt="TalentQ"
-              width={180}
-              height={48}
-              className="h-12 w-auto"
-            />
-          </Link>
+        <Link
+          href="/employer/dashboard"
+          className="flex items-center gap-2 px-2 mb-8 shrink-0"
+        >
+          <Image
+            src="/Icons/logo-light.png"
+            alt="TalentQ"
+            width={180}
+            height={48}
+            className="h-12 w-auto"
+          />
+        </Link>
+
+        <div className={NAV_SCROLL_CLASSES}>
           <TopNav pathname={pathname} onNavigate={onClose} />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 shrink-0">
           <BottomNav pathname={pathname} onNavigate={onClose} />
         </div>
       </aside>
@@ -165,33 +174,34 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex-1">
-          <div className="flex items-center justify-between px-2 mb-8">
-            <Link
-              href="/employer/dashboard"
-              onClick={onClose}
-              className="flex items-center gap-2"
-            >
-              <Image
-                src="/Icons/logo.png"
-                alt="TalentQ"
-                width={180}
-                height={48}
-                className="h-12 w-auto"
-              />
-            </Link>
-            <button
-              onClick={onClose}
-              aria-label="Close menu"
-              className="text-[#8CABA1] hover:text-white p-1 -mr-1"
-            >
-              <X size={22} />
-            </button>
-          </div>
+        <div className="flex items-center justify-between px-2 mb-8 shrink-0">
+          <Link
+            href="/employer/dashboard"
+            onClick={onClose}
+            className="flex items-center gap-2"
+          >
+            <Image
+              src="/Icons/logo.png"
+              alt="TalentQ"
+              width={180}
+              height={48}
+              className="h-12 w-auto"
+            />
+          </Link>
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="text-[#8CABA1] hover:text-white p-1 -mr-1"
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        <div className={NAV_SCROLL_CLASSES}>
           <TopNav pathname={pathname} onNavigate={onClose} />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 shrink-0">
           <BottomNav pathname={pathname} onNavigate={onClose} />
         </div>
       </aside>
