@@ -19,6 +19,7 @@ const PAGE_TITLES: Record<string, string> = {
 };
 
 const DASHBOARD_ROUTE = "/employer/dashboard";
+const MESSAGES_ROUTE = "/employer/messages";
 
 export default function EmployerShell({
   children,
@@ -28,6 +29,7 @@ export default function EmployerShell({
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const pathname = usePathname();
   const isDashboard = pathname === DASHBOARD_ROUTE;
+  const isMessages = pathname === MESSAGES_ROUTE;
   const pageTitle = PAGE_TITLES[pathname];
 
   return (
@@ -37,6 +39,8 @@ export default function EmployerShell({
       <div className="flex-1 min-w-0 flex flex-col">
         {isDashboard ?
           <TopBar onMenuClick={() => setMobileNavOpen(true)} />
+        : isMessages ?
+          <PageHeader title="Messages" statusLabel="Active" />
         : <PageHeader title={pageTitle ?? ""} verified />}
         <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
