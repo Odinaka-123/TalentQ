@@ -6,25 +6,63 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import AuthShell from "../components/AuthShell";
 import GoogleButton from "../components/GoogleButton";
+import { createClient } from "@/lib/supabase/client";
+
+type Role = "freelancer" | "employer";
 
 export default function SignupPage() {
   const router = useRouter();
+  const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState<Role>("freelancer");
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire up real signup (API call / auth provider) here
-    router.push("/onboarding");
+    setError(null);
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+        options: {
+          data: {
+            full_name: form.name,
+            role,
+          },
+        },
+      });
+
+      if (error) {
+        setError(error.message);
+        return;
+      }
+
+      router.push(
+        `/verify-otp?email=${encodeURIComponent(form.email)}&type=signup&next=/onboarding`,
+      );
+    } catch (err) {
+      console.error("Signup error:", err);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleSignup = () => {
-    // TODO: trigger Google OAuth flow
-    router.push("/onboarding");
+  const handleGoogleSignup = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?role=${role}`,
+      },
+    });
   };
 
   return (
@@ -32,6 +70,37 @@ export default function SignupPage() {
       title="Create your account"
       subtitle="Join TalentQ to hire or get hired across Africa."
     >
+      <div className="flex items-center gap-2 mb-5 rounded-lg bg-[#F5F1E9] p-1">
+        <button
+          type="button"
+          onClick={() => setRole("freelancer")}
+          className={`flex-1 rounded-md py-2 text-sm font-medium transition-colors ${
+            role === "freelancer" ?
+              "bg-white text-[#A8531E] shadow-sm"
+            : "text-[#6B7A73]"
+          }`}
+        >
+          I&apos;m a Freelancer
+        </button>
+        <button
+          type="button"
+          onClick={() => setRole("employer")}
+          className={`flex-1 rounded-md py-2 text-sm font-medium transition-colors ${
+            role === "employer" ?
+              "bg-white text-[#A8531E] shadow-sm"
+            : "text-[#6B7A73]"
+          }`}
+        >
+          I&apos;m Hiring
+        </button>
+      </div>
+
+      {error && (
+        <p className="text-sm text-[#C6543A] bg-[#FBEBE9] rounded-lg px-3.5 py-2.5 mb-4">
+          {error}
+        </p>
+      )}
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
           <label htmlFor="name" className="text-sm font-medium text-[#1B3A2F]">
@@ -102,9 +171,10 @@ export default function SignupPage() {
 
         <button
           type="submit"
-          className="mt-2 w-full bg-[#A8531E] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#732700] transition-colors"
+          disabled={loading}
+          className="mt-2 w-full bg-[#A8531E] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#732700] transition-colors disabled:opacity-60"
         >
-          Create account
+          {loading ? "Creating account..." : "Create account"}
         </button>
       </form>
 

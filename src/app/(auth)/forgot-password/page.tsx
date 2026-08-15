@@ -1,4 +1,3 @@
-// src/app/(auth)/forgot-password/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -6,16 +5,31 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import AuthShell from "../components/AuthShell";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
+  const supabase = createClient();
   const [email, setEmail] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: trigger password-reset email/OTP here
+    setError(null);
+    setLoading(true);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+
+    setLoading(false);
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+
     router.push(
-      `/verify-otp?email=${encodeURIComponent(email)}&next=/reset-password`,
+      `/verify-otp?email=${encodeURIComponent(email)}&type=recovery&next=/reset-password`,
     );
   };
 
@@ -31,6 +45,12 @@ export default function ForgotPasswordPage() {
         <ArrowLeft size={15} />
         Back to log in
       </Link>
+
+      {error && (
+        <p className="text-sm text-[#C6543A] bg-[#FBEBE9] rounded-lg px-3.5 py-2.5 mb-4">
+          {error}
+        </p>
+      )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
@@ -51,9 +71,10 @@ export default function ForgotPasswordPage() {
 
         <button
           type="submit"
-          className="mt-2 w-full bg-[#A8531E] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#732700] transition-colors"
+          disabled={loading}
+          className="mt-2 w-full bg-[#A8531E] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#732700] transition-colors disabled:opacity-60"
         >
-          Send reset code
+          {loading ? "Sending..." : "Send reset code"}
         </button>
       </form>
 
