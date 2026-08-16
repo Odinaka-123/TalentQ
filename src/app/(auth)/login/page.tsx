@@ -39,9 +39,14 @@ export default function LoginPage() {
 
     const { data: profile } = await supabase
       .from("profiles")
-      .select("role")
+      .select("role, onboarding_completed")
       .eq("id", data.user.id)
       .single();
+
+    if (!profile?.onboarding_completed) {
+      router.push("/onboarding");
+      return;
+    }
 
     router.push(
       profile?.role === "employer" ? "/employer/dashboard" : "/dashboard",

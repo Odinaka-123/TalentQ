@@ -21,13 +21,16 @@ export async function GET(request: Request) {
 
     const { data: profile } = await supabase
       .from("profiles")
-      .select("role")
+      .select("role, onboarding_completed")
       .eq("id", data.user?.id)
       .single();
 
-    return NextResponse.redirect(
-      `${origin}${profile?.role === "employer" ? "/employer/dashboard" : "/dashboard"}`,
-    );
+    const destination =
+      !profile?.onboarding_completed ? "/onboarding"
+      : profile?.role === "employer" ? "/employer/dashboard"
+      : "/dashboard";
+
+    return NextResponse.redirect(`${origin}${destination}`);
   }
 
   return NextResponse.redirect(`${origin}/login`);
