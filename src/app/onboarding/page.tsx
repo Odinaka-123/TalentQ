@@ -6,6 +6,8 @@ import OnboardingStepper from "./components/OnboardingStepper";
 import RoleStep from "./components/RoleStep";
 import CompanyStep from "./components/CompanyStep";
 import HiringCategoriesStep from "./components/HiringCategoriesStep";
+import FreelancerProfileStep from "./components/FreelancerProfileStep";
+import FreelancerSkillsStep from "./components/FreelancerSkillsStep";
 import OnboardingSuccessStep from "./components/OnboardingSuccessStep";
 import { createClient } from "@/lib/supabase/client";
 
@@ -26,8 +28,15 @@ export default function OnboardingPage() {
     industry: "",
     country: "",
   });
-
   const [hiringCategories, setHiringCategories] = useState<string[]>([]);
+
+  const [freelancerProfile, setFreelancerProfile] = useState({
+    headline: "",
+    hourlyRate: "",
+    yearsExperience: "",
+    country: "",
+  });
+  const [freelancerSkills, setFreelancerSkills] = useState<string[]>([]);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -59,7 +68,6 @@ export default function OnboardingPage() {
 
   const handleCompanyContinue = async () => {
     setSaving(true);
-
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -79,7 +87,6 @@ export default function OnboardingPage() {
 
   const handleCategoriesContinue = async () => {
     setSaving(true);
-
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -95,13 +102,64 @@ export default function OnboardingPage() {
     setStep(4);
   };
 
-  const handleSkipCategories = () => {
+  const handleSkipCategories = () => setStep(4);
+
+  const handleFreelancerProfileContinue = async () => {
+    setSaving(true);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      await supabase.from("freelancer_details").upsert({
+        id: user.id,
+        headline: freelancerProfile.headline,
+        hourly_rate: Number(freelancerProfile.hourlyRate) || null,
+        years_experience: Number(freelancerProfile.yearsExperience) || null,
+        country: freelancerProfile.country,
+      });
+    }
+
+    setSaving(false);
+    setStep(3);
+  };
+
+  const handleFreelancerSkillsContinue = async () => {
+    setSaving(true);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      // Look up skill IDs matching the selected skill names
+      const { data: skillRows } = await supabase
+        .from("skills")
+        .select("id, name")
+        .in("name", freelancerSkills);
+
+      if (user && skillRows) {
+        await supabase
+          .from("freelancer_skills")
+          .delete()
+          .eq("freelancer_id", user.id);
+
+        const rows = skillRows.map((s) => ({
+          freelancer_id: user.id,
+          skill_id: s.id,
+        }));
+
+        if (rows.length > 0) {
+          await supabase.from("freelancer_skills").insert(rows);
+        }
+      }
+    }
+
+    setSaving(false);
     setStep(4);
   };
 
   const handleGoToDashboard = async () => {
     setSaving(true);
-
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -145,9 +203,11 @@ export default function OnboardingPage() {
       )}
 
       {step === 2 && role === "freelancer" && (
-        <div className="text-center text-sm text-[#8A8A7E] py-10">
-          Freelancer Step 2 — coming next
-        </div>
+        <FreelancerProfileStep
+          data={freelancerProfile}
+          onChange={setFreelancerProfile}
+          onContinue={handleFreelancerProfileContinue}
+        />
       )}
 
       {step === 3 && role === "employer" && (
@@ -160,14 +220,17 @@ export default function OnboardingPage() {
       )}
 
       {step === 3 && role === "freelancer" && (
-        <div className="text-center text-sm text-[#8A8A7E] py-10">
-          Freelancer Step 3 — coming next
-        </div>
+        <FreelancerSkillsStep
+          selected={freelancerSkills}
+          onChange={setFreelancerSkills}
+          onContinue={handleFreelancerSkillsContinue}
+        />
       )}
 
-      {step === 4 && (
+      {step === 4 && role && (
         <OnboardingSuccessStep
           name={fullName || "there"}
+          role={role}
           onGoToDashboard={handleGoToDashboard}
         />
       )}
