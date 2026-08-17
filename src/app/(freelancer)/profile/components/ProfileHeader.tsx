@@ -1,99 +1,84 @@
-import Image from "next/image";
-import { MapPin, ShieldCheck, BadgeCheck, Briefcase, Star } from "lucide-react";
+import Link from "next/link";
+import { MapPin, ShieldCheck } from "lucide-react";
+import Avatar from "@/components/Avatar";
 
-const badges = [
-  { label: "ID Verified", color: "#3E7AC7", bg: "#DCE9F7", icon: ShieldCheck },
-  {
-    label: "Skills Verified",
-    color: "#3E8E5A",
-    bg: "#DDEEE2",
-    icon: BadgeCheck,
-  },
-  {
-    label: "Employment Verified",
-    color: "#C755A0",
-    bg: "#F7DFEF",
-    icon: Briefcase,
-  },
-  { label: "Client Reviewed", color: "#DE814A", bg: "#FBEADB", icon: Star },
-];
+type ProfileHeaderProps = {
+  profile: {
+    full_name: string | null;
+    avatar_url: string | null;
+    identity_verified: boolean;
+  };
+  details: {
+    headline: string | null;
+    hourly_rate: number | null;
+    years_experience: number | null;
+    country: string | null;
+    availability: string | null;
+  } | null;
+};
 
-const stats = [
-  { value: "38", label: "Job Completed" },
-  { value: "4.9★", label: "Rating" },
-  { value: "$65/hr", label: "Hourly Rate" },
-  { value: "98%", label: "Response Rate" },
-];
-
-export default function ProfileHeader() {
+export default function ProfileHeader({
+  profile,
+  details,
+}: ProfileHeaderProps) {
   return (
     <div className="rounded-2xl bg-white px-6 py-6 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A]">
       <div className="flex items-start justify-between flex-wrap gap-4 mb-5">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-[#3E5C50] overflow-hidden shrink-0">
-            <Image
-              src="/images/testimonials/felicia.png"
-              alt="Henrieta Ebiuwa"
-              width={64}
-              height={64}
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <Avatar src={profile.avatar_url} name={profile.full_name} size={64} />
           <div>
             <h1 className="text-lg font-bold text-[#1F2A22]">
-              Henrieta Ebiuwa
+              {profile.full_name ?? "Unnamed"}
             </h1>
-            <p className="text-sm text-[#8A8A7E]">Full-Stack Engineer</p>
+            <p className="text-sm text-[#8A8A7E]">
+              {details?.headline ?? "No headline set"}
+            </p>
             <div className="flex items-center gap-1.5 mt-1 text-xs text-[#8A8A7E]">
               <MapPin size={12} />
-              <span>Ghana, Remote</span>
-              <span className="mx-1">·</span>
-              <span className="flex items-center gap-1 text-[#3E8E5A]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3E8E5A]" />
-                Available
-              </span>
+              <span>{details?.country ?? "Location not set"}</span>
+              {details?.availability === "available" && (
+                <>
+                  <span className="mx-1">·</span>
+                  <span className="flex items-center gap-1 text-[#3E8E5A]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#3E8E5A]" />
+                    Available
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>
 
-        <button
-          type="button"
+        <Link
+          href="/profile/setup"
           className="rounded-full border border-[#E5E0D6] px-4 py-2 text-sm font-medium text-[#1F2A22] hover:bg-[#F5F1E9] transition-colors"
         >
           Edit Profile
-        </button>
+        </Link>
       </div>
 
       <div className="flex flex-wrap gap-2 mb-5">
-        {badges.map((badge) => (
-          <span
-            key={badge.label}
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
-            style={{ backgroundColor: badge.bg, color: badge.color }}
-          >
-            <badge.icon size={12} />
-            {badge.label}
+        {profile.identity_verified && (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#DCE9F7] px-3 py-1 text-xs font-medium text-[#3E7AC7]">
+            <ShieldCheck size={12} />
+            ID Verified
           </span>
-        ))}
-      </div>
-
-      <div className="border-t border-[#EFEBE2] pt-5 mb-5">
-        <h2 className="text-sm font-semibold text-[#1F2A22] mb-2">About</h2>
-        <p className="text-sm text-[#5C5347] max-w-3xl">
-          Senior frontend engineer specialising in React, TypeScript, and
-          performant web applications. Led teams of 4-8 engineers shipping
-          products used by 100k+ users. Thrive in remote-first environments with
-          strong cross-functional collaboration.
-        </p>
+        )}
       </div>
 
       <div className="border-t border-[#EFEBE2] pt-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="text-center">
-            <p className="text-base font-bold text-[#1F2A22]">{stat.value}</p>
-            <p className="text-xs text-[#8A8A7E]">{stat.label}</p>
-          </div>
-        ))}
+        <div className="text-center">
+          <p className="text-base font-bold text-[#1F2A22]">
+            {details?.hourly_rate ? `$${details.hourly_rate}/hr` : "—"}
+          </p>
+          <p className="text-xs text-[#8A8A7E]">Hourly Rate</p>
+        </div>
+        <div className="text-center">
+          <p className="text-base font-bold text-[#1F2A22]">
+            {details?.years_experience ?? "—"}
+          </p>
+          <p className="text-xs text-[#8A8A7E]">Years Experience</p>
+        </div>
       </div>
     </div>
   );
