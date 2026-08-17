@@ -41,8 +41,40 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="text-center py-16 text-sm text-[#8A8A7E]">
-        Loading profile...
+      <div className="animate-pulse">
+        <div className="bg-white rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="w-20 h-20 rounded-full bg-[#EDEAE1] shrink-0" />
+          <div className="flex-1 min-w-0">
+            <div className="h-5 w-48 rounded bg-[#EDEAE1] mb-2" />
+            <div className="h-3.5 w-64 max-w-full rounded bg-[#F0ECE3] mb-3" />
+            <div className="flex gap-4">
+              <div className="h-3 w-20 rounded bg-[#F0ECE3]" />
+              <div className="h-3 w-20 rounded bg-[#F0ECE3]" />
+              <div className="h-3 w-20 rounded bg-[#F0ECE3]" />
+            </div>
+          </div>
+          <div className="h-9 w-28 rounded-full bg-[#EDEAE1] shrink-0" />
+        </div>
+
+        <div className="mt-6">
+          <div className="flex gap-2 mb-5">
+            <div className="h-8 w-24 rounded-full bg-[#EDEAE1]" />
+            <div className="h-8 w-20 rounded-full bg-[#F0ECE3]" />
+            <div className="h-8 w-24 rounded-full bg-[#F0ECE3]" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden">
+                <div className="h-32 bg-[#EDEAE1]" />
+                <div className="p-4">
+                  <div className="h-4 w-3/4 rounded bg-[#EDEAE1] mb-2" />
+                  <div className="h-3 w-1/2 rounded bg-[#F0ECE3]" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

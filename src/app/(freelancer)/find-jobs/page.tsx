@@ -41,8 +41,42 @@ export default function FindJobsPage() {
 
   if (loading) {
     return (
-      <div className="text-center py-16 text-sm text-[#6B7A73]">
-        Loading jobs...
+      <div className="animate-pulse">
+        <div className="flex items-center justify-between gap-4 bg-[#FCEFE3] border border-[#E8B98F] rounded-2xl px-5 py-4 mb-5">
+          <div className="flex items-start gap-3 min-w-0 flex-1">
+            <div className="w-5 h-5 rounded bg-[#E8B98F] shrink-0 mt-0.5" />
+            <div className="min-w-0 flex-1">
+              <div className="h-3.5 w-40 rounded bg-[#E8B98F] mb-2" />
+              <div className="h-3 w-64 max-w-full rounded bg-[#F2D9BC]" />
+            </div>
+          </div>
+          <div className="h-9 w-28 rounded-full bg-[#E8B98F] shrink-0" />
+        </div>
+
+        <div className="h-4 w-32 rounded bg-[#E5E0D6] mb-3" />
+
+        <div className="flex flex-col gap-3 sm:gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-2xl p-4 sm:p-5 border border-black/5"
+            >
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="h-4 w-1/2 rounded bg-[#EDEAE1]" />
+                <div className="h-5 w-20 rounded-full bg-[#EDEAE1] shrink-0" />
+              </div>
+              <div className="flex gap-2 mb-3">
+                <div className="h-5 w-16 rounded-full bg-[#F0ECE3]" />
+                <div className="h-5 w-16 rounded-full bg-[#F0ECE3]" />
+                <div className="h-5 w-14 rounded-full bg-[#F0ECE3]" />
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="h-3 w-24 rounded bg-[#F0ECE3]" />
+                <div className="h-3 w-20 rounded bg-[#F0ECE3]" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

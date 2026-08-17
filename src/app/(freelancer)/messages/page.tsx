@@ -87,8 +87,30 @@ export default function MessagesPage() {
 
   if (loading) {
     return (
-      <div className="text-center py-16 text-sm text-[#6B7A73]">
-        Loading messages...
+      <div className="flex h-[calc(100vh-140px)] min-h-130 bg-white rounded-2xl border border-black/5 overflow-hidden animate-pulse">
+        <div className="w-full sm:w-72 shrink-0 border-r border-black/5 flex flex-col">
+          <div className="px-4 py-4 border-b border-black/5">
+            <div className="h-6 w-28 rounded bg-[#EDEAE1]" />
+          </div>
+          <div className="flex-1 overflow-hidden">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 px-4 py-3 border-b border-black/5"
+              >
+                <div className="w-10 h-10 rounded-full bg-[#EDEAE1] shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <div className="h-3.5 w-24 rounded bg-[#EDEAE1]" />
+                    <div className="h-2.5 w-8 rounded bg-[#F0ECE3]" />
+                  </div>
+                  <div className="h-3 w-32 max-w-full rounded bg-[#F0ECE3]" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="hidden sm:block flex-1" />
       </div>
     );
   }
