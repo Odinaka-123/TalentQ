@@ -1,98 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Award, Check } from "lucide-react";
-import JobCard, { type Job } from "../components/JobCard";
-
-const jobs: (Job & { firstGig?: boolean })[] = [
-  {
-    id: "1",
-    title: "Senior React Developer",
-    badges: ["Top Applicant", "Senior Preferred"],
-    client: "Cloudburst Technologies",
-    location: "Remote - Worldwide",
-    postedAgo: "3d ago",
-    proposals: 13,
-    tags: ["TypeScript", "Node.js", "React", "GraphQL"],
-    priceRange: "$4,000-6,000",
-    duration: "3 months",
-    level: "Expert",
-  },
-  {
-    id: "2",
-    title: "UX Designer for Fintech App",
-    badges: ["Top Applicant", "Senior Preferred"],
-    client: "FinaGrowth",
-    location: "Remote - African Preferred",
-    postedAgo: "18h ago",
-    proposals: 7,
-    tags: ["Prototyping", "User Research", "Figma"],
-    priceRange: "$2,500-3,500",
-    duration: "6 weeks",
-    level: "Intermediate",
-  },
-  {
-    id: "3",
-    title: "Blog Content Writer — Tech & AI",
-    badges: ["10% Match", "Senior Preferred"],
-    client: "Techysta Media",
-    location: "Remote - Global",
-    postedAgo: "1d ago",
-    proposals: 24,
-    tags: ["Content Writing", "Research", "SEO"],
-    priceRange: "$300-500",
-    duration: "Ongoing",
-    level: "Beginner",
-    firstGig: true,
-  },
-  {
-    id: "4",
-    title: "Data Analyst — Growth & Retention",
-    badges: ["27% Match", "Senior Preferred"],
-    client: "PulseChart",
-    location: "Remote - African Preferred",
-    postedAgo: "5d ago",
-    proposals: 7,
-    tags: ["TypeScript", "Node.js", "React", "GraphQL"],
-    priceRange: "$3,000-4,500",
-    duration: "2 months",
-    level: "Intermediate",
-  },
-  {
-    id: "5",
-    title: "Virtual Assistant for E-commerce Brand",
-    badges: ["Top Applicant", "Senior Preferred"],
-    client: "Nudia Cosmetics",
-    location: "Remote - Global",
-    postedAgo: "9h ago",
-    proposals: 12,
-    tags: ["Admin Support", "Shopify", "E-mail Management"],
-    priceRange: "$800-900/month",
-    duration: "Long term",
-    level: "Beginner",
-    firstGig: true,
-  },
-  {
-    id: "6",
-    title: "Digital Marketing Specialist",
-    badges: ["Top Applicant", "Senior Preferred"],
-    client: "Orbit Labs",
-    location: "Remote - Global",
-    postedAgo: "2d ago",
-    proposals: 19,
-    tags: ["Content Writing", "Meta Ads/Google Ads"],
-    priceRange: "$2,000-3,000",
-    duration: "3 months",
-    level: "Intermediate",
-  },
-];
+import JobCard from "../components/JobCard";
+import { createClient } from "@/lib/supabase/client";
+import {
+  getJobsForFreelancer,
+  type FindJobsResult,
+} from "@/lib/queries/findJobs";
 
 export default function FindJobsPage() {
   const router = useRouter();
+  const supabase = createClient();
   const [firstGigsOnly, setFirstGigsOnly] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [jobs, setJobs] = useState<FindJobsResult[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      const result = await getJobsForFreelancer(user.id);
+      setJobs(result);
+      setLoading(false);
+    };
+
+    load();
+  }, [supabase]);
 
   const visibleJobs = firstGigsOnly ? jobs.filter((j) => j.firstGig) : jobs;
+  const firstGigCount = jobs.filter((j) => j.firstGig).length;
+
+  if (loading) {
+    return (
+      <div className="text-center py-16 text-sm text-[#6B7A73]">
+        Loading jobs...
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -106,7 +59,7 @@ export default function FindJobsPage() {
             <p className="text-xs text-[#6B7A73] mt-0.5">
               {firstGigsOnly ?
                 "No reviews required — lower competition, beginner-friendly."
-              : "2 jobs reserved for new freelancers — lower competition, beginner-friendly."
+              : `${firstGigCount} job${firstGigCount === 1 ? "" : "s"} reserved for new freelancers — lower competition, beginner-friendly.`
               }
             </p>
           </div>
@@ -136,15 +89,20 @@ export default function FindJobsPage() {
         <span className="text-[#6B7A73]">match your profile</span>
       </p>
 
-      <div className="flex flex-col gap-3 sm:gap-4">
-        {visibleJobs.map((job) => (
-          <JobCard
-            key={job.id}
-            job={job}
-            onClick={(j) => router.push(`/find-jobs/${j.id}`)}
-          />
-        ))}
-      </div>
+      {visibleJobs.length === 0 ?
+        <div className="bg-white rounded-2xl p-6 text-center text-sm text-[#6B7A73]">
+          No jobs to show right now.
+        </div>
+      : <div className="flex flex-col gap-3 sm:gap-4">
+          {visibleJobs.map((job) => (
+            <JobCard
+              key={job.id}
+              job={job}
+              onClick={(j) => router.push(`/find-jobs/${j.id}`)}
+            />
+          ))}
+        </div>
+      }
     </div>
   );
 }

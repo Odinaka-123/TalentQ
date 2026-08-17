@@ -4,6 +4,11 @@ import type {
   JobLevel,
 } from "@/app/(freelancer)/components/JobCard";
 
+type JobSkillRow = {
+  skill_id: string;
+  skills: { name: string } | { name: string }[] | null;
+};
+
 function mapExperienceLevel(level: string | null): JobLevel {
   if (!level) return "Intermediate";
   const normalized = level.toLowerCase();
@@ -22,8 +27,21 @@ function formatTimeAgo(dateString: string): string {
   return `${diffDays}d ago`;
 }
 
-export async function getOpenJobs(): Promise<Job[]> {
+export type FindJobsResult = Job & { firstGig?: boolean };
+
+export async function getJobsForFreelancer(
+  freelancerId: string,
+): Promise<FindJobsResult[]> {
   const supabase = createClient();
+
+  const { data: freelancerSkillRows } = await supabase
+    .from("freelancer_skills")
+    .select("skill_id")
+    .eq("freelancer_id", freelancerId);
+
+  const freelancerSkillIds = new Set(
+    (freelancerSkillRows ?? []).map((r) => r.skill_id),
+  );
 
   const { data: jobs } = await supabase
     .from("jobs")
@@ -33,7 +51,7 @@ export async function getOpenJobs(): Promise<Job[]> {
       experience_level, work_arrangement, created_at,
       profiles!jobs_employer_id_fkey ( full_name ),
       employer_details!jobs_employer_id_fkey ( company_name, country ),
-      job_skills ( skills ( name ) ),
+      job_skills ( skill_id, skills ( name ) ),
       applications ( id )
     `,
     )
@@ -42,7 +60,7 @@ export async function getOpenJobs(): Promise<Job[]> {
 
   if (!jobs) return [];
 
-  return jobs.map((job): Job => {
+  return jobs.map((job): FindJobsResult => {
     const employerDetails =
       Array.isArray(job.employer_details) ?
         job.employer_details[0]
@@ -50,54 +68,55 @@ export async function getOpenJobs(): Promise<Job[]> {
     const employerProfile =
       Array.isArray(job.profiles) ? job.profiles[0] : job.profiles;
 
-    const tags = (job.job_skills ?? [])
-      .map((js: any) =>
+    const jobSkillRows = (job.job_skills ?? []) as JobSkillRow[];
+
+    const tags = jobSkillRows
+      .map((js) =>
         Array.isArray(js.skills) ? js.skills[0]?.name : js.skills?.name,
       )
-      .filter(Boolean);
+      .filter((name): name is string => Boolean(name));
 
+    const jobSkillIds = jobSkillRows.map((js) => js.skill_id);
+    const overlapCount = jobSkillIds.filter((id) =>
+      freelancerSkillIds.has(id),
+    ).length;
+    const matchScore =
+      jobSkillIds.length > 0 ?
+        Math.round((overlapCount / jobSkillIds.length) * 100)
+      : 0;
+
+    const badges: string[] = [];
+    badges.push(matchScore >= 80 ? "Top Applicant" : `${matchScore}% Match`);
+    if (job.experience_level?.toLowerCase().includes("senior")) {
+      badges.push("Senior Preferred");
+    }
+
+    const isEntryLevel = job.experience_level?.toLowerCase().includes("entry");
     const proposalCount =
       Array.isArray(job.applications) ? job.applications.length : 0;
 
     return {
       id: job.id,
       title: job.title,
-      badges: ["AI Match", "Escrow Protected"], // static for now — see note below
+      badges,
       client:
         employerDetails?.company_name ??
         employerProfile?.full_name ??
         "Employer",
       location:
         job.work_arrangement === "remote" ?
-          "Remote"
+          "Remote - Worldwide"
         : (employerDetails?.country ?? "Location not set"),
       postedAgo: formatTimeAgo(job.created_at),
       proposals: proposalCount,
       tags,
       priceRange:
         job.min_budget && job.max_budget ?
-          `$${job.min_budget}-$${job.max_budget}`
+          `$${job.min_budget}-${job.max_budget}`
         : "Budget not set",
       duration: job.duration ?? "Not specified",
       level: mapExperienceLevel(job.experience_level),
+      firstGig: isEntryLevel && proposalCount < 5,
     };
   });
-}
-
-export async function applyToJob(jobId: string, proposalNote: string) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) throw new Error("Not authenticated");
-
-  const { error } = await supabase.from("applications").insert({
-    job_id: jobId,
-    freelancer_id: user.id,
-    proposal_note: proposalNote,
-    status: "applied",
-  });
-
-  return { error };
 }
