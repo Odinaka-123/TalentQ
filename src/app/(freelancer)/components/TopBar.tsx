@@ -1,21 +1,42 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, Search, Bell, Briefcase, Mail } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 interface TopbarProps {
   onMenuClick: () => void;
-  greetingName?: string;
 }
 
-export default function Topbar({
-  onMenuClick,
-  greetingName = "Ebiuwa Henrieta",
-}: TopbarProps) {
+export default function Topbar({ onMenuClick }: TopbarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const supabase = createClient();
+  const [greetingName, setGreetingName] = useState("");
+
   const isFindJobsActive = pathname.startsWith("/find-jobs");
   const isMessagesActive = pathname.startsWith("/messages");
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .single();
+
+      setGreetingName(profile?.full_name ?? "there");
+    };
+
+    loadUser();
+  }, [supabase]);
 
   return (
     <header className="bg-[#F5F1E9] px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 pb-4">

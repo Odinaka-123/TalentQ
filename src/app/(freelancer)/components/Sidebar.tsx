@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,6 +15,8 @@ import {
   HelpCircle,
   X,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import Avatar from "@/components/Avatar";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -30,7 +33,6 @@ const bottomNavItems = [
 ];
 
 interface SidebarProps {
-  /** Whether the mobile drawer is open. Ignored on md+ (sidebar is always visible there). */
   isOpen: boolean;
   onClose: () => void;
 }
@@ -40,10 +42,6 @@ interface NavLinksProps {
   onNavigate: () => void;
 }
 
-/**
- * Hoisted outside Sidebar so it isn't recreated on every render
- * (react-hooks/static-components — components must be declared at module scope).
- */
 function TopNav({ pathname, onNavigate }: NavLinksProps) {
   return (
     <nav className="flex flex-col gap-1">
@@ -69,7 +67,12 @@ function TopNav({ pathname, onNavigate }: NavLinksProps) {
   );
 }
 
-function BottomNav({ pathname, onNavigate }: NavLinksProps) {
+function BottomNav({
+  pathname,
+  onNavigate,
+  name,
+  avatarUrl,
+}: NavLinksProps & { name: string; avatarUrl: string | null }) {
   return (
     <div>
       <div className="border-t border-white mb-4" />
@@ -103,19 +106,9 @@ function BottomNav({ pathname, onNavigate }: NavLinksProps) {
         onClick={onNavigate}
         className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-[#1B3A2F] transition-colors"
       >
-        <div className="w-9 h-9 rounded-full bg-[#3E5C50] overflow-hidden shrink-0">
-          <Image
-            src="/Images/testimonials/felicia.png"
-            alt="Henrieta Ebiuwa"
-            width={36}
-            height={36}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <Avatar src={avatarUrl} name={name} size={36} />
         <div className="min-w-0">
-          <p className="text-sm font-medium text-white truncate">
-            Henrieta Ebiuwa
-          </p>
+          <p className="text-sm font-medium text-white truncate">{name}</p>
           <p className="text-xs text-[#8CABA1]">Freelancer</p>
         </div>
       </Link>
@@ -125,10 +118,33 @@ function BottomNav({ pathname, onNavigate }: NavLinksProps) {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const supabase = createClient();
+  const [name, setName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name, avatar_url")
+        .eq("id", user.id)
+        .single();
+
+      setName(profile?.full_name ?? "");
+      setAvatarUrl(profile?.avatar_url ?? null);
+    };
+
+    loadUser();
+  }, [supabase]);
 
   return (
     <>
-      {/* Desktop sidebar — static, always visible md+ */}
       <aside className="hidden md:flex flex-col justify-between w-60 shrink-0 h-screen sticky top-0 bg-[#0F2A20] px-4 py-6">
         <div>
           <Link href="/dashboard" className="flex items-center gap-2 px-2 mb-8">
@@ -143,10 +159,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <TopNav pathname={pathname} onNavigate={onClose} />
         </div>
 
-        <BottomNav pathname={pathname} onNavigate={onClose} />
+        <BottomNav
+          pathname={pathname}
+          onNavigate={onClose}
+          name={name}
+          avatarUrl={avatarUrl}
+        />
       </aside>
 
-      {/* Mobile overlay — dims the page behind the drawer, click to close */}
       <div
         aria-hidden={!isOpen}
         onClick={onClose}
@@ -157,7 +177,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         }`}
       />
 
-      {/* Mobile drawer — slides in from the left, full-height, closes on link tap / overlay tap / X */}
       <aside
         role="dialog"
         aria-modal="true"
@@ -192,7 +211,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <TopNav pathname={pathname} onNavigate={onClose} />
         </div>
 
-        <BottomNav pathname={pathname} onNavigate={onClose} />
+        <BottomNav
+          pathname={pathname}
+          onNavigate={onClose}
+          name={name}
+          avatarUrl={avatarUrl}
+        />
       </aside>
     </>
   );
