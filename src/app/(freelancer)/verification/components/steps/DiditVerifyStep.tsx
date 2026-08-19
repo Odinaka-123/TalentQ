@@ -7,16 +7,26 @@ import {
   CheckCircle2,
   Clock,
   Loader2,
+  XCircle,
 } from "lucide-react";
 import ProgressBar from "../ProgressBar";
+import { createDiditSession } from "@/lib/queries/verification";
 
 type DiditVerifyStepProps = {
   totalSteps: number;
+  userId: string;
+  initialStatus?: "pending" | "verified" | "rejected";
   onBack: () => void;
   onContinue: () => void;
 };
 
-type Status = "idle" | "connecting" | "verified" | "needs-review";
+type Status =
+  | "idle"
+  | "connecting"
+  | "verified"
+  | "needs-review"
+  | "rejected"
+  | "error";
 
 const checks = [
   "Government-issued ID scan",
@@ -24,20 +34,36 @@ const checks = [
   "Face match against your ID",
 ];
 
+const initialStatusMap: Record<"pending" | "verified" | "rejected", Status> = {
+  pending: "needs-review",
+  verified: "verified",
+  rejected: "rejected",
+};
+
 export default function DiditVerifyStep({
   totalSteps,
+  userId,
+  initialStatus,
   onBack,
   onContinue,
 }: DiditVerifyStepProps) {
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<Status>(
+    initialStatus ? initialStatusMap[initialStatus] : "idle",
+  );
 
-  const handleStart = () => {
+  const handleStart = async () => {
     setStatus("connecting");
-    // TODO: replace with real Didit session creation (POST /v3/session/),
-    // then poll or receive a webhook with the verification decision
-    setTimeout(() => {
-      setStatus("verified");
-    }, 2500);
+
+    const { error, sessionUrl } = await createDiditSession(userId);
+
+    if (error || !sessionUrl) {
+      setStatus("error");
+      return;
+    }
+
+    // Full navigation away from the app — Didit hosts the actual scan/selfie flow.
+    // The user returns to /verification (per the `callback` we set) once they're done.
+    window.location.href = sessionUrl;
   };
 
   if (status === "connecting") {
@@ -45,11 +71,11 @@ export default function DiditVerifyStep({
       <div className="flex flex-col items-center text-center py-6">
         <Loader2 size={32} className="text-[#DE814A] animate-spin mb-5" />
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Verifying your identity
+          Starting verification
         </h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs">
-          Scanning your ID and confirming it&apos;s really you — this usually
-          takes under a minute.
+          Redirecting you to a secure page to scan your ID and take a quick
+          selfie.
         </p>
       </div>
     );
@@ -86,11 +112,12 @@ export default function DiditVerifyStep({
           <Clock size={26} className="text-[#DE814A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Sent for manual review
+          Sent for review
         </h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          We couldn&apos;t automatically confirm your ID. Our team will review
-          it and update your status within 24 hours.
+          We&apos;re confirming your ID. This is usually automatic and takes
+          under a minute — occasionally it needs a manual check, which can take
+          up to 24 hours.
         </p>
         <button
           type="button"
@@ -98,6 +125,53 @@ export default function DiditVerifyStep({
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
           Continue to Portfolio
+        </button>
+      </div>
+    );
+  }
+
+  if (status === "rejected") {
+    return (
+      <div className="flex flex-col items-center text-center py-4">
+        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[#FBE9E5] mb-5">
+          <XCircle size={26} className="text-[#C6543A]" />
+        </div>
+        <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
+          Verification wasn&apos;t approved
+        </h2>
+        <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
+          Something didn&apos;t match on our end. You can try again with a
+          clearer photo, or contact support if this keeps happening.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="flex flex-col items-center text-center py-4">
+        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[#FBE9E5] mb-5">
+          <XCircle size={26} className="text-[#C6543A]" />
+        </div>
+        <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
+          Couldn&apos;t start verification
+        </h2>
+        <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
+          Something went wrong on our end. Please try again in a moment.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
+        >
+          Try Again
         </button>
       </div>
     );

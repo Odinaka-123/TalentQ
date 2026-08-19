@@ -8,6 +8,7 @@ type ContactChannelCardProps = {
   description: string;
   actionLabel: string;
   onAction: () => void;
+  disabled?: boolean;
 };
 
 export default function ContactChannelCard({
@@ -18,9 +19,14 @@ export default function ContactChannelCard({
   description,
   actionLabel,
   onAction,
+  disabled = false,
 }: ContactChannelCardProps) {
   return (
-    <div className="rounded-2xl border border-[#E8A47E] bg-white px-5 py-6 flex flex-col items-center text-center">
+    <div
+      className={`rounded-2xl border border-[#E8A47E] bg-white px-5 py-6 flex flex-col items-center text-center ${
+        disabled ? "opacity-60" : ""
+      }`}
+    >
       <div
         className="flex items-center justify-center w-10 h-10 rounded-full mb-3"
         style={{ backgroundColor: iconBg }}
@@ -32,7 +38,8 @@ export default function ContactChannelCard({
       <button
         type="button"
         onClick={onAction}
-        className="w-full rounded-full bg-[#FBEADB] py-2 text-sm font-medium text-[#DE814A] hover:bg-[#F2DFC8] transition-colors"
+        disabled={disabled}
+        className="w-full rounded-full bg-[#FBEADB] py-2 text-sm font-medium text-[#DE814A] hover:bg-[#F2DFC8] transition-colors disabled:cursor-not-allowed disabled:hover:bg-[#FBEADB]"
       >
         {actionLabel}
       </button>

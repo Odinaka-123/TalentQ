@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { submitSupportTicket } from "@/lib/queries/supportTickets";
 
 const categories = [
   "General",
@@ -11,14 +13,62 @@ const categories = [
 ];
 
 export default function SupportTicketForm() {
+  const supabase = createClient();
   const [category, setCategory] = useState("General");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire up to support ticket API
+    setError(null);
+    setSubmitting(true);
+
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        setError("You need to be signed in to submit a ticket.");
+        return;
+      }
+
+      await submitSupportTicket(user.id, { category, subject, message });
+      setSubmitted(true);
+      setSubject("");
+      setMessage("");
+      setCategory("General");
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Could not submit your ticket.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  if (submitted) {
+    return (
+      <div className="rounded-2xl border border-[#DDEEE2] bg-[#F3FAF5] px-6 py-10 text-center">
+        <p className="text-sm font-semibold text-[#2E6B44] mb-1">
+          Ticket submitted
+        </p>
+        <p className="text-xs text-[#5C8A6B] mb-4">
+          We&apos;ll follow up by email within 4 hours.
+        </p>
+        <button
+          type="button"
+          onClick={() => setSubmitted(false)}
+          className="text-xs font-medium text-[#2E6B44] hover:underline"
+        >
+          Submit another ticket
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -72,7 +122,7 @@ export default function SupportTicketForm() {
         />
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4">
         <label
           htmlFor="message"
           className="block text-sm font-medium text-[#1F2A22] mb-2"
@@ -89,12 +139,14 @@ export default function SupportTicketForm() {
         />
       </div>
 
+      {error && <p className="text-xs text-[#FF363A] mb-4">{error}</p>}
+
       <button
         type="submit"
-        disabled={!subject || !message}
+        disabled={!subject || !message || submitting}
         className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Submit Ticket
+        {submitting ? "Submitting..." : "Submit Ticket"}
       </button>
     </form>
   );

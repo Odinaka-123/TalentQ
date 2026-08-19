@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowLeft, CheckCircle2, Clock, Loader2 } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import ProgressBar from "../ProgressBar";
+import { createClient } from "@/lib/supabase/client";
 
 type LinkedInConnectStepProps = {
   totalSteps: number;
@@ -11,7 +12,7 @@ type LinkedInConnectStepProps = {
   onContinue: () => void;
 };
 
-type Status = "idle" | "connecting" | "submitted";
+type Status = "idle" | "connecting" | "error" | "submitted";
 
 const permissions = [
   "Your name and profile photo",
@@ -26,13 +27,28 @@ export default function LinkedInConnectStep({
 }: LinkedInConnectStepProps) {
   const [status, setStatus] = useState<Status>("idle");
 
-  const handleConnect = () => {
+  const handleConnect = async () => {
     setStatus("connecting");
-    // TODO: replace with real LinkedIn OAuth redirect, then a backend call
-    // that captures the profile and creates an admin review record
-    setTimeout(() => {
-      setStatus("submitted");
-    }, 2000);
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.linkIdentity({
+      provider: "linkedin_oidc",
+      options: {
+        redirectTo: `${window.location.origin}/verification?linkedin=connected`,
+      },
+    });
+
+    if (error) {
+      console.error("LinkedIn link failed:", error);
+      setStatus("error");
+      return;
+    }
+
+    // On success the browser navigates away to LinkedIn immediately, so
+    // nothing after this point actually runs — the "connecting" view stays
+    // up until that navigation happens. The user lands back on
+    // /verification?linkedin=connected once they approve, which
+    // VerificationHero handles (submits the profile + refreshes status).
   };
 
   if (status === "connecting") {
@@ -43,8 +59,31 @@ export default function LinkedInConnectStep({
           Connecting to LinkedIn
         </h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs">
-          Capturing your profile details — this usually takes a few seconds.
+          Redirecting you to LinkedIn to approve access.
         </p>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="flex flex-col items-center text-center py-4">
+        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[#FBE9E5] mb-5">
+          <Clock size={26} className="text-[#C6543A]" />
+        </div>
+        <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
+          Couldn&apos;t connect to LinkedIn
+        </h2>
+        <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
+          Something went wrong starting the connection. Please try again.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
+        >
+          Try Again
+        </button>
       </div>
     );
   }

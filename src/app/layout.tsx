@@ -1,3 +1,4 @@
+import TawkChat from "@/components/TawkChat";
 import "./globals.css";
 
 export const metadata = {
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <TawkChat />
+      </body>
     </html>
   );
 }
