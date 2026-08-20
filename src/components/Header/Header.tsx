@@ -35,13 +35,13 @@ export default function Header() {
 
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/signup"
+            href="/login"
             className="rounded-md border border-[#1F3B33] px-4 py-2 text-sm font-medium text-[#1F3B33] hover:bg-[#F1E8DA] transition-colors"
           >
             Sign in
           </Link>
           <Link
-            href="/join"
+            href="/signup"
             className="flex items-center gap-1.5 rounded-md bg-[#A8531E] px-4 py-2 text-sm font-medium text-white hover:bg-[#B04A32] transition-colors"
           >
             Join us
