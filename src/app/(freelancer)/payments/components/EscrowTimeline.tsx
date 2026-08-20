@@ -1,9 +1,9 @@
-import { Check, Clock, Circle } from "lucide-react";
+import { Check, Clock, Circle, Send } from "lucide-react";
 
 type Milestone = {
   title: string;
   amount: string;
-  status: "released" | "pending" | "upcoming";
+  status: "released" | "delivered" | "pending" | "upcoming";
 };
 
 type ClientGroup = {
@@ -14,7 +14,8 @@ type ClientGroup = {
 
 const statusStyles = {
   released: { icon: Check, bg: "#3E8E5A", label: "Released" },
-  pending: { icon: Clock, bg: "#DE9A3E", label: "Pending" },
+  delivered: { icon: Send, bg: "#3B82F6", label: "Pending Approval" },
+  pending: { icon: Clock, bg: "#DE9A3E", label: "In Escrow" },
   upcoming: { icon: Circle, bg: "#B9B4A6", label: "Upcoming" },
 };
 
