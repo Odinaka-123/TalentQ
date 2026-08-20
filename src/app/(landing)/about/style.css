@@ -49,7 +49,7 @@ p {
     justify-content: space-between;
 
     border: 2px solid var(--border-orange);
-    border-radius: 80px;
+    border-radius: 40px;
 
     background: var(--cream);
 }
