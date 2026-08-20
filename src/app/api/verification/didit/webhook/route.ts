@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import crypto from "crypto";
 
 function verifySignature(payload: string, signature: string, secret: string) {
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   const userId = event.vendor_data as string;
   const decision = event.status; // e.g. "Approved" | "Declined" | "In Review"
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const mappedStatus =
     decision === "Approved" ? "verified"

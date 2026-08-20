@@ -67,3 +67,19 @@ export async function createDiditSession(userId: string) {
   const data = await res.json();
   return { error: null, sessionUrl: data.sessionUrl as string };
 }
+
+export async function checkDiditStatus(userId: string) {
+  const res = await fetch("/api/verification/didit/check-status", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    return { error: data.error ?? "Failed to check status", status: null };
+  }
+
+  const data = await res.json();
+  return { error: null, status: data.status as VerificationStatus };
+}
