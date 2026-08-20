@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import HelpTabs from "./components/HelpTabs";
 import GuidesFaqs from "./components/GuidesFaqs";
 import ContactSupport from "./components/ContactSupport";
+import TawkChat from "@/components/TawkChat";
 
 type Tab = "guides" | "contact";
 
@@ -13,6 +14,8 @@ export default function EmployerHelpSupportPage() {
 
   return (
     <div>
+      <TawkChat />
+
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-5 sm:px-6 py-5 mb-6">
         <h2 className="text-sm font-semibold text-[#1F2A22] mb-1">
           How can we help?
