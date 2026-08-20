@@ -4,19 +4,48 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, Search, Bell, Briefcase, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import {
+  getNotifications,
+  markNotificationRead,
+  markAllNotificationsRead,
+  type Notification,
+} from "@/lib/queries/notifications";
+import NotificationsPanel from "./NotificationsPanel";
 
 interface TopbarProps {
   onMenuClick: () => void;
 }
+
+// Routes whose own page header already covers the greeting/search — Topbar
+// still renders on these (so the icons/hamburger/Find-a-job button stay
+// consistent everywhere), it just skips the greeting block.
+const HIDE_GREETING_ROUTES = [
+  "/messages",
+  "/analytics",
+  "/settings",
+  "/payments",
+  "/verification",
+  "/help-support",
+];
 
 export default function Topbar({ onMenuClick }: TopbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
   const [greetingName, setGreetingName] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifLoading, setNotifLoading] = useState(true);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const isFindJobsActive = pathname.startsWith("/find-jobs");
   const isMessagesActive = pathname.startsWith("/messages");
+  const hideGreeting = HIDE_GREETING_ROUTES.some((route) =>
+    pathname.startsWith(route),
+  );
 
   useEffect(() => {
     const loadUser = async () => {
@@ -26,6 +55,8 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
       if (!user) return;
 
+      setUserId(user.id);
+
       const { data: profile } = await supabase
         .from("profiles")
         .select("full_name")
@@ -33,10 +64,29 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         .single();
 
       setGreetingName(profile?.full_name ?? "there");
+
+      const notifs = await getNotifications(user.id);
+      setNotifications(notifs);
+      setNotifLoading(false);
     };
 
     loadUser();
-  }, [supabase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleMarkAllRead = async () => {
+    if (!userId) return;
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    await markAllNotificationsRead(userId);
+  };
+
+  const handleSelectNotification = async (notification: Notification) => {
+    if (notification.read) return;
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === notification.id ? { ...n, read: true } : n)),
+    );
+    await markNotificationRead(notification.id);
+  };
 
   return (
     <header className="bg-[#F5F1E9] px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 pb-4">
@@ -53,7 +103,8 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
             <h1 className="text-xl sm:text-2xl font-bold text-[#1B3A2F]">
               Messages
             </h1>
-          : <div className="min-w-0">
+          : !hideGreeting ?
+            <div className="min-w-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
                 Hello {greetingName}
               </h1>
@@ -61,7 +112,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                 What are we locking in today?
               </p>
             </div>
-          }
+          : null}
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
@@ -77,12 +128,33 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
           >
             <Mail size={17} />
           </button>
-          <button
-            aria-label="Notifications"
-            className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5"
-          >
-            <Bell size={17} />
-          </button>
+
+          <div className="relative hidden sm:block">
+            <button
+              onClick={() => setPanelOpen((open) => !open)}
+              aria-label="Notifications"
+              aria-expanded={panelOpen}
+              className="relative flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5"
+            >
+              <Bell size={17} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#C6543A] text-white text-[10px] font-medium flex items-center justify-center">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              )}
+            </button>
+
+            {panelOpen && (
+              <NotificationsPanel
+                notifications={notifications}
+                loading={notifLoading}
+                onClose={() => setPanelOpen(false)}
+                onMarkAllRead={handleMarkAllRead}
+                onSelect={handleSelectNotification}
+              />
+            )}
+          </div>
+
           <button
             onClick={() => router.push("/find-jobs")}
             aria-current={isFindJobsActive ? "page" : undefined}
@@ -98,7 +170,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         </div>
       </div>
 
-      {!isMessagesActive && (
+      {!hideGreeting && (
         <div className="relative mt-4 max-w-xl">
           <Search
             size={16}
