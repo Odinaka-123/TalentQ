@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   }
 
   const diditRes = await fetch(
-    `https://verification.didit.me/v3/session/${sessionId}/`,
+    `https://verification.didit.me/v3/session/${sessionId}/decision/`,
     {
       headers: { "x-api-key": process.env.DIDIT_API_KEY! },
     },
