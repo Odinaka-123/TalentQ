@@ -8,13 +8,10 @@ import AuthShell from "../components/AuthShell";
 import GoogleButton from "../components/GoogleButton";
 import { createClient } from "@/lib/supabase/client";
 
-type Role = "freelancer" | "employer";
-
 export default function SignupPage() {
   const router = useRouter();
   const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState<Role>("freelancer");
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,7 +32,6 @@ export default function SignupPage() {
         options: {
           data: {
             full_name: form.name,
-            role,
           },
         },
       });
@@ -60,7 +56,7 @@ export default function SignupPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?role=${role}`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
   };
@@ -70,31 +66,6 @@ export default function SignupPage() {
       title="Create your account"
       subtitle="Join TalentQ to hire or get hired across Africa."
     >
-      <div className="flex items-center gap-2 mb-5 rounded-lg bg-[#F5F1E9] p-1">
-        <button
-          type="button"
-          onClick={() => setRole("freelancer")}
-          className={`flex-1 rounded-md py-2 text-sm font-medium transition-colors ${
-            role === "freelancer" ?
-              "bg-white text-[#A8531E] shadow-sm"
-            : "text-[#6B7A73]"
-          }`}
-        >
-          I&apos;m a Freelancer
-        </button>
-        <button
-          type="button"
-          onClick={() => setRole("employer")}
-          className={`flex-1 rounded-md py-2 text-sm font-medium transition-colors ${
-            role === "employer" ?
-              "bg-white text-[#A8531E] shadow-sm"
-            : "text-[#6B7A73]"
-          }`}
-        >
-          I&apos;m Hiring
-        </button>
-      </div>
-
       {error && (
         <p className="text-sm text-[#C6543A] bg-[#FBEBE9] rounded-lg px-3.5 py-2.5 mb-4">
           {error}

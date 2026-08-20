@@ -10,12 +10,14 @@ import ConnectPaymentMethod from "./components/ConnectPaymentMethod";
 import { createClient } from "@/lib/supabase/client";
 import {
   getVerificationStatus,
+  getClientReviewedStatus,
   type VerificationStatus,
 } from "@/lib/queries/verification";
 
 export default function VerificationPage() {
   const [identityStatus, setIdentityStatus] =
     useState<VerificationStatus>("unverified");
+  const [clientReviewed, setClientReviewed] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,8 +32,13 @@ export default function VerificationPage() {
         return;
       }
 
-      const { status } = await getVerificationStatus(user.id);
+      const [{ status }, hasReviews] = await Promise.all([
+        getVerificationStatus(user.id),
+        getClientReviewedStatus(user.id),
+      ]);
+
       setIdentityStatus(status);
+      setClientReviewed(hasReviews);
       setLoading(false);
     };
 
@@ -59,7 +66,7 @@ export default function VerificationPage() {
       title: "Skills Verified",
       note: "+40% proposal win rate",
       noteColor: "#3E8E5A",
-      status: "pending" as const, // no real skills-assessment system yet — see note below
+      status: "pending" as const, // no real skills-assessment system yet
     },
     {
       icon: Briefcase,
@@ -79,18 +86,16 @@ export default function VerificationPage() {
       title: "Client Reviewed",
       note: "Unlocks top job access",
       noteColor: "#DE814A",
-      status: "pending" as const, // could be derived from reviews.count > 0 once real data exists
+      status: clientReviewed ? ("verified" as const) : ("pending" as const),
     },
   ];
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-[#1F2A22] mb-6">Verification</h1>
-
       <Suspense fallback={null}>
         <VerificationHero />
       </Suspense>
-
       {loading ?
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[0, 1, 2, 3].map((i) => (
@@ -106,11 +111,9 @@ export default function VerificationPage() {
           ))}
         </div>
       }
-
       <div className="mb-6">
         <NextStepBanner />
       </div>
-
       <ConnectPaymentMethod isIdentityVerified={isIdentityVerified} />
     </div>
   );

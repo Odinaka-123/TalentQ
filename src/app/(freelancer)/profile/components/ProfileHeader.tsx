@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, ShieldCheck } from "lucide-react";
+import { MapPin, ShieldCheck, BadgeCheck } from "lucide-react";
 import Avatar from "@/components/Avatar";
 
 type ProfileHeaderProps = {
@@ -27,9 +27,18 @@ export default function ProfileHeader({
         <div className="flex items-center gap-4">
           <Avatar src={profile.avatar_url} name={profile.full_name} size={64} />
           <div>
-            <h1 className="text-lg font-bold text-[#1F2A22]">
-              {profile.full_name ?? "Unnamed"}
-            </h1>
+            <div className="flex items-center gap-1.5">
+              <h1 className="text-lg font-bold text-[#1F2A22]">
+                {profile.full_name ?? "Unnamed"}
+              </h1>
+              {profile.identity_verified && (
+                <BadgeCheck
+                  size={16}
+                  className="text-[#3E9AFF] shrink-0"
+                  aria-label="Identity verified"
+                />
+              )}
+            </div>
             <p className="text-sm text-[#8A8A7E]">
               {details?.headline ?? "No headline set"}
             </p>

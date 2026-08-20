@@ -14,6 +14,7 @@ import {
   Settings,
   HelpCircle,
   X,
+  BadgeCheck,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Avatar from "@/components/Avatar";
@@ -72,7 +73,12 @@ function BottomNav({
   onNavigate,
   name,
   avatarUrl,
-}: NavLinksProps & { name: string; avatarUrl: string | null }) {
+  isVerified,
+}: NavLinksProps & {
+  name: string;
+  avatarUrl: string | null;
+  isVerified: boolean;
+}) {
   return (
     <div>
       <div className="border-t border-white mb-4" />
@@ -108,7 +114,16 @@ function BottomNav({
       >
         <Avatar src={avatarUrl} name={name} size={36} />
         <div className="min-w-0">
-          <p className="text-sm font-medium text-white truncate">{name}</p>
+          <div className="flex items-center gap-1">
+            <p className="text-sm font-medium text-white truncate">{name}</p>
+            {isVerified && (
+              <BadgeCheck
+                size={14}
+                className="text-[#3E9AFF] shrink-0"
+                aria-label="Identity verified"
+              />
+            )}
+          </div>
           <p className="text-xs text-[#8CABA1]">Freelancer</p>
         </div>
       </Link>
@@ -121,6 +136,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const supabase = createClient();
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -132,12 +148,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("full_name, avatar_url")
+        .select("full_name, avatar_url, identity_verification_status")
         .eq("id", user.id)
         .single();
 
       setName(profile?.full_name ?? "");
       setAvatarUrl(profile?.avatar_url ?? null);
+      setIsVerified(profile?.identity_verification_status === "verified");
     };
 
     loadUser();
@@ -164,6 +181,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           onNavigate={onClose}
           name={name}
           avatarUrl={avatarUrl}
+          isVerified={isVerified}
         />
       </aside>
 
@@ -193,7 +211,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               className="flex items-center gap-2"
             >
               <Image
-                src="/Icons/logo.png"
+                src="/Icons/logo-light.png"
                 alt="TalentQ"
                 width={180}
                 height={48}
@@ -216,6 +234,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           onNavigate={onClose}
           name={name}
           avatarUrl={avatarUrl}
+          isVerified={isVerified}
         />
       </aside>
     </>

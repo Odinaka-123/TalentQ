@@ -83,3 +83,14 @@ export async function checkDiditStatus(userId: string) {
   const data = await res.json();
   return { error: null, status: data.status as VerificationStatus };
 }
+
+export async function getClientReviewedStatus(userId: string): Promise<boolean> {
+  const supabase = createClient();
+
+  const { count } = await supabase
+    .from("reviews")
+    .select("id", { count: "exact", head: true })
+    .eq("reviewee_id", userId);
+
+  return (count ?? 0) > 0;
+}
