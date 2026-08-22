@@ -43,6 +43,49 @@ export async function markAllNotificationsRead(userId: string): Promise<void> {
 }
 
 /**
+ * Live-updates the bell the moment a new notification row is inserted for
+ * this user — e.g. the message trigger firing, or a future withdrawal/
+ * milestone event — without requiring a page refresh or polling.
+ * Requires Realtime to be enabled for the `notifications` table in
+ * Supabase (Database → Replication).
+ */
+export function subscribeToNotifications(
+  userId: string,
+  onInsert: (notification: Notification) => void,
+) {
+  const supabase = createClient();
+
+  const channel = supabase
+    .channel(`notifications:${userId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "notifications",
+        filter: `user_id=eq.${userId}`,
+      },
+      (payload) => {
+        const n = payload.new;
+        onInsert({
+          id: n.id,
+          type: n.type,
+          title: n.title,
+          body: n.body,
+          link: n.link,
+          read: n.read,
+          created_at: n.created_at,
+        });
+      },
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}
+
+/**
  * Server-side helper for creating a notification from within API routes.
  * Pass the route's own request-scoped Supabase client (cookie-based, tied
  * to the acting user's session) — since RLS only allows inserting rows

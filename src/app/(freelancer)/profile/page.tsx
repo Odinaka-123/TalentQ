@@ -9,16 +9,18 @@ import SkillsList from "./components/SkillsList";
 import HistoryList from "./components/HistoryList";
 import { createClient } from "@/lib/supabase/client";
 import { getFreelancerProfile } from "@/lib/queries/profile";
+import { uploadPortfolioImage } from "@/lib/storage/portfolio";
+import { insertPortfolioItem } from "@/lib/mutations/portfolio";
+import type { PortfolioDraft } from "./components/PortfolioUploadModal";
 
 type Tab = "portfolio" | "skills" | "history";
+type ProfileData = Awaited<ReturnType<typeof getFreelancerProfile>>;
 
 export default function ProfilePage() {
   const supabase = createClient();
   const [activeTab, setActiveTab] = useState<Tab>("portfolio");
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Awaited<
-    ReturnType<typeof getFreelancerProfile>
-  > | null>(null);
+  const [data, setData] = useState<ProfileData | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -38,6 +40,31 @@ export default function ProfilePage() {
 
     load();
   }, [supabase]);
+
+  const handleAddPortfolioItem = async (draft: PortfolioDraft) => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) throw new Error("You need to be signed in");
+    if (!draft.imageFile) throw new Error("Add an image");
+
+    const imageUrl = await uploadPortfolioImage(
+      supabase,
+      user.id,
+      draft.imageFile,
+    );
+
+    const newItem = await insertPortfolioItem(supabase, user.id, {
+      title: draft.title,
+      image_url: imageUrl,
+      tags: draft.tags,
+    });
+
+    setData((prev: ProfileData | null) =>
+      prev ? { ...prev, portfolio: [newItem, ...prev.portfolio] } : prev,
+    );
+  };
 
   if (loading) {
     return (
@@ -98,7 +125,12 @@ export default function ProfilePage() {
       <div className="mt-6">
         <ProfileTabs active={activeTab} onChange={setActiveTab} />
 
-        {activeTab === "portfolio" && <PortfolioGrid items={data.portfolio} />}
+        {activeTab === "portfolio" && (
+          <PortfolioGrid
+            items={data.portfolio}
+            onAdd={handleAddPortfolioItem}
+          />
+        )}
         {activeTab === "skills" && <SkillsList skills={data.skills} />}
         {activeTab === "history" && <HistoryList reviews={data.reviews} />}
       </div>

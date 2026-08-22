@@ -18,15 +18,17 @@ interface TopbarProps {
 
 // Routes whose own page header already covers the greeting/search — Topbar
 // still renders on these (so the icons/hamburger/Find-a-job button stay
-// consistent everywhere), it just skips the greeting block.
-const HIDE_GREETING_ROUTES = [
-  "/messages",
-  "/analytics",
-  "/settings",
-  "/payments",
-  "/verification",
-  "/help-support",
-];
+// consistent everywhere), it just shows a plain page title instead of the
+// dashboard greeting + search bar.
+const ROUTE_TITLES: Record<string, string> = {
+  "/messages": "Messages",
+  "/analytics": "Analytics",
+  "/settings": "Settings",
+  "/payments": "Payments",
+  "/verification": "Verification",
+  "/help-support": "Help & Support",
+  "/profile": "Profile",
+};
 
 export default function Topbar({ onMenuClick }: TopbarProps) {
   const router = useRouter();
@@ -43,9 +45,12 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
   const isFindJobsActive = pathname.startsWith("/find-jobs");
   const isMessagesActive = pathname.startsWith("/messages");
-  const hideGreeting = HIDE_GREETING_ROUTES.some((route) =>
+
+  const pageTitleEntry = Object.entries(ROUTE_TITLES).find(([route]) =>
     pathname.startsWith(route),
   );
+  const pageTitle = pageTitleEntry?.[1] ?? null;
+  const hideGreeting = pageTitle !== null;
 
   useEffect(() => {
     const loadUser = async () => {
@@ -99,12 +104,11 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
           >
             <Menu size={22} />
           </button>
-          {isMessagesActive ?
+          {pageTitle ?
             <h1 className="text-xl sm:text-2xl font-bold text-[#1B3A2F]">
-              Messages
+              {pageTitle}
             </h1>
-          : !hideGreeting ?
-            <div className="min-w-0">
+          : <div className="min-w-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
                 Hello {greetingName}
               </h1>
@@ -112,7 +116,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                 What are we locking in today?
               </p>
             </div>
-          : null}
+          }
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
