@@ -50,6 +50,7 @@ export default function PortfolioGrid({ items, onAdd }: PortfolioGridProps) {
                   src={item.image_url}
                   alt={item.title}
                   fill
+                  unoptimized
                   className="object-cover"
                 />
               )}

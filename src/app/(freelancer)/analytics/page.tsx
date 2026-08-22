@@ -78,10 +78,6 @@ export default function AnalyticsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#000000]">Analytics Overview</h1>
-      <p className="text-sm text-[#8A8A7E] mb-6">
-        Track your performance and growth
-      </p>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <AnalyticsStatCard

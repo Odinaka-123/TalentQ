@@ -13,11 +13,6 @@ export default function HelpSupportPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#1F2A22]">Help & Support</h1>
-      <p className="text-sm text-[#8A8A7E] mb-6">
-        Track your performance and growth
-      </p>
-
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-5 sm:px-6 py-5 mb-6">
         <h2 className="text-sm font-semibold text-[#1F2A22] mb-1">
           How can we help?

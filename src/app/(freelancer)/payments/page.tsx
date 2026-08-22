@@ -38,10 +38,6 @@ export default function PaymentsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#1F2A22]">Payments</h1>
-      <p className="text-sm text-[#8A8A7E] mb-6">
-        Track your performance and growth
-      </p>
 
       {loading ?
         <div className="rounded-2xl border border-[#E5E0D6] h-40 animate-pulse bg-white" />

@@ -92,7 +92,6 @@ export default function VerificationPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#1F2A22] mb-6">Verification</h1>
       <Suspense fallback={null}>
         <VerificationHero />
       </Suspense>
