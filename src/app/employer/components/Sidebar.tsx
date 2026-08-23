@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,6 +16,8 @@ import {
   HelpCircle,
   X,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import Avatar from "@/components/Avatar";
 
 const navItems = [
   { href: "/employer/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -74,7 +77,12 @@ function TopNav({ pathname, onNavigate }: NavLinksProps) {
   );
 }
 
-function BottomNav({ pathname, onNavigate }: NavLinksProps) {
+function BottomNav({
+  pathname,
+  onNavigate,
+  name,
+  avatarUrl,
+}: NavLinksProps & { name: string; avatarUrl: string | null }) {
   return (
     <div>
       <div className="border-t border-white mb-4" />
@@ -108,17 +116,9 @@ function BottomNav({ pathname, onNavigate }: NavLinksProps) {
         onClick={onNavigate}
         className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-[#1B3A2F] transition-colors"
       >
-        <div className="w-9 h-9 rounded-full bg-[#3E5C50] overflow-hidden shrink-0">
-          <Image
-            src="/images/testimonials/edgar.png"
-            alt="Edgar John"
-            width={36}
-            height={36}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <Avatar src={avatarUrl} name={name} size={36} />
         <div className="min-w-0">
-          <p className="text-sm font-medium text-white truncate">Edgar John</p>
+          <p className="text-sm font-medium text-white truncate">{name}</p>
           <p className="text-xs text-[#DE814A]">Employer</p>
         </div>
       </Link>
@@ -128,6 +128,30 @@ function BottomNav({ pathname, onNavigate }: NavLinksProps) {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const supabase = createClient();
+  const [name, setName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name, avatar_url")
+        .eq("id", user.id)
+        .single();
+
+      setName(profile?.full_name ?? "");
+      setAvatarUrl(profile?.avatar_url ?? null);
+    };
+
+    loadUser();
+  }, [supabase]);
 
   return (
     <>
@@ -150,7 +174,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         <div className="mt-8 shrink-0">
-          <BottomNav pathname={pathname} onNavigate={onClose} />
+          <BottomNav
+            pathname={pathname}
+            onNavigate={onClose}
+            name={name}
+            avatarUrl={avatarUrl}
+          />
         </div>
       </aside>
 
@@ -200,7 +229,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         <div className="mt-8 shrink-0">
-          <BottomNav pathname={pathname} onNavigate={onClose} />
+          <BottomNav
+            pathname={pathname}
+            onNavigate={onClose}
+            name={name}
+            avatarUrl={avatarUrl}
+          />
         </div>
       </aside>
     </>

@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import PostJobStepper from "./components/PostJobStepper";
 import JobDetailsStep from "./components/JobDetailsStep";
 import RequirementsStep from "./components/RequirementsStep";
 import CompensationStep from "./components/CompensationStep";
 import PreviewStep from "./components/PreviewStep";
+import { createClient } from "@/lib/supabase/client";
+import { createJob } from "@/lib/queries/postJob";
 
 type JobDetailsData = {
   title: string;
@@ -34,7 +37,11 @@ type CompensationData = {
 };
 
 export default function PostJobPage() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
+  const [posting, setPosting] = useState(false);
+  const [postError, setPostError] = useState<string | null>(null);
+
   const [jobDetails, setJobDetails] = useState<JobDetailsData>({
     title: "",
     jobType: "Full-time",
@@ -62,8 +69,36 @@ export default function PostJobPage() {
   const canContinueStep2 = requirements.skills.length > 0;
   const canContinueStep3 = compensation.minBudget && compensation.maxBudget;
 
-  const handlePost = () => {
-    // TODO: submit jobDetails + requirements + compensation to Backend's Job Posting API
+  const handlePost = async () => {
+    setPosting(true);
+    setPostError(null);
+
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      setPostError("You must be logged in to post a job.");
+      setPosting(false);
+      return;
+    }
+
+    const { error, jobId } = await createJob(
+      user.id,
+      jobDetails,
+      requirements,
+      compensation,
+    );
+
+    setPosting(false);
+
+    if (error || !jobId) {
+      setPostError(error ?? "Something went wrong posting this job.");
+      return;
+    }
+
+    router.push(`/employer/candidates?posted=${jobId}`);
   };
 
   return (
@@ -91,6 +126,12 @@ export default function PostJobPage() {
           skills={requirements.skills}
           description={jobDetails.description}
         />
+      )}
+
+      {postError && (
+        <p className="text-sm text-[#C6543A] bg-[#FBEBE9] rounded-lg px-4 py-2.5 mt-4">
+          {postError}
+        </p>
       )}
 
       <div className="flex items-center justify-between mt-6">
@@ -121,10 +162,11 @@ export default function PostJobPage() {
         : <button
             type="button"
             onClick={handlePost}
-            className="flex items-center gap-2 rounded-full bg-[#A8531E] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
+            disabled={posting}
+            className="flex items-center gap-2 rounded-full bg-[#A8531E] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-60"
           >
             <Check size={14} />
-            Post Job
+            {posting ? "Posting..." : "Post Job"}
           </button>
         }
       </div>
