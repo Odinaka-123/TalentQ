@@ -1,4 +1,4 @@
-import type { PipelineCandidate } from "../pipelineData";
+import type { PipelineCandidate } from "@/lib/queries/candidates";
 import CandidateRow from "./CandidateRow";
 
 export default function CandidatesTable({
@@ -17,7 +17,7 @@ export default function CandidatesTable({
   return (
     <div className="flex flex-col gap-3">
       {candidates.map((candidate) => (
-        <CandidateRow key={candidate.slug} candidate={candidate} />
+        <CandidateRow key={candidate.applicationId} candidate={candidate} />
       ))}
     </div>
   );

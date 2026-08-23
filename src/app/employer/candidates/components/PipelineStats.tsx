@@ -1,6 +1,9 @@
-import { pipelineCandidates } from "../pipelineData";
+import type {
+  PipelineCandidate,
+  PipelineStatus,
+} from "@/lib/queries/candidates";
 
-const stages: { label: string; status: string; color: string }[] = [
+const stages: { label: string; status: PipelineStatus; color: string }[] = [
   { label: "Applied", status: "Applied", color: "#3E7AC7" },
   { label: "Invited", status: "Invited", color: "#DE814A" },
   { label: "Interviewing", status: "Interviewing", color: "#8A5FC7" },
@@ -8,11 +11,15 @@ const stages: { label: string; status: string; color: string }[] = [
   { label: "Hired", status: "Hired", color: "#3E8E5A" },
 ];
 
-export default function PipelineStats() {
+export default function PipelineStats({
+  candidates,
+}: {
+  candidates: PipelineCandidate[];
+}) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-4">
       {stages.map((stage) => {
-        const count = pipelineCandidates.filter(
+        const count = candidates.filter(
           (c) => c.status === stage.status,
         ).length;
         return (

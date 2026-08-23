@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { candidates } from "../data";
+import {
+  getCandidateDetail,
+  type CandidateDetail,
+} from "@/lib/queries/candidate-detail";
 import CandidateHeader from "./components/CandidateHeader";
 import CandidateActions from "./components/CandidateActions";
 import CandidateTabs from "./components/CandidateTabs";
@@ -17,10 +20,30 @@ type Tab = "overview" | "portfolio" | "history" | "review";
 export default function CandidateDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: { applicationId: string };
 }) {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
-  const candidate = candidates[params.slug];
+  const [loading, setLoading] = useState(true);
+  const [candidate, setCandidate] = useState<CandidateDetail | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      const result = await getCandidateDetail(params.applicationId);
+      setCandidate(result);
+      setLoading(false);
+    };
+    load();
+  }, [params.applicationId]);
+
+  if (loading) {
+    return (
+      <div className="animate-pulse">
+        <div className="h-24 rounded-2xl bg-white mb-4" />
+        <div className="h-10 rounded-2xl bg-white mb-4" />
+        <div className="h-64 rounded-2xl bg-white" />
+      </div>
+    );
+  }
 
   if (!candidate) {
     return (
@@ -34,7 +57,7 @@ export default function CandidateDetailPage({
     <div>
       <div className="flex items-center justify-between mb-3">
         <Link
-          href="/employer/find-talent"
+          href="/employer/candidates"
           className="inline-flex items-center gap-1.5 text-xs text-[#C6543A] font-medium hover:underline"
         >
           <ArrowLeft size={12} />
@@ -54,13 +77,20 @@ export default function CandidateDetailPage({
       </div>
 
       <CandidateHeader candidate={candidate} />
-      <CandidateActions slug={candidate.slug} />
+      <CandidateActions
+        candidate={candidate}
+        onStatusChange={(status) =>
+          setCandidate((prev) => (prev ? { ...prev, status } : prev))
+        }
+      />
       <CandidateTabs active={activeTab} onChange={setActiveTab} />
 
       {activeTab === "overview" && <OverviewTab candidate={candidate} />}
-      {activeTab === "portfolio" && <PortfolioTab />}
+      {activeTab === "portfolio" && (
+        <PortfolioTab items={candidate.portfolio} />
+      )}
       {activeTab === "history" && <WorkHistoryTab />}
-      {activeTab === "review" && <ReviewTab />}
+      {activeTab === "review" && <ReviewTab reviews={candidate.reviews} />}
     </div>
   );
 }
