@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PaymentsTabs from "./components/PaymentsTabs";
 import EmployerPaymentsOverview from "./components/EmployerPaymentsOverview";
@@ -17,7 +17,7 @@ const VALID_TABS: Tab[] = [
   "setup-escrow",
 ];
 
-export default function EmployerPaymentsPage() {
+function EmployerPaymentsContent() {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get("tab") as Tab | null;
   const initialTab =
@@ -42,5 +42,13 @@ export default function EmployerPaymentsPage() {
       {activeTab === "setup-escrow" && <SetupEscrow />}
       {activeTab === "fund-milestone" && <FundMilestone />}
     </div>
+  );
+}
+
+export default function EmployerPaymentsPage() {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <EmployerPaymentsContent />
+    </Suspense>
   );
 }
