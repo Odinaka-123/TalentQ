@@ -112,3 +112,39 @@ export async function verifyTransaction(reference: string) {
     throw new Error(json.message || "Failed to verify transaction");
   return json.data;
 }
+
+export async function listBanks(params?: { country?: string }) {
+  const country = params?.country ?? "nigeria";
+  const res = await fetch(
+    `${PAYSTACK_BASE_URL}/bank?country=${country}&currency=NGN`,
+    {
+      headers: paystackHeaders(),
+    },
+  );
+
+  const json: PaystackResponse<
+    { name: string; code: string; longcode: string }[]
+  > = await res.json();
+  if (!json.status) throw new Error(json.message || "Failed to list banks");
+  return json.data;
+}
+
+export async function resolveAccount(params: {
+  accountNumber: string;
+  bankCode: string;
+}) {
+  const res = await fetch(
+    `${PAYSTACK_BASE_URL}/bank/resolve?account_number=${params.accountNumber}&bank_code=${params.bankCode}`,
+    {
+      headers: paystackHeaders(),
+    },
+  );
+
+  const json: PaystackResponse<{
+    account_number: string;
+    account_name: string;
+  }> = await res.json();
+  if (!json.status)
+    throw new Error(json.message || "Failed to resolve account");
+  return json.data;
+}
