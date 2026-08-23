@@ -1,6 +1,6 @@
 "use client";
 
-type Tab = "overview" | "history" | "fund-milestone";
+type Tab = "overview" | "history" | "fund-milestone" | "setup-escrow";
 
 type PaymentsTabsProps = {
   active: Tab;

@@ -67,7 +67,7 @@ export default function CandidateActions({
           type="button"
           onClick={() =>
             router.push(
-              `/employer/payments?tab=fund-milestone&candidate=${candidate.applicationId}`,
+              `/employer/payments?tab=setup-escrow&candidate=${candidate.applicationId}`,
             )
           }
           className="flex items-center gap-1.5 rounded-full bg-[#A8531E] px-4 py-2 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"

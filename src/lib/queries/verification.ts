@@ -84,7 +84,9 @@ export async function checkDiditStatus(userId: string) {
   return { error: null, status: data.status as VerificationStatus };
 }
 
-export async function getClientReviewedStatus(userId: string): Promise<boolean> {
+export async function getClientReviewedStatus(
+  userId: string,
+): Promise<boolean> {
   const supabase = createClient();
 
   const { count } = await supabase
@@ -93,4 +95,63 @@ export async function getClientReviewedStatus(userId: string): Promise<boolean> 
     .eq("reviewee_id", userId);
 
   return (count ?? 0) > 0;
+}
+
+// --- Employer-specific additions below ---
+
+export type SubmissionMethodStatus =
+  | "not_submitted"
+  | "pending"
+  | "approved"
+  | "rejected";
+
+export type EmployerVerificationStatus = {
+  companyRegistration: SubmissionMethodStatus;
+  linkedin: SubmissionMethodStatus;
+  clientReviewed: boolean;
+};
+
+function latestStatusForMethod(
+  submissions: { method: string; status: string }[],
+  method: string,
+): SubmissionMethodStatus {
+  const match = submissions.find((s) => s.method === method);
+  if (!match) return "not_submitted";
+  if (match.status === "verified" || match.status === "approved") {
+    return "approved";
+  }
+  if (match.status === "rejected") return "rejected";
+  return "pending";
+}
+
+export async function getEmployerVerificationStatus(
+  userId: string,
+): Promise<EmployerVerificationStatus> {
+  const { submissions } = await getVerificationStatus(userId);
+  const clientReviewed = await getClientReviewedStatus(userId);
+
+  return {
+    companyRegistration: latestStatusForMethod(
+      submissions,
+      "company_registration",
+    ),
+    linkedin: latestStatusForMethod(submissions, "linkedin"),
+    clientReviewed,
+  };
+}
+
+export async function submitCompanyRegistration(
+  userId: string,
+  documentUrl: string,
+) {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("verification_submissions").insert({
+    user_id: userId,
+    method: "company_registration",
+    status: "pending",
+    submitted_data: { documentUrl },
+  });
+
+  return { error };
 }

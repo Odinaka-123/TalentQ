@@ -1,89 +1,131 @@
-import { createClient } from "@/lib/supabase/client";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import { getCandidateDetail } from "@/lib/queries/candidate-detail";
+import CandidateActionsWrapper from "./components/CandidateActionsWrapper";
 
-export type TalentListing = {
-  freelancerId: string;
-  name: string;
-  avatarUrl: string | null;
-  headline: string;
-  skills: string[];
-  proposalCount: number;
-  // TODO: location, availability, rate, level, status — all pending
-  // freelancer_details' full column list.
-};
+export default async function CandidateDetailPage({
+  params,
+}: {
+  params: Promise<{ applicationId: string }>;
+}) {
+  const { applicationId } = await params;
+  const candidate = await getCandidateDetail(applicationId);
 
-type SkillRow = {
-  freelancer_id: string;
-  skills: { name: string } | { name: string }[] | null;
-};
+  if (!candidate) {
+    notFound();
+  }
 
-function firstOrSelf<T>(value: T | T[] | null | undefined): T | null {
-  if (Array.isArray(value)) return value[0] ?? null;
-  return value ?? null;
-}
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-8">
+      <div className="flex items-start gap-4">
+        {candidate.avatarUrl ?
+          <Image
+            src={candidate.avatarUrl}
+            alt={candidate.name}
+            width={72}
+            height={72}
+            className="rounded-full object-cover"
+          />
+        : <div className="flex h-18 w-18 items-center justify-center rounded-full bg-muted text-lg font-medium">
+            {candidate.name.charAt(0)}
+          </div>
+        }
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-semibold">{candidate.name}</h1>
+            {candidate.identityVerified && (
+              <span className="text-xs text-green-600">Verified</span>
+            )}
+          </div>
+          <p className="text-sm text-muted-foreground">{candidate.headline}</p>
+          {candidate.overallRating !== null && (
+            <p className="mt-1 text-sm">
+              ⭐ {candidate.overallRating.toFixed(1)} (
+              {candidate.reviews.length} review
+              {candidate.reviews.length === 1 ? "" : "s"})
+            </p>
+          )}
+        </div>
+        {candidate.aiScore !== null && (
+          <div className="text-right">
+            <p className="text-xs text-muted-foreground">AI Match</p>
+            <p className="text-lg font-semibold">{candidate.aiScore}%</p>
+          </div>
+        )}
+      </div>
 
-export async function getAvailableTalent(): Promise<TalentListing[]> {
-  const supabase = createClient();
+      <div className="mt-6">
+        <CandidateActionsWrapper candidate={candidate} />
+      </div>
 
-  // Inner join via freelancer_details naturally scopes this to freelancers
-  // only — no separate role/account_type column needed.
-  const { data: detailRows, error: detailsError } = await supabase
-    .from("freelancer_details")
-    .select("id, headline");
+      {candidate.skills.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-2 text-sm font-medium">Skills</h2>
+          <div className="flex flex-wrap gap-2">
+            {candidate.skills.map((skill) => (
+              <span
+                key={skill}
+                className="rounded-full border px-3 py-1 text-xs"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
-  if (detailsError) throw detailsError;
-  if (!detailRows || detailRows.length === 0) return [];
+      {candidate.portfolio.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-2 text-sm font-medium">Portfolio</h2>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {candidate.portfolio.map((item) => (
+              <div key={item.id} className="overflow-hidden rounded-lg border">
+                {item.image_url && (
+                  <Image
+                    src={item.image_url}
+                    alt={item.title}
+                    width={200}
+                    height={140}
+                    className="h-32 w-full object-cover"
+                  />
+                )}
+                <div className="p-2">
+                  <p className="truncate text-sm font-medium">{item.title}</p>
+                  {item.tags && item.tags.length > 0 && (
+                    <p className="truncate text-xs text-muted-foreground">
+                      {item.tags.join(", ")}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
-  const freelancerIds = detailRows.map((d) => d.id);
-
-  const [
-    { data: profileRows, error: profilesError },
-    { data: skillRows, error: skillsError },
-    { data: applicationRows, error: applicationsError },
-  ] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("id, full_name, avatar_url")
-      .in("id", freelancerIds),
-    supabase
-      .from("freelancer_skills")
-      .select("freelancer_id, skills(name)")
-      .in("freelancer_id", freelancerIds),
-    supabase
-      .from("applications")
-      .select("freelancer_id")
-      .in("freelancer_id", freelancerIds),
-  ]);
-
-  if (profilesError) throw profilesError;
-  if (skillsError) throw skillsError;
-  if (applicationsError) throw applicationsError;
-
-  const profileById = new Map((profileRows ?? []).map((p) => [p.id, p]));
-  const headlineById = new Map(detailRows.map((d) => [d.id, d.headline]));
-
-  const skillsByFreelancer = new Map<string, string[]>();
-  ((skillRows ?? []) as SkillRow[]).forEach((row) => {
-    const skillName = firstOrSelf(row.skills)?.name;
-    if (!skillName) return;
-    const existing = skillsByFreelancer.get(row.freelancer_id) ?? [];
-    skillsByFreelancer.set(row.freelancer_id, [...existing, skillName]);
-  });
-
-  const proposalCountByFreelancer = new Map<string, number>();
-  (applicationRows ?? []).forEach((row) => {
-    const current = proposalCountByFreelancer.get(row.freelancer_id) ?? 0;
-    proposalCountByFreelancer.set(row.freelancer_id, current + 1);
-  });
-
-  return freelancerIds.map((id): TalentListing => {
-    const profile = profileById.get(id);
-    return {
-      freelancerId: id,
-      name: profile?.full_name ?? "Unnamed",
-      avatarUrl: profile?.avatar_url ?? null,
-      headline: headlineById.get(id) ?? "Freelancer",
-      skills: skillsByFreelancer.get(id) ?? [],
-      proposalCount: proposalCountByFreelancer.get(id) ?? 0,
-    };
-  });
+      {candidate.reviews.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-2 text-sm font-medium">Reviews</h2>
+          <div className="space-y-4">
+            {candidate.reviews.map((review) => (
+              <div key={review.id} className="rounded-lg border p-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium">{review.employerName}</p>
+                  <p className="text-sm">⭐ {review.rating}</p>
+                </div>
+                {review.comment && (
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {review.comment}
+                  </p>
+                )}
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {new Date(review.created_at).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
 }

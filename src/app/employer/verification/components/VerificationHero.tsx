@@ -1,6 +1,8 @@
+"use client";
+
 import { Users2 } from "lucide-react";
 
-export default function VerificationHero() {
+export default function VerificationHero({ onStart }: { onStart: () => void }) {
   return (
     <div className="rounded-2xl border border-[#E8A47E] bg-white px-6 py-6 mb-6">
       <span className="inline-flex items-center gap-1.5 rounded-full border border-[#DE814A] px-3 py-1 text-xs font-medium text-[#C6543A] mb-4">
@@ -19,6 +21,7 @@ export default function VerificationHero() {
 
       <button
         type="button"
+        onClick={onStart}
         className="rounded-full bg-[#A8531E] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
       >
         Start Verification

@@ -1,5 +1,10 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { MapPin, ShieldCheck } from "lucide-react";
+import { MapPin, ShieldCheck, Star } from "lucide-react";
+import { FaLinkedin } from "react-icons/fa";
+import { getEmployerVerificationStatus } from "@/lib/queries/employerVerification";
 
 type Profile = {
   full_name: string | null;
@@ -17,17 +22,35 @@ type EmployerDetails = {
 } | null;
 
 type ProfileHeaderProps = {
+  userId: string;
   profile: Profile;
   details: EmployerDetails;
   onEdit: () => void;
 };
 
 export default function ProfileHeader({
+  userId,
   profile,
   details,
   onEdit,
 }: ProfileHeaderProps) {
   const isIdVerified = profile.identity_verification_status === "verified";
+
+  const [loadingVerification, setLoadingVerification] = useState(true);
+  const [companyEarned, setCompanyEarned] = useState(false);
+  const [linkedInEarned, setLinkedInEarned] = useState(false);
+  const [reviewEarned, setReviewEarned] = useState(false);
+
+  useEffect(() => {
+    const load = async () => {
+      const result = await getEmployerVerificationStatus(userId);
+      setCompanyEarned(result.companyRegistrationStatus === "verified");
+      setLinkedInEarned(result.linkedInStatus === "verified");
+      setReviewEarned(result.employerReviewed);
+      setLoadingVerification(false);
+    };
+    load();
+  }, [userId]);
 
   const badges = [
     isIdVerified && {
@@ -36,10 +59,25 @@ export default function ProfileHeader({
       bg: "#DCE9F7",
       icon: ShieldCheck,
     },
-    // TODO: Payment Connected / Employment Verified / Client Reviewed
-    // badges depend on data we haven't wired yet (payout_accounts
-    // status, a review-count threshold) — left out rather than
-    // shown as always-true placeholders.
+    companyEarned && {
+      label: "Company Verified",
+      color: "#3E7AC7",
+      bg: "#DCE9F7",
+      icon: ShieldCheck,
+    },
+    linkedInEarned && {
+      label: "LinkedIn Verified",
+      color: "#3E8E5A",
+      bg: "#DDEEE2",
+      icon: FaLinkedin,
+    },
+    reviewEarned && {
+      label: "Client Reviewed",
+      color: "#DE814A",
+      bg: "#FBEADB",
+      icon: Star,
+    },
+    // TODO: Payment Connected — no real backing data yet
   ].filter(Boolean) as {
     label: string;
     color: string;
@@ -90,7 +128,7 @@ export default function ProfileHeader({
         </button>
       </div>
 
-      {badges.length > 0 && (
+      {!loadingVerification && badges.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-5">
           {badges.map((badge) => (
             <span
@@ -104,7 +142,6 @@ export default function ProfileHeader({
           ))}
         </div>
       )}
-
     </div>
   );
 }

@@ -1,8 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
-import type {
-  Job,
-  JobLevel,
-} from "@/app/(freelancer)/components/JobCard";
+import type { Job, JobLevel } from "@/app/(freelancer)/components/JobCard";
 
 type JobSkillRow = {
   skill_id: string;
@@ -43,14 +40,13 @@ export async function getJobsForFreelancer(
     (freelancerSkillRows ?? []).map((r) => r.skill_id),
   );
 
-  const { data: jobs } = await supabase
+  const { data: jobs, error } = await supabase
     .from("jobs")
     .select(
       `
       id, title, min_budget, max_budget, currency, duration,
       experience_level, work_arrangement, created_at,
-      profiles!jobs_employer_id_fkey ( full_name ),
-      employer_details!jobs_employer_id_fkey ( company_name, country ),
+      profiles!jobs_employer_id_fkey ( full_name, employer_details ( company_name, country ) ),
       job_skills ( skill_id, skills ( name ) ),
       applications ( id )
     `,
@@ -58,18 +54,22 @@ export async function getJobsForFreelancer(
     .eq("status", "open")
     .order("created_at", { ascending: false });
 
+  if (error) {
+    console.error("getJobsForFreelancer failed:", error);
+    return [];
+  }
+
   if (!jobs) return [];
 
   return jobs.map((job): FindJobsResult => {
-    const employerDetails =
-      Array.isArray(job.employer_details) ?
-        job.employer_details[0]
-      : job.employer_details;
     const employerProfile =
       Array.isArray(job.profiles) ? job.profiles[0] : job.profiles;
+    const employerDetails =
+      Array.isArray(employerProfile?.employer_details) ?
+        employerProfile.employer_details[0]
+      : employerProfile?.employer_details;
 
-    const jobSkillRows = (job.job_skills ?? []) as JobSkillRow[];
-
+    const jobSkillRows: JobSkillRow[] = job.job_skills ?? [];
     const tags = jobSkillRows
       .map((js) =>
         Array.isArray(js.skills) ? js.skills[0]?.name : js.skills?.name,

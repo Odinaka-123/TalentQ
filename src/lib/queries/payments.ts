@@ -1,10 +1,7 @@
 import { createClient } from "@/lib/supabase/client";
 
 export type MilestoneStatus = "upcoming" | "pending" | "delivered" | "released";
-export type TransactionType =
-  | "milestone_release"
-  | "withdrawal"
-  | "escrow_fund";
+export type TransactionType = "milestone_release" | "withdrawal" | "escrow_fund";
 export type TransactionStatus = "pending" | "completed" | "failed";
 
 export type EscrowMilestone = {
@@ -57,9 +54,7 @@ function formatCurrency(amount: number, signed = false): string {
   return amount < 0 ? `-$${abs}` : `+$${abs}`;
 }
 
-function mapTransactionStatus(
-  status: TransactionStatus,
-): "Completed" | "Pending" | "Failed" {
+function mapTransactionStatus(status: TransactionStatus): "Completed" | "Pending" | "Failed" {
   if (status === "completed") return "Completed";
   if (status === "failed") return "Failed";
   return "Pending";
@@ -68,18 +63,22 @@ function mapTransactionStatus(
 async function getContractsWithMilestones(freelancerId: string) {
   const supabase = createClient();
 
-  const { data: contracts } = await supabase
+  const { data: contracts, error } = await supabase
     .from("contracts")
     .select(
       `
       id, status,
       jobs ( title ),
-      profiles!contracts_employer_id_fkey ( full_name ),
-      employer_details!contracts_employer_id_fkey ( company_name ),
+      profiles!contracts_employer_id_fkey ( full_name, employer_details ( company_name ) ),
       milestones ( id, title, amount, status, funded_at, delivered_at, released_at )
     `,
     )
     .eq("freelancer_id", freelancerId);
+
+  if (error) {
+    console.error("getContractsWithMilestones failed:", error);
+    return [];
+  }
 
   return contracts ?? [];
 }
@@ -93,9 +92,7 @@ export async function getPaymentsOverview(
     getContractsWithMilestones(freelancerId),
     supabase
       .from("transactions")
-      .select(
-        "id, type, gross_amount, fee_amount, net_amount, status, provider, created_at, milestone_id",
-      )
+      .select("id, type, gross_amount, fee_amount, net_amount, status, provider, created_at, milestone_id")
       .eq("user_id", freelancerId)
       .order("created_at", { ascending: false }),
   ]);
@@ -109,16 +106,13 @@ export async function getPaymentsOverview(
   const escrowGroups: EscrowGroup[] = contracts
     .filter((c) => (c.milestones ?? []).length > 0)
     .map((contract) => {
-      const job =
-        Array.isArray(contract.jobs) ? contract.jobs[0] : contract.jobs;
-      const employerProfile =
-        Array.isArray(contract.profiles) ?
-          contract.profiles[0]
+      const job = Array.isArray(contract.jobs) ? contract.jobs[0] : contract.jobs;
+      const employerProfile = Array.isArray(contract.profiles)
+        ? contract.profiles[0]
         : contract.profiles;
-      const employerDetails =
-        Array.isArray(contract.employer_details) ?
-          contract.employer_details[0]
-        : contract.employer_details;
+      const employerDetails = Array.isArray(employerProfile?.employer_details)
+        ? employerProfile.employer_details[0]
+        : employerProfile?.employer_details;
 
       const milestones = contract.milestones ?? [];
       const total = milestones.reduce((sum, m) => sum + Number(m.amount), 0);
@@ -135,10 +129,7 @@ export async function getPaymentsOverview(
       });
 
       return {
-        client:
-          employerDetails?.company_name ??
-          employerProfile?.full_name ??
-          "Client",
+        client: employerDetails?.company_name ?? employerProfile?.full_name ?? "Client",
         meta: `${job?.title ?? "Contract"} · $${total.toLocaleString()} total`,
         milestones: mapped,
       };
@@ -148,20 +139,14 @@ export async function getPaymentsOverview(
   const currentYear = new Date().getFullYear();
 
   const availableBalance = transactions.reduce((sum, t) => {
-    if (
-      t.status !== "completed" &&
-      !(t.type === "withdrawal" && t.status === "pending")
-    ) {
+    if (t.status !== "completed" && !(t.type === "withdrawal" && t.status === "pending")) {
       return sum;
     }
     if (t.type === "milestone_release" && t.status === "completed") {
       return sum + Number(t.net_amount);
     }
-    if (
-      t.type === "withdrawal" &&
-      (t.status === "completed" || t.status === "pending")
-    ) {
-      return sum - Number(t.net_amount);
+    if (t.type === "withdrawal" && (t.status === "completed" || t.status === "pending")) {
+      return sum - Number(t.gross_amount);
     }
     return sum;
   }, 0);
@@ -186,29 +171,25 @@ export async function getPaymentsOverview(
       .from("milestones")
       .select("id, title")
       .in("id", milestoneIds);
-    milestoneLabels = new Map(
-      (milestoneRows ?? []).map((m) => [m.id, m.title]),
-    );
+    milestoneLabels = new Map((milestoneRows ?? []).map((m) => [m.id, m.title]));
   }
 
-  const recentTransactions: RecentTransaction[] = transactions
-    .slice(0, 4)
-    .map((t) => {
-      const isCredit = t.type === "milestone_release";
-      const label =
-        t.type === "withdrawal" ?
-          `Withdrawal — ${t.provider ?? "Payout"}`
-        : (milestoneLabels.get(t.milestone_id ?? "") ?? "Milestone Payment");
+  const recentTransactions: RecentTransaction[] = transactions.slice(0, 4).map((t) => {
+    const isCredit = t.type === "milestone_release";
+    const label =
+      t.type === "withdrawal" ?
+        `Withdrawal — ${t.provider ?? "Payout"}`
+      : (milestoneLabels.get(t.milestone_id ?? "") ?? "Milestone Payment");
 
-      return {
-        title: label,
-        meta: `${mapTransactionStatus(t.status as TransactionStatus)} · ${new Date(t.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`,
-        amount: formatCurrency(Number(t.net_amount), true)
-          .replace(/^(?!-)/, isCredit ? "+" : "-")
-          .replace(/^\+-/, "-"),
-        positive: isCredit,
-      };
-    });
+    const signedAmount = isCredit ? Number(t.net_amount) : -Number(t.gross_amount);
+
+    return {
+      title: label,
+      meta: `${mapTransactionStatus(t.status as TransactionStatus)} · ${new Date(t.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`,
+      amount: formatCurrency(signedAmount, true),
+      positive: isCredit,
+    };
+  });
 
   return {
     stats: {
@@ -222,16 +203,12 @@ export async function getPaymentsOverview(
   };
 }
 
-export async function getPaymentHistory(
-  freelancerId: string,
-): Promise<PaymentHistoryRow[]> {
+export async function getPaymentHistory(freelancerId: string): Promise<PaymentHistoryRow[]> {
   const supabase = createClient();
 
   const { data: transactions } = await supabase
     .from("transactions")
-    .select(
-      "id, type, gross_amount, fee_amount, net_amount, status, provider, created_at, milestone_id",
-    )
+    .select("id, type, gross_amount, fee_amount, net_amount, status, provider, created_at, milestone_id")
     .eq("user_id", freelancerId)
     .order("created_at", { ascending: false });
 
@@ -248,16 +225,11 @@ export async function getPaymentHistory(
       .select("id, title, contract_id")
       .in("id", milestoneIds);
     milestoneInfo = new Map(
-      (milestoneRows ?? []).map((m) => [
-        m.id,
-        { title: m.title, contractId: m.contract_id },
-      ]),
+      (milestoneRows ?? []).map((m) => [m.id, { title: m.title, contractId: m.contract_id }]),
     );
   }
 
-  const contractIds = Array.from(
-    new Set(Array.from(milestoneInfo.values()).map((m) => m.contractId)),
-  );
+  const contractIds = Array.from(new Set(Array.from(milestoneInfo.values()).map((m) => m.contractId)));
 
   let contractParty = new Map<string, string>();
   if (contractIds.length > 0) {
@@ -266,8 +238,7 @@ export async function getPaymentHistory(
       .select(
         `
         id,
-        profiles!contracts_employer_id_fkey ( full_name ),
-        employer_details!contracts_employer_id_fkey ( company_name )
+        profiles!contracts_employer_id_fkey ( full_name, employer_details ( company_name ) )
       `,
       )
       .in("id", contractIds);
@@ -275,10 +246,9 @@ export async function getPaymentHistory(
     contractParty = new Map(
       (contractRows ?? []).map((c) => {
         const profile = Array.isArray(c.profiles) ? c.profiles[0] : c.profiles;
-        const details =
-          Array.isArray(c.employer_details) ?
-            c.employer_details[0]
-          : c.employer_details;
+        const details = Array.isArray(profile?.employer_details)
+          ? profile.employer_details[0]
+          : profile?.employer_details;
         return [c.id, details?.company_name ?? profile?.full_name ?? "Client"];
       }),
     );
@@ -287,15 +257,12 @@ export async function getPaymentHistory(
   return transactions.map((t): PaymentHistoryRow => {
     const isWithdrawal = t.type === "withdrawal";
     const milestone = milestoneInfo.get(t.milestone_id ?? "");
-    const party =
-      isWithdrawal ? "TalentQ Wallet" : (
-        ((milestone ? contractParty.get(milestone.contractId) : undefined) ??
-        "Client")
-      );
+    const party = isWithdrawal
+      ? "TalentQ Wallet"
+      : (milestone ? contractParty.get(milestone.contractId) : undefined) ?? "Client";
 
-    const title =
-      isWithdrawal ?
-        `Withdrawal — ${t.provider ?? "Payout"}`
+    const title = isWithdrawal
+      ? `Withdrawal — ${t.provider ?? "Payout"}`
       : (milestone?.title ?? "Milestone Payment");
 
     const gross = Number(t.gross_amount);
@@ -307,8 +274,7 @@ export async function getPaymentHistory(
       party,
       gross: isWithdrawal ? formatCurrency(gross) : formatCurrency(gross, true),
       fee: fee > 0 ? `-${formatCurrency(fee)}` : "-",
-      received:
-        isWithdrawal ? `-${formatCurrency(net)}` : formatCurrency(net, true),
+      received: isWithdrawal ? `-${formatCurrency(gross)}` : formatCurrency(net, true),
       date: new Date(t.created_at).toLocaleDateString(undefined, {
         month: "short",
         day: "numeric",

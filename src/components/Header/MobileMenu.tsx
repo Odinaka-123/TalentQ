@@ -43,14 +43,14 @@ export default function MobileMenu({ navItems }: { navItems: NavItem[] }) {
 
           <div className="flex flex-col gap-3 mt-auto">
             <Link
-              href="/sign-in"
+              href="/login"
               onClick={() => setOpen(false)}
               className="w-full text-center rounded-full border border-[#D9CFC0] px-4 py-2.5 text-sm font-medium text-[#1F2A22]"
             >
               Sign in
             </Link>
             <Link
-              href="/join"
+              href="/signup"
               onClick={() => setOpen(false)}
               className="w-full flex items-center justify-center gap-1.5 rounded-full bg-[#C6543A] px-4 py-2.5 text-sm font-medium text-white"
             >

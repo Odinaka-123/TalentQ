@@ -1,55 +1,28 @@
+import "server-only";
+
 const PAYSTACK_BASE_URL = "https://api.paystack.co";
 
-function getSecretKey(): string {
-  const key = process.env.PAYSTACK_SECRET_KEY;
-  if (!key) throw new Error("PAYSTACK_SECRET_KEY is not set");
-  return key;
+function paystackHeaders() {
+  return {
+    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+    "Content-Type": "application/json",
+  };
 }
 
-async function paystackFetch(path: string, init?: RequestInit) {
-  const res = await fetch(`${PAYSTACK_BASE_URL}${path}`, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${getSecretKey()}`,
-      "Content-Type": "application/json",
-      ...init?.headers,
-    },
-    cache: "no-store",
-  });
-
-  const data = await res.json();
-
-  if (!res.ok || !data.status) {
-    throw new Error(data.message || "Paystack request failed");
-  }
-
-  return data;
-}
-
-export async function listBanks(): Promise<{ name: string; code: string }[]> {
-  const data = await paystackFetch("/bank?country=nigeria&perPage=100");
-  return (data.data ?? []).map((b: { name: string; code: string }) => ({
-    name: b.name,
-    code: b.code,
-  }));
-}
-
-export async function resolveAccount(accountNumber: string, bankCode: string) {
-  const params = new URLSearchParams({
-    account_number: accountNumber,
-    bank_code: bankCode,
-  });
-  const data = await paystackFetch(`/bank/resolve?${params.toString()}`);
-  return { accountName: data.data.account_name as string };
-}
+type PaystackResponse<T> = {
+  status: boolean;
+  message: string;
+  data: T;
+};
 
 export async function createTransferRecipient(params: {
   name: string;
   accountNumber: string;
   bankCode: string;
-}): Promise<string> {
-  const data = await paystackFetch("/transferrecipient", {
+}) {
+  const res = await fetch(`${PAYSTACK_BASE_URL}/transferrecipient`, {
     method: "POST",
+    headers: paystackHeaders(),
     body: JSON.stringify({
       type: "nuban",
       name: params.name,
@@ -58,48 +31,84 @@ export async function createTransferRecipient(params: {
       currency: "NGN",
     }),
   });
-  return data.data.recipient_code as string;
+
+  const json: PaystackResponse<{ recipient_code: string }> = await res.json();
+  if (!json.status)
+    throw new Error(json.message || "Failed to create recipient");
+  return json.data.recipient_code;
 }
 
-// Paystack's /transfer endpoint requires a Registered Business — Starter
-// businesses get a hard rejection ("You cannot initiate third party payouts
-// as a starter business") regardless of test/live mode. Setting
-// PAYSTACK_MOCK_TRANSFERS=true in .env.local bypasses the real call so the
-// rest of the withdrawal flow (fee math, balance deduction, transaction
-// history) can still be built and demoed without a completed business
-// verification. Never set this in a real production environment.
 export async function initiateTransfer(params: {
-  amount: number; // in naira, converted to kobo here
+  amount: number; // in the smallest currency unit (kobo)
   recipientCode: string;
   reference: string;
   reason?: string;
 }) {
-  if (process.env.PAYSTACK_MOCK_TRANSFERS === "true") {
-    console.warn(
-      "[paystack] PAYSTACK_MOCK_TRANSFERS is enabled — skipping real transfer call for reference:",
-      params.reference,
-    );
-    return {
-      id: Math.floor(Math.random() * 1_000_000),
-      reference: params.reference,
-      recipient: params.recipientCode,
-      amount: Math.round(params.amount * 100),
-      reason: params.reason ?? "TalentQ withdrawal",
-      status: "success",
-      currency: "NGN",
-      source: "balance",
-    };
-  }
-
-  const data = await paystackFetch("/transfer", {
+  const res = await fetch(`${PAYSTACK_BASE_URL}/transfer`, {
     method: "POST",
+    headers: paystackHeaders(),
     body: JSON.stringify({
       source: "balance",
-      amount: Math.round(params.amount * 100),
+      amount: params.amount,
       recipient: params.recipientCode,
       reference: params.reference,
       reason: params.reason ?? "TalentQ withdrawal",
     }),
   });
-  return data.data;
+
+  const json: PaystackResponse<{
+    transfer_code: string;
+    reference: string;
+    status: string;
+  }> = await res.json();
+
+  if (!json.status)
+    throw new Error(json.message || "Failed to initiate transfer");
+  return json.data;
+}
+
+export async function initializeTransaction(params: {
+  email: string;
+  amount: number; // kobo
+  reference: string;
+  callbackUrl: string;
+  metadata?: Record<string, unknown>;
+}) {
+  const res = await fetch(`${PAYSTACK_BASE_URL}/transaction/initialize`, {
+    method: "POST",
+    headers: paystackHeaders(),
+    body: JSON.stringify({
+      email: params.email,
+      amount: params.amount,
+      reference: params.reference,
+      callback_url: params.callbackUrl,
+      metadata: params.metadata,
+    }),
+  });
+
+  const json: PaystackResponse<{
+    authorization_url: string;
+    reference: string;
+  }> = await res.json();
+  if (!json.status)
+    throw new Error(json.message || "Failed to initialize transaction");
+  return json.data;
+}
+
+export async function verifyTransaction(reference: string) {
+  const res = await fetch(
+    `${PAYSTACK_BASE_URL}/transaction/verify/${reference}`,
+    {
+      headers: paystackHeaders(),
+    },
+  );
+
+  const json: PaystackResponse<{
+    status: string;
+    amount: number;
+    reference: string;
+  }> = await res.json();
+  if (!json.status)
+    throw new Error(json.message || "Failed to verify transaction");
+  return json.data;
 }

@@ -1,123 +1,118 @@
-import { ArrowUpRight, ArrowDownLeft, CheckCircle2 } from "lucide-react";
+"use client";
 
-type Transaction = {
-  title: string;
-  party: string;
-  gross: string;
-  fee: string;
-  received: string;
-  date: string;
-  status: "Completed" | "Pending" | "Failed";
-  direction: "in" | "out";
+import { useEffect, useState } from "react";
+import { ArrowDownLeft, CheckCircle2, Clock, XCircle } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import {
+  getEmployerPaymentHistory,
+  type EmployerTransaction,
+} from "@/lib/queries/employer-payment-history";
+
+const statusStyles: Record<
+  EmployerTransaction["status"],
+  { bg: string; color: string; icon: typeof CheckCircle2; label: string }
+> = {
+  completed: { bg: "#D8E7DE", color: "#3E8E5A", icon: CheckCircle2, label: "Completed" },
+  pending: { bg: "#F2DFC8", color: "#DE814A", icon: Clock, label: "Pending" },
+  failed: { bg: "#F7DADA", color: "#C6543A", icon: XCircle, label: "Failed" },
 };
 
-const transactions: Transaction[] = [
-  {
-    title: "Milestone 2 — Dashboard Module",
-    party: "Henrieta Ebiuwa",
-    gross: "+$1,350",
-    fee: "-$150",
-    received: "+$1,350",
-    date: "Jul 28, 2026",
-    status: "Completed",
-    direction: "in",
-  },
-  {
-    title: "Milestone 1 — UX Audit",
-    party: "Chidi Okonkwo",
-    gross: "$875",
-    fee: "-$87.5",
-    received: "+$787.5",
-    date: "Jul 15, 2026",
-    status: "Completed",
-    direction: "in",
-  },
-  {
-    title: "Withdrawal — Paystack",
-    party: "TalentQ Wallet",
-    gross: "$1,000",
-    fee: "-",
-    received: "-$1,000",
-    date: "Jul 10, 2026",
-    status: "Completed",
-    direction: "out",
-  },
-  {
-    title: "Milestone 3 — Frontend Sprint",
-    party: "Amara Diallo",
-    gross: "$1,500",
-    fee: "-$150",
-    received: "-$1,000",
-    date: "Jun 30, 2026",
-    status: "Completed",
-    direction: "in",
-  },
-];
-
 export default function EmployerPaymentHistory() {
+  const supabase = createClient();
+  const [loading, setLoading] = useState(true);
+  const [transactions, setTransactions] = useState<EmployerTransaction[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+      const result = await getEmployerPaymentHistory(user.id);
+      setTransactions(result);
+      setLoading(false);
+    };
+    load();
+  }, [supabase]);
+
+  if (loading) {
+    return <div className="rounded-2xl bg-white h-64 animate-pulse" />;
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded-2xl border border-[#E8A47E] bg-[#FBF0E4] px-5 py-4">
         <p className="text-sm text-[#1F2A22]">
-          All fees shown at the 10% TalentQ service rate. Withdrawal
-          transactions carry no additional fee.
+          All fees shown at the 10% TalentQ service rate.
         </p>
       </div>
 
-      <div className="rounded-2xl border border-[#E5E0D6] bg-white overflow-x-auto">
-        <table className="w-full min-w-160 text-sm">
-          <thead>
-            <tr className="border-b border-[#EFEBE2] text-left text-xs text-[#8A8A7E]">
-              <th className="px-5 sm:px-6 py-4 font-medium">Transaction</th>
-              <th className="px-4 py-4 font-medium">From / To</th>
-              <th className="px-4 py-4 font-medium">Gross</th>
-              <th className="px-4 py-4 font-medium">Platform Fee (10%)</th>
-              <th className="px-4 py-4 font-medium">Received</th>
-              <th className="px-4 py-4 font-medium">Date</th>
-              <th className="px-5 sm:px-6 py-4 font-medium">Status</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#EFEBE2]">
-            {transactions.map((t, i) => (
-              <tr key={i}>
-                <td className="px-5 sm:px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 ${
-                        t.direction === "in" ? "bg-[#D8E7DE]" : "bg-[#F2E4D4]"
-                      }`}
-                    >
-                      {t.direction === "in" ?
-                        <ArrowUpRight size={14} className="text-[#3E8E5A]" />
-                      : <ArrowDownLeft size={14} className="text-[#B9862F]" />}
-                    </div>
-                    <span className="text-[#1F2A22]">{t.title}</span>
-                  </div>
-                </td>
-                <td className="px-4 py-4 text-[#5C5347]">{t.party}</td>
-                <td className="px-4 py-4 text-[#1F2A22]">{t.gross}</td>
-                <td className="px-4 py-4 text-[#C6543A]">{t.fee}</td>
-                <td
-                  className={`px-4 py-4 font-medium ${
-                    t.received.startsWith("-") ?
-                      "text-[#C6543A]"
-                    : "text-[#3E8E5A]"
-                  }`}
-                >
-                  {t.received}
-                </td>
-                <td className="px-4 py-4 text-[#8A8A7E]">{t.date}</td>
-                <td className="px-5 sm:px-6 py-4">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#D8E7DE] px-2.5 py-1 text-xs text-[#3E8E5A]">
-                    <CheckCircle2 size={12} />
-                    {t.status}
-                  </span>
-                </td>
+      {transactions.length === 0 ?
+        <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
+          No payments yet.
+        </div>
+      : <div className="rounded-2xl border border-[#E5E0D6] bg-white overflow-x-auto">
+          <table className="w-full min-w-160 text-sm">
+            <thead>
+              <tr className="border-b border-[#EFEBE2] text-left text-xs text-[#8A8A7E]">
+                <th className="px-5 sm:px-6 py-4 font-medium">Transaction</th>
+                <th className="px-4 py-4 font-medium">To</th>
+                <th className="px-4 py-4 font-medium">Gross</th>
+                <th className="px-4 py-4 font-medium">Platform Fee</th>
+                <th className="px-4 py-4 font-medium">Net</th>
+                <th className="px-4 py-4 font-medium">Date</th>
+                <th className="px-5 sm:px-6 py-4 font-medium">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="divide-y divide-[#EFEBE2]">
+              {transactions.map((t) => {
+                const style = statusStyles[t.status];
+                return (
+                  <tr key={t.id}>
+                    <td className="px-5 sm:px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#F2E4D4] shrink-0">
+                          <ArrowDownLeft size={14} className="text-[#B9862F]" />
+                        </div>
+                        <span className="text-[#1F2A22]">{t.title}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 text-[#5C5347]">{t.freelancerName}</td>
+                    <td className="px-4 py-4 text-[#1F2A22]">
+                      ${t.gross.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-4 text-[#C6543A]">
+                      -${t.fee.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-4 font-medium text-[#1F2A22]">
+                      ${t.net.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-4 text-[#8A8A7E]">
+                      {new Date(t.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="px-5 sm:px-6 py-4">
+                      <span
+                        className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs"
+                        style={{ backgroundColor: style.bg, color: style.color }}
+                      >
+                        <style.icon size={12} />
+                        {style.label}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      }
     </div>
   );
 }

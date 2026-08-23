@@ -1,15 +1,10 @@
-import VerificationHero from "./components/VerificationHero";
-import StatsStrip from "./components/StatsStrip";
-import VerificationSteps from "./components/VerificationSteps";
-import TrustBadgesEarned from "./components/TrustBadgesEarned";
+import { Suspense } from "react";
+import VerificationClient from "./components/VerificationClient";
 
 export default function EmployerVerificationPage() {
   return (
-    <div>
-      <VerificationHero />
-      <StatsStrip />
-      <VerificationSteps />
-      <TrustBadgesEarned />
-    </div>
+    <Suspense fallback={null}>
+      <VerificationClient />
+    </Suspense>
   );
 }

@@ -75,6 +75,7 @@ export default function EmployerProfilePage() {
   return (
     <div>
       <ProfileHeader
+        userId={userId}
         profile={data.profile}
         details={data.details}
         onEdit={() => setEditOpen(true)}
