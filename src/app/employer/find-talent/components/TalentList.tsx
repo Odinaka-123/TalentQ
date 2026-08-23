@@ -1,52 +1,59 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  getAvailableTalent,
+  type TalentListing,
+} from "@/lib/queries/talent-directory";
 import TalentCard from "./TalentCard";
 
-const talents = [
-  {
-    href: "/employer/candidates/henrieta-ebiuwa",
-    matchScore: 94,
-    name: "Henrieta Ebiuwa",
-    status: "Available" as const,
-    location: "Lagos Nigeria",
-    availability: "6+ months",
-    proposals: 12,
-    skills: ["Typescript", "Node.js", "React", "GraphQL"],
-    rate: "$45",
-    rateUnit: "h",
-    level: "Expert" as const,
-  },
-  {
-    href: "/employer/candidates/chidi-okonkwo",
-    matchScore: 87,
-    name: "Chidi Okonkwo",
-    status: "Available" as const,
-    location: "Nigeria",
-    availability: "5h ago",
-    proposals: 7,
-    skills: ["Prototyping", "User Research", "Figma"],
-    rate: "$38",
-    rateUnit: "hr",
-    level: "Intermediate" as const,
-  },
-  {
-    href: "/employer/candidates/fatima-zahra",
-    matchScore: 79,
-    name: "Fatima Zahra",
-    status: "Available" as const,
-    location: "Morocco",
-    availability: "Ongoing",
-    proposals: 21,
-    skills: ["Content Writing", "Research", "SEO"],
-    rate: "$300-500",
-    rateUnit: "",
-    level: "Beginner" as const,
-  },
-];
+export default function TalentList({ search }: { search: string }) {
+  const [loading, setLoading] = useState(true);
+  const [talent, setTalent] = useState<TalentListing[]>([]);
 
-export default function TalentList() {
+  useEffect(() => {
+    const load = async () => {
+      const result = await getAvailableTalent();
+      setTalent(result);
+      setLoading(false);
+    };
+    load();
+  }, []);
+
+  const filtered =
+    search.trim() === "" ?
+      talent
+    : talent.filter((t) => {
+        const q = search.toLowerCase();
+        return (
+          t.name.toLowerCase().includes(q) ||
+          t.headline.toLowerCase().includes(q) ||
+          t.skills.some((s) => s.toLowerCase().includes(q))
+        );
+      });
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="h-32 rounded-2xl bg-white animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
+  if (filtered.length === 0) {
+    return (
+      <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
+        No talent found.
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      {talents.map((talent) => (
-        <TalentCard key={talent.href} {...talent} />
+      {filtered.map((t) => (
+        <TalentCard key={t.freelancerId} {...t} />
       ))}
     </div>
   );
