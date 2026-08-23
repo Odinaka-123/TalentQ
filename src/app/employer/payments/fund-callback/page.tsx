@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Loader2, CheckCircle2, XCircle } from "lucide-react";
 
-export default function FundCallbackPage() {
+function FundCallbackContent() {
   const params = useSearchParams();
   const router = useRouter();
   const reference = params.get("reference");
@@ -63,5 +63,20 @@ export default function FundCallbackPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function FundCallbackPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <Loader2 size={28} className="animate-spin text-[#DE814A] mb-3" />
+          <p className="text-sm text-[#8A8A7E]">Loading…</p>
+        </div>
+      }
+    >
+      <FundCallbackContent />
+    </Suspense>
   );
 }
