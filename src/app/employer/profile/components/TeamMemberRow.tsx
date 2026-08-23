@@ -1,4 +1,4 @@
-import { MoreVertical } from "lucide-react";
+import { X } from "lucide-react";
 
 type TeamMemberRowProps = {
   initials: string;
@@ -6,6 +6,7 @@ type TeamMemberRowProps = {
   name: string;
   role: string;
   status: "Active" | "Pending" | "Inactive";
+  onRemove?: () => void;
 };
 
 const statusStyles: Record<TeamMemberRowProps["status"], string> = {
@@ -20,6 +21,7 @@ export default function TeamMemberRow({
   name,
   role,
   status,
+  onRemove,
 }: TeamMemberRowProps) {
   return (
     <div className="flex items-center gap-3 py-4">
@@ -41,13 +43,16 @@ export default function TeamMemberRow({
         {status}
       </span>
 
-      <button
-        type="button"
-        aria-label={`Options for ${name}`}
-        className="text-[#8A8A7E] hover:text-[#1F2A22] p-1 shrink-0"
-      >
-        <MoreVertical size={16} />
-      </button>
+      {onRemove && (
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label={`Remove ${name}`}
+          className="text-[#8A8A7E] hover:text-[#C6543A] p-1 shrink-0"
+        >
+          <X size={16} />
+        </button>
+      )}
     </div>
   );
 }
