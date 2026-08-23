@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const result = await resolveAccount(accountNumber, bankCode);
+    const result = await resolveAccount({ accountNumber, bankCode });
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(
