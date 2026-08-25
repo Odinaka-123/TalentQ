@@ -1,3 +1,7 @@
+"use client";
+
+import { motion, type Variants } from "framer-motion";
+
 type Card = {
   label: string;
   heading?: string;
@@ -31,17 +35,55 @@ const cards: Card[] = [
   },
 ];
 
+const container: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const column: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const pill: Variants = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1], delay: 0.1 },
+  },
+};
+
 export default function MissionVisionValues() {
   return (
     <section className="w-full flex justify-center px-4 pb-6">
-      <div className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+        className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-4"
+      >
         {cards.map((card) => (
-          <div key={card.label} className="flex flex-col gap-3">
-            <div className="rounded-full border border-[#DE814A] bg-white px-4 py-3">
+          <motion.div key={card.label} variants={column} className="flex flex-col gap-3">
+            <motion.div
+              variants={pill}
+              className="rounded-full border border-[#DE814A] bg-white px-4 py-3"
+            >
               <h3 className="text-base sm:text-lg font-bold text-[#C6543A] text-center">
                 {card.label}
               </h3>
-            </div>
+            </motion.div>
 
             <div className="flex-1 rounded-[28px] border border-[#DE814A] bg-[#1B3A2F] px-5 py-6">
               <p className="text-sm font-bold text-[#DE814A] mb-3">
@@ -64,9 +106,9 @@ export default function MissionVisionValues() {
                 </ul>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }
