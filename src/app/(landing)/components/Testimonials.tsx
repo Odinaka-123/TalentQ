@@ -6,21 +6,21 @@ const testimonials = [
       "Got my first contract 9 days after signing up. The escrow made my client comfortable paying upfront.",
     name: "Shola",
     role: "Graphic Designer, Lagos",
-    avatar: "/images/testimonials/shola.png",
+    avatar: "/Images/testimonials/shola.png",
   },
   {
     quote:
       "I could finally tell who was real. Verified badges saved me from two listings that looked fake.",
     name: "Felicia Chidi",
     role: "Small business owner, Abuja",
-    avatar: "/images/testimonials/felicia.png",
+    avatar: "/Images/testimonials/felicia.png",
   },
   {
     quote:
       "Milestone payments meant I didn't have to chase anyone for money halfway through the project.",
     name: "Koffi Angela",
     role: "Full Stack Developer, Accra",
-    avatar: "/images/testimonials/koffi.png",
+    avatar: "/Images/testimonials/koffi.png",
   },
 ];
 
