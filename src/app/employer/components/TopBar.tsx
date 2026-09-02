@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 import { Menu, Search, Bell, Mail, Plus } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import {
+  getNotifications,
+  markNotificationRead,
+  markAllNotificationsRead,
+  subscribeToNotifications,
+  type Notification,
+} from "@/lib/queries/notifications";
+import NotificationsPanel from "./NotificationsPanel";
 
 interface TopBarProps {
   onMenuClick: () => void;
@@ -14,7 +22,14 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
   const pathname = usePathname();
   const supabase = createClient();
   const [greetingName, setGreetingName] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
   const isPostJobActive = pathname.startsWith("/employer/post-job");
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifLoading, setNotifLoading] = useState(true);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   useEffect(() => {
     const loadUser = async () => {
@@ -24,6 +39,8 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
 
       if (!user) return;
 
+      setUserId(user.id);
+
       const { data: profile } = await supabase
         .from("profiles")
         .select("full_name")
@@ -31,10 +48,41 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
         .single();
 
       setGreetingName(profile?.full_name ?? "there");
+
+      const notifs = await getNotifications(user.id);
+      setNotifications(notifs);
+      setNotifLoading(false);
     };
 
     loadUser();
-  }, [supabase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const unsubscribe = subscribeToNotifications(userId, (notification) => {
+      setNotifications((prev) => [notification, ...prev]);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [userId]);
+
+  const handleMarkAllRead = async () => {
+    if (!userId) return;
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    await markAllNotificationsRead(userId);
+  };
+
+  const handleSelectNotification = async (notification: Notification) => {
+    if (notification.read) return;
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === notification.id ? { ...n, read: true } : n)),
+    );
+    await markNotificationRead(notification.id);
+  };
 
   return (
     <header className="bg-[#F5F1E9] px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 pb-4">
@@ -58,12 +106,32 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <button
-            aria-label="Notifications"
-            className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5"
-          >
-            <Bell size={17} />
-          </button>
+          <div className="relative hidden sm:block">
+            <button
+              onClick={() => setPanelOpen((open) => !open)}
+              aria-label="Notifications"
+              aria-expanded={panelOpen}
+              className="relative flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5"
+            >
+              <Bell size={17} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#C6543A] text-white text-[10px] font-medium flex items-center justify-center">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              )}
+            </button>
+
+            {panelOpen && (
+              <NotificationsPanel
+                notifications={notifications}
+                loading={notifLoading}
+                onClose={() => setPanelOpen(false)}
+                onMarkAllRead={handleMarkAllRead}
+                onSelect={handleSelectNotification}
+              />
+            )}
+          </div>
+
           <button
             onClick={() => router.push("/employer/messages")}
             aria-label="Messages"

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import type { PipelineStatus } from "./candidates";
 
 export type CandidateDetail = {
@@ -62,7 +62,7 @@ function firstOrSelf<T>(value: T | T[] | null | undefined): T | null {
 export async function getCandidateDetail(
   applicationId: string,
 ): Promise<CandidateDetail | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: application, error: appError } = await supabase
     .from("applications")

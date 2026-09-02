@@ -1,30 +1,88 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Send, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import {
   getConversations,
   getMessages,
   sendMessage,
+  deleteMessage,
+  toggleReaction,
   markConversationRead,
+  getOtherParticipantLastRead,
   subscribeToMessages,
+  subscribeToReactions,
+  subscribeToReadReceipts,
   type ConversationSummary,
   type ChatMessage,
 } from "@/lib/queries/messages";
 import Avatar from "@/components/Avatar";
+import MessageBubble from "@/components/messaging/MessageBubble";
+
+function hasReaction(
+  messages: ChatMessage[],
+  messageId: string,
+  userId: string,
+  emoji: string,
+): boolean {
+  const message = messages.find((m) => m.id === messageId);
+  return (
+    message?.reactions.some((r) => r.userId === userId && r.emoji === emoji) ??
+    false
+  );
+}
+
+function applyReactionChange(
+  messages: ChatMessage[],
+  change: {
+    type: "INSERT" | "DELETE";
+    messageId: string;
+    userId: string;
+    emoji: string;
+  },
+): ChatMessage[] {
+  return messages.map((m) => {
+    if (m.id !== change.messageId) return m;
+
+    if (change.type === "INSERT") {
+      const alreadyHas = m.reactions.some(
+        (r) => r.userId === change.userId && r.emoji === change.emoji,
+      );
+      if (alreadyHas) return m;
+      return {
+        ...m,
+        reactions: [...m.reactions, { userId: change.userId, emoji: change.emoji }],
+      };
+    }
+
+    return {
+      ...m,
+      reactions: m.reactions.filter(
+        (r) => !(r.userId === change.userId && r.emoji === change.emoji),
+      ),
+    };
+  });
+}
 
 export default function EmployerMessagesPage() {
   const supabase = createClient();
+  const searchParams = useSearchParams();
+  const conversationParam = searchParams.get("conversation");
+
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
+  const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
+  const [otherLastReadAt, setOtherLastReadAt] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const active = conversations.find((c) => c.id === activeId);
+  const messageById = new Map(messages.map((m) => [m.id, m]));
 
   useEffect(() => {
     const init = async () => {
@@ -40,37 +98,81 @@ export default function EmployerMessagesPage() {
       setUserId(user.id);
       const convos = await getConversations(user.id);
       setConversations(convos);
-      if (convos.length > 0) setActiveId(convos[0].id);
+
+      if (conversationParam && convos.some((c) => c.id === conversationParam)) {
+        setActiveId(conversationParam);
+      } else if (convos.length > 0) {
+        setActiveId(convos[0].id);
+      }
+
       setLoading(false);
     };
 
     init();
-  }, [supabase]);
+  }, [supabase, conversationParam]);
 
   useEffect(() => {
     if (!activeId || !userId) return;
 
-    let unsubscribe: (() => void) | undefined;
+    let unsubscribeMessages: (() => void) | undefined;
+    let unsubscribeReads: (() => void) | undefined;
 
     const loadThread = async () => {
       const msgs = await getMessages(activeId);
       setMessages(msgs);
+      setReplyingTo(null);
       await markConversationRead(activeId, userId);
       setConversations((prev) =>
         prev.map((c) => (c.id === activeId ? { ...c, unread: false } : c)),
       );
 
-      unsubscribe = subscribeToMessages(activeId, (newMessage) => {
-        setMessages((prev) => [...prev, newMessage]);
+      const otherUserId = active?.otherUserId;
+      if (otherUserId) {
+        const lastRead = await getOtherParticipantLastRead(
+          activeId,
+          otherUserId,
+        );
+        setOtherLastReadAt(lastRead);
+      }
+
+      unsubscribeMessages = subscribeToMessages(activeId, {
+        onInsert: (newMessage) => {
+          setMessages((prev) => [...prev, newMessage]);
+        },
+        onUpdate: (updatedMessage) => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === updatedMessage.id ?
+                { ...m, ...updatedMessage, reactions: m.reactions }
+                : m,
+            ),
+          );
+        },
+      });
+
+      unsubscribeReads = subscribeToReadReceipts(activeId, (lastReadAt) => {
+        setOtherLastReadAt(lastReadAt);
       });
     };
 
     loadThread();
 
     return () => {
-      unsubscribe?.();
+      unsubscribeMessages?.();
+      unsubscribeReads?.();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, userId]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToReactions((change) => {
+      setMessages((prev) => applyReactionChange(prev, change));
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -81,8 +183,31 @@ export default function EmployerMessagesPage() {
     if (!text || !activeId || !userId) return;
 
     setDraft("");
-    await sendMessage(activeId, userId, text);
-    // Realtime subscription above will append it — no need to update state manually here
+    const replyId = replyingTo?.id ?? null;
+    setReplyingTo(null);
+    await sendMessage(activeId, userId, text, replyId);
+  };
+
+  const handleDelete = async (messageId: string) => {
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.id === messageId ?
+          { ...m, deletedAt: new Date().toISOString() }
+          : m,
+      ),
+    );
+    await deleteMessage(messageId);
+  };
+
+  const handleReact = async (messageId: string, emoji: string) => {
+    if (!userId) return;
+    const type = hasReaction(messages, messageId, userId, emoji)
+      ? "DELETE"
+      : "INSERT";
+    setMessages((prev) =>
+      applyReactionChange(prev, { type, messageId, userId, emoji }),
+    );
+    await toggleReaction(messageId, userId, emoji);
   };
 
   if (loading) {
@@ -182,28 +307,50 @@ export default function EmployerMessagesPage() {
             <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3 bg-[#F5F1E9]/40">
               {messages.map((m) => {
                 const isMe = m.senderId === userId;
+                const seen =
+                  isMe && !!otherLastReadAt &&
+                  new Date(otherLastReadAt) >= new Date(m.createdAt);
+                const replyToMessage = m.replyToMessageId
+                  ? messageById.get(m.replyToMessageId) ?? null
+                  : null;
+
                 return (
-                  <div
+                  <MessageBubble
                     key={m.id}
-                    className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${isMe ?
-                        "bg-[#A8531E] text-white self-end rounded-br-md"
-                        : "bg-white text-[#1B3A2F] border border-black/5 self-start rounded-bl-md"
-                      }`}
-                  >
-                    <p>{m.content}</p>
-                    <p
-                      className={`text-[10px] mt-1 ${isMe ? "text-white/70" : "text-[#9AA79F]"}`}
-                    >
-                      {new Date(m.createdAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                  </div>
+                    message={m}
+                    isMe={isMe}
+                    currentUserId={userId ?? ""}
+                    replyToMessage={replyToMessage}
+                    seen={seen}
+                    onReply={setReplyingTo}
+                    onDelete={handleDelete}
+                    onReact={handleReact}
+                  />
                 );
               })}
               <div ref={messagesEndRef} />
             </div>
+
+            {replyingTo && (
+              <div className="flex items-center justify-between gap-2 px-4 py-2 border-t border-black/5 bg-[#F5F1E9]">
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-medium text-[#A8531E]">
+                    Replying to
+                  </p>
+                  <p className="text-xs text-[#6B7A73] truncate">
+                    {replyingTo.content}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setReplyingTo(null)}
+                  aria-label="Cancel reply"
+                  className="shrink-0 p-1 rounded-full hover:bg-black/5 text-[#6B7A73]"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            )}
 
             <div className="flex items-center gap-2 px-4 py-3 border-t border-black/5">
               <input
