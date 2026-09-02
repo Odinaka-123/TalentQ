@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 
+const MotionLink = motion.create(Link);
+
 const container: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -66,16 +68,15 @@ export default function CtaBanner() {
           </motion.p>
 
           <motion.div variants={button}>
-            <Link href="/join" passHref legacyBehavior>
-              <motion.a
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.15 }}
-                className="mt-8 inline-block rounded-sm bg-[#A8531E] px-10 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
-              >
-                Join us
-              </motion.a>
-            </Link>
+            <MotionLink
+              href="/join"
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.15 }}
+              className="mt-8 inline-block rounded-sm bg-[#A8531E] px-10 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
+            >
+              Join us
+            </MotionLink>
           </motion.div>
         </motion.div>
       </motion.div>

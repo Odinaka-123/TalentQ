@@ -8,6 +8,7 @@ import {
   getNotifications,
   markNotificationRead,
   markAllNotificationsRead,
+  subscribeToNotifications,
   type Notification,
 } from "@/lib/queries/notifications";
 import NotificationsPanel from "./NotificationsPanel";
@@ -78,6 +79,18 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
     loadUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const unsubscribe = subscribeToNotifications(userId, (notification) => {
+      setNotifications((prev) => [notification, ...prev]);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [userId]);
 
   const handleMarkAllRead = async () => {
     if (!userId) return;

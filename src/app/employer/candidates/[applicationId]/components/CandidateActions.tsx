@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, Loader2 } from "lucide-react";
-import {
-  updateApplicationStatus,
-  type PipelineStatus,
-} from "@/lib/queries/candidates";
+import { createClient } from "@/lib/supabase/client";
+import { getOrCreateConversation } from "@/lib/queries/messages";
+import type { PipelineStatus } from "@/lib/queries/candidates";
 import type { CandidateDetail } from "@/lib/queries/candidate-detail";
 
 type CandidateActionsProps = {
@@ -20,6 +19,7 @@ export default function CandidateActions({
 }: CandidateActionsProps) {
   const router = useRouter();
   const [inviting, setInviting] = useState(false);
+  const [messaging, setMessaging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const alreadyInvited = candidate.status !== "Applied";
@@ -28,12 +28,41 @@ export default function CandidateActions({
     setInviting(true);
     setError(null);
     try {
-      await updateApplicationStatus(candidate.applicationId, "Invited");
+      const res = await fetch("/api/employer/candidates/invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ applicationId: candidate.applicationId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Couldn't send invite");
       onStatusChange("Invited");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't send invite");
     } finally {
       setInviting(false);
+    }
+  };
+
+  const handleMessage = async () => {
+    setMessaging(true);
+    setError(null);
+    try {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not signed in");
+
+      const conversationId = await getOrCreateConversation(
+        user.id,
+        candidate.freelancerId,
+      );
+      router.push(`/employer/messages?conversation=${conversationId}`);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Couldn't open conversation",
+      );
+      setMessaging(false);
     }
   };
 
@@ -52,13 +81,11 @@ export default function CandidateActions({
           </button>
           <button
             type="button"
-            onClick={() =>
-              router.push(
-                `/employer/messages?conversation=${candidate.freelancerId}`,
-              )
-            }
-            className="rounded-full border border-[#DE814A] px-4 py-2 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors"
+            onClick={handleMessage}
+            disabled={messaging}
+            className="flex items-center gap-2 rounded-full border border-[#DE814A] px-4 py-2 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors disabled:opacity-60"
           >
+            {messaging && <Loader2 size={14} className="animate-spin" />}
             Send message
           </button>
         </div>
