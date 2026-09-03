@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Search,
-  User,
+  Mail,
   BarChart2,
   CreditCard,
   ShieldCheck,
@@ -22,7 +22,7 @@ import Avatar from "@/components/Avatar";
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/find-jobs", label: "Find Jobs", icon: Search },
-  { href: "/profile", label: "Profile", icon: User },
+  { href: "/messages", label: "Messages", icon: Mail },
   { href: "/analytics", label: "Analytics", icon: BarChart2 },
   { href: "/payments", label: "Payments", icon: CreditCard },
   { href: "/verification", label: "Verification", icon: ShieldCheck },

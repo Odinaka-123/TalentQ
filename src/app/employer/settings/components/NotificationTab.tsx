@@ -1,6 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import {
+  getNotificationPreferences,
+  updateNotificationPreference,
+  DEFAULT_PREFERENCES,
+  type PreferenceColumn,
+} from "@/lib/queries/notification-preferences";
 import ToggleRow from "./ToggleRow";
 
 type ToggleKey =
@@ -12,6 +19,17 @@ type ToggleKey =
   | "weeklyDigest"
   | "marketingTips"
   | "notificationSounds";
+
+const KEY_TO_COLUMN: Record<ToggleKey, PreferenceColumn> = {
+  newAiMatch: "ai_match",
+  newMessage: "new_message",
+  milestoneUpdates: "milestone_updates",
+  newApplication: "application_updates",
+  newReview: "review",
+  weeklyDigest: "weekly_digest",
+  marketingTips: "marketing_tips",
+  notificationSounds: "notification_sounds",
+};
 
 const inAppItems: { key: ToggleKey; title: string; description: string }[] = [
   {
@@ -42,19 +60,58 @@ const inAppItems: { key: ToggleKey; title: string; description: string }[] = [
 ];
 
 export default function NotificationTab() {
+  const supabase = createClient();
+  const [userId, setUserId] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
   const [toggles, setToggles] = useState<Record<ToggleKey, boolean>>({
-    newAiMatch: true,
-    newMessage: true,
-    milestoneUpdates: true,
-    newApplication: true,
-    newReview: false,
-    weeklyDigest: true,
-    marketingTips: false,
-    notificationSounds: true,
+    newAiMatch: DEFAULT_PREFERENCES.ai_match,
+    newMessage: DEFAULT_PREFERENCES.new_message,
+    milestoneUpdates: DEFAULT_PREFERENCES.milestone_updates,
+    newApplication: DEFAULT_PREFERENCES.application_updates,
+    newReview: DEFAULT_PREFERENCES.review,
+    weeklyDigest: DEFAULT_PREFERENCES.weekly_digest,
+    marketingTips: DEFAULT_PREFERENCES.marketing_tips,
+    notificationSounds: DEFAULT_PREFERENCES.notification_sounds,
   });
+
+  useEffect(() => {
+    const load = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      setUserId(user.id);
+      setEmail(user.email ?? "");
+
+      const prefs = await getNotificationPreferences(user.id);
+      setToggles({
+        newAiMatch: prefs.ai_match,
+        newMessage: prefs.new_message,
+        milestoneUpdates: prefs.milestone_updates,
+        newApplication: prefs.application_updates,
+        newReview: prefs.review,
+        weeklyDigest: prefs.weekly_digest,
+        marketingTips: prefs.marketing_tips,
+        notificationSounds: prefs.notification_sounds,
+      });
+    };
+
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setToggle = (key: ToggleKey, value: boolean) => {
     setToggles((prev) => ({ ...prev, [key]: value }));
+    if (userId) {
+      updateNotificationPreference(userId, KEY_TO_COLUMN[key], value).catch(
+        () => {
+          // revert on failure
+          setToggles((prev) => ({ ...prev, [key]: !value }));
+        },
+      );
+    }
   };
 
   return (
@@ -84,7 +141,9 @@ export default function NotificationTab() {
         <h3 className="text-base font-semibold text-[#1F2A22]">
           Email Notifications
         </h3>
-        <p className="text-xs text-[#8A8A7E] mb-2">Sent to henny@email.com</p>
+        <p className="text-xs text-[#8A8A7E] mb-2">
+          {email ? `Sent to ${email}` : "Loading…"}
+        </p>
 
         <div className="flex flex-col divide-y divide-[#EFEBE2]">
           <ToggleRow

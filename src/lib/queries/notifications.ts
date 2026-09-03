@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { PreferenceColumn } from "@/lib/queries/notification-preferences";
 
 export type Notification = {
   id: string;
@@ -12,6 +13,18 @@ export type Notification = {
 };
 
 const RECENT_LIMIT = 20;
+
+const TYPE_TO_PREFERENCE_COLUMN: Record<string, PreferenceColumn> = {
+  message: "new_message",
+  contract_created: "milestone_updates",
+  milestone_funded: "milestone_updates",
+  invited: "application_updates",
+  application_interviewing: "application_updates",
+  application_offer_sent: "application_updates",
+  application_hired: "application_updates",
+  application_rejected: "application_updates",
+  application_submitted: "application_updates",
+};
 
 export async function getNotifications(
   userId: string,
@@ -92,6 +105,11 @@ export function subscribeToNotifications(
  * where user_id matches the caller, this only ever works for creating a
  * notification for yourself, which matches every current use case
  * (e.g. the withdraw route notifying the same user who triggered it).
+ *
+ * Before inserting, checks the recipient's notification_preferences row
+ * (if one exists) for the category this notification type maps to, and
+ * silently skips the insert if that category is turned off. Types with no
+ * mapping (e.g. features without a preference toggle yet) always send.
  */
 export async function createNotification(
   supabase: SupabaseClient,
@@ -103,6 +121,19 @@ export async function createNotification(
     link?: string;
   },
 ): Promise<void> {
+  const column = TYPE_TO_PREFERENCE_COLUMN[params.type];
+
+  if (column) {
+    const { data: pref } = await supabase
+      .from("notification_preferences")
+      .select(column)
+      .eq("user_id", params.userId)
+      .maybeSingle();
+
+    const value = (pref as Record<string, boolean> | null)?.[column];
+    if (value === false) return;
+  }
+
   const { error } = await supabase.from("notifications").insert({
     user_id: params.userId,
     type: params.type,

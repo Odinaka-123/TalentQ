@@ -11,6 +11,8 @@ import {
   subscribeToNotifications,
   type Notification,
 } from "@/lib/queries/notifications";
+import { getNotificationPreferences } from "@/lib/queries/notification-preferences";
+import { playNotificationSound } from "@/lib/utils/notification-sound";
 import NotificationsPanel from "./NotificationsPanel";
 
 interface TopBarProps {
@@ -23,6 +25,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
   const supabase = createClient();
   const [greetingName, setGreetingName] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const isPostJobActive = pathname.startsWith("/employer/post-job");
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -52,6 +55,9 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
       const notifs = await getNotifications(user.id);
       setNotifications(notifs);
       setNotifLoading(false);
+
+      const prefs = await getNotificationPreferences(user.id);
+      setSoundEnabled(prefs.notification_sounds);
     };
 
     loadUser();
@@ -63,12 +69,14 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
 
     const unsubscribe = subscribeToNotifications(userId, (notification) => {
       setNotifications((prev) => [notification, ...prev]);
+      if (soundEnabled) playNotificationSound();
     });
 
     return () => {
       unsubscribe();
     };
-  }, [userId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId, soundEnabled]);
 
   const handleMarkAllRead = async () => {
     if (!userId) return;

@@ -11,6 +11,8 @@ import {
   subscribeToNotifications,
   type Notification,
 } from "@/lib/queries/notifications";
+import { getNotificationPreferences } from "@/lib/queries/notification-preferences";
+import { playNotificationSound } from "@/lib/utils/notification-sound";
 import NotificationsPanel from "./NotificationsPanel";
 
 interface TopbarProps {
@@ -37,6 +39,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
   const supabase = createClient();
   const [greetingName, setGreetingName] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(true);
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [notifLoading, setNotifLoading] = useState(true);
@@ -74,6 +77,9 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
       const notifs = await getNotifications(user.id);
       setNotifications(notifs);
       setNotifLoading(false);
+
+      const prefs = await getNotificationPreferences(user.id);
+      setSoundEnabled(prefs.notification_sounds);
     };
 
     loadUser();
@@ -85,12 +91,13 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
     const unsubscribe = subscribeToNotifications(userId, (notification) => {
       setNotifications((prev) => [notification, ...prev]);
+      if (soundEnabled) playNotificationSound();
     });
 
     return () => {
       unsubscribe();
     };
-  }, [userId]);
+  }, [userId, soundEnabled]);
 
   const handleMarkAllRead = async () => {
     if (!userId) return;

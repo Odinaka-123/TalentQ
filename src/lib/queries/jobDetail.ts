@@ -100,21 +100,22 @@ export async function getJobById(
 
 export async function applyToJob(
   jobId: string,
-  freelancerId: string,
+  _freelancerId: string,
 ): Promise<{ error: string | null; alreadyApplied?: boolean }> {
-  const supabase = createClient();
-
-  const { error } = await supabase.from("applications").insert({
-    job_id: jobId,
-    freelancer_id: freelancerId,
+  const res = await fetch("/api/applications/apply", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jobId }),
   });
 
-  if (error) {
-    if (error.code === "23505") {
-      return { error: null, alreadyApplied: true };
-    }
-    console.error("applyToJob failed:", error);
-    return { error: "Could not submit your application. Try again." };
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    return { error: data.error ?? "Could not submit your application. Try again." };
+  }
+
+  if (data.alreadyApplied) {
+    return { error: null, alreadyApplied: true };
   }
 
   return { error: null };
