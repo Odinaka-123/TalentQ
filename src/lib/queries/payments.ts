@@ -5,6 +5,7 @@ export type TransactionType = "milestone_release" | "withdrawal" | "escrow_fund"
 export type TransactionStatus = "pending" | "completed" | "failed";
 
 export type EscrowMilestone = {
+  id: string;
   title: string;
   amount: number;
   status: MilestoneStatus;
@@ -125,7 +126,7 @@ export async function getPaymentsOverview(
         if (status === "delivered") {
           pendingRelease += Number(m.amount);
         }
-        return { title: m.title, amount: Number(m.amount), status };
+        return { id: m.id, title: m.title, amount: Number(m.amount), status };
       });
 
       return {

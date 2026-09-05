@@ -6,11 +6,11 @@ import { createClient } from "@/lib/supabase/client";
 import { getEmployerVerificationStatus } from "@/lib/queries/employerVerification";
 
 type StepState = "completed" | "pending" | "locked";
-type StepKey = "company" | "linkedin" | "payment" | "review";
+type StepKey = "company" | "linkedin" | "review";
 
 type VerificationStepsProps = {
   refreshKey: number;
-  onOpenStep: (step: "company" | "linkedin" | "payment") => void;
+  onOpenStep: (step: "company" | "linkedin") => void;
 };
 
 export default function VerificationSteps({
@@ -75,16 +75,8 @@ export default function VerificationSteps({
       clickable: linkedInStatus !== "completed",
     },
     {
-      key: "payment",
-      number: 3,
-      title: "Payment Method",
-      description: "Connect Paystack or Flutterwave to enable escrow.",
-      state: "locked",
-      clickable: true, // opens the "coming soon" modal, not truly locked-out
-    },
-    {
       key: "review",
-      number: 4,
+      number: 3,
       title: "Employer Review",
       description:
         "Receive your first talent review after a completed contract.",
@@ -117,8 +109,7 @@ export default function VerificationSteps({
               type={step.clickable ? "button" : undefined}
               onClick={
                 step.clickable && step.key !== "review" ?
-                  () =>
-                    onOpenStep(step.key as "company" | "linkedin" | "payment")
+                  () => onOpenStep(step.key as "company" | "linkedin")
                 : undefined
               }
               className={`flex items-center justify-between gap-4 py-4 text-left w-full ${
@@ -162,9 +153,7 @@ export default function VerificationSteps({
               )}
               {step.state === "locked" && (
                 <span className="rounded-full bg-[#F2DFC8] px-3 py-1 text-xs text-[#DE814A] shrink-0">
-                  {step.title === "Payment Method" ?
-                    "Coming Soon"
-                  : "Not started"}
+                  Not started
                 </span>
               )}
             </Wrapper>

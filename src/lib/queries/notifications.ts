@@ -18,6 +18,7 @@ const TYPE_TO_PREFERENCE_COLUMN: Record<string, PreferenceColumn> = {
   message: "new_message",
   contract_created: "milestone_updates",
   milestone_funded: "milestone_updates",
+  milestone_delivered: "milestone_updates",
   invited: "application_updates",
   application_interviewing: "application_updates",
   application_offer_sent: "application_updates",

@@ -52,6 +52,13 @@ export default function ConnectPayoutAccount({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
+
+      if (!data.accountName) {
+        throw new Error(
+          "Couldn't retrieve an account name for this number. Double-check the details and try again.",
+        );
+      }
+
       setAccountName(data.accountName);
       setResolved(true);
     } catch (err) {
@@ -65,6 +72,12 @@ export default function ConnectPayoutAccount({
 
   const handleSave = async () => {
     setError(null);
+
+    if (!accountName) {
+      setError("Please verify the account before saving.");
+      return;
+    }
+
     setSaving(true);
 
     try {
@@ -125,6 +138,7 @@ export default function ConnectPayoutAccount({
               onChange={(e) => {
                 setBankCode(e.target.value);
                 setResolved(false);
+                setAccountName("");
               }}
               className="w-full rounded-lg border border-[#E5E0D6] px-3 py-2.5 text-sm text-[#1F2A22] outline-none focus:border-[#DE814A]"
             >
@@ -150,6 +164,7 @@ export default function ConnectPayoutAccount({
             onChange={(e) => {
               setAccountNumber(e.target.value.replace(/\D/g, ""));
               setResolved(false);
+              setAccountName("");
             }}
             placeholder="10-digit account number"
             className="w-full rounded-lg border border-[#E5E0D6] px-3 py-2.5 text-sm text-[#1F2A22] outline-none focus:border-[#DE814A]"

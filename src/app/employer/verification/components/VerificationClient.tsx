@@ -1,6 +1,5 @@
 // VerificationClient.tsx
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -11,14 +10,12 @@ import TrustBadgesEarned from "./TrustBadgesEarned";
 import VerificationModal from "./VerificationModal";
 import CompanyRegistrationStep from "./steps/CompanyRegistrationStep";
 import LinkedInStep from "./steps/LinkedlnStep";
-import PaymentMethodStep from "./steps/PaymentMethodStep";
 
-type ActiveModal = "company" | "linkedin" | "payment" | null;
+type ActiveModal = "company" | "linkedin" | null;
 
 export default function VerificationClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const [userId, setUserId] = useState<string | null>(null);
   const [activeModal, setActiveModal] = useState<ActiveModal>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -56,7 +53,6 @@ export default function VerificationClient() {
           photoUrl: identityData.picture as string | undefined,
         });
       }
-
       setRefreshKey((k) => k + 1);
       router.replace("/employer/verification");
     }
@@ -73,9 +69,7 @@ export default function VerificationClient() {
   return (
     <div>
       <VerificationHero onStart={() => setActiveModal("company")} />
-
       <VerificationSteps refreshKey={refreshKey} onOpenStep={setActiveModal} />
-
       <TrustBadgesEarned refreshKey={refreshKey} />
 
       <VerificationModal open={activeModal === "company"} onClose={closeModal}>
@@ -95,10 +89,6 @@ export default function VerificationClient() {
           onBack={closeModal}
           onContinue={closeModal}
         />
-      </VerificationModal>
-
-      <VerificationModal open={activeModal === "payment"} onClose={closeModal}>
-        <PaymentMethodStep onBack={closeModal} />
       </VerificationModal>
     </div>
   );

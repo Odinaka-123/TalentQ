@@ -61,6 +61,21 @@ export default function PaymentsOverview() {
     };
   }, []);
 
+  const handleDelivered = (milestoneId: string) => {
+    setData((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        escrowGroups: prev.escrowGroups.map((group) => ({
+          ...group,
+          milestones: group.milestones.map((m) =>
+            m.id === milestoneId ? { ...m, status: "delivered" as const } : m,
+          ),
+        })),
+      };
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col gap-6">
@@ -151,11 +166,13 @@ export default function PaymentsOverview() {
                 client: group.client,
                 meta: group.meta,
                 milestones: group.milestones.map((m) => ({
+                  id: m.id,
                   title: m.title,
                   amount: formatMoney(m.amount),
                   status: m.status,
                 })),
               }))}
+              onDelivered={handleDelivered}
             />
           }
         </div>
