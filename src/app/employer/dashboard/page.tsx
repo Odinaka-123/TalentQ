@@ -1,6 +1,5 @@
 "use client";
 
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
@@ -16,10 +15,11 @@ import {
   getEmployerDashboard,
   type EmployerDashboardData,
 } from "@/lib/queries/employer-dashboard";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 export default function EmployerDashboardPage() {
-    const { t } = useLanguage();
   const supabase = createClient();
+  const { formatCurrency } = useCurrency();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<EmployerDashboardData | null>(null);
 
@@ -108,7 +108,7 @@ export default function EmployerDashboardPage() {
     },
     {
       label: "This Month",
-      value: `$${data.stats.spendThisMonth.toLocaleString()}`,
+      value: formatCurrency(data.stats.spendThisMonth),
       icon: Wallet,
       bg: "bg-[#E8F0FE]",
       fg: "text-[#3B82F6]",
@@ -162,27 +162,31 @@ export default function EmployerDashboardPage() {
               <p className="text-sm font-medium text-[#1B3A2F]">
                 {data.verificationStatus === "pending" ?
                   "Verification Pending Review"
-                : "Employer Verification Needed"}
+                  : "Employer Verification Needed"}
               </p>
               <p className="text-xs text-[#6B7A73] mt-0.5">
-                {t("app_employer_dashboard_page.complete_your_setup_to_unlock_ai_powered")}</p>
+                Complete your setup to unlock AI-powered matching.
+              </p>
             </div>
           </div>
           <Link
             href="/employer/verification"
             className="shrink-0 bg-[#C6543A] text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-[#B24932] transition-colors self-start sm:self-auto"
           >
-            {t("app_employer_dashboard_page.continue")}</Link>
+            Continue
+          </Link>
         </div>
       )}
 
       <div>
         <h2 className="text-base font-semibold text-[#1B3A2F] mb-3">
-          {t("app_employer_dashboard_page.active_contracts")}</h2>
+          Active Contracts
+        </h2>
         {data.activeContracts.length === 0 ?
           <div className="bg-white rounded-2xl p-6 text-center text-sm text-[#6B7A73]">
-            {t("app_employer_dashboard_page.no_active_contracts_yet")}</div>
-        : <div className="flex flex-col gap-3">
+            No active contracts yet.
+          </div>
+          : <div className="flex flex-col gap-3">
             {data.activeContracts.map((c) => (
               <div
                 key={c.id}
@@ -194,7 +198,7 @@ export default function EmployerDashboardPage() {
                       {c.title}
                     </p>
                     <p className="text-sm font-semibold text-[#1B3A2F] shrink-0">
-                      ${c.amount.toLocaleString()}
+                      {formatCurrency(c.amount)}
                     </p>
                   </div>
                   <p className="text-xs text-[#6B7A73] mt-0.5">
@@ -207,7 +211,8 @@ export default function EmployerDashboardPage() {
                     />
                   </div>
                   <p className="text-xs text-[#9AA79F] mt-1.5">
-                    {c.progress}{t("app_employer_dashboard_page.complete")}</p>
+                    {c.progress}% Complete
+                  </p>
                 </div>
               </div>
             ))}
@@ -217,13 +222,16 @@ export default function EmployerDashboardPage() {
 
       <div className="bg-[#FCEFE3] border border-[#E8B98F] rounded-2xl p-4 sm:p-5">
         <h2 className="text-base font-semibold text-[#1B3A2F]">
-          {t("app_employer_dashboard_page.recommended_for_you")}</h2>
+          Recommended for You
+        </h2>
         <p className="text-xs text-[#6B7A73] mb-4">
-          {t("app_employer_dashboard_page.based_on_your_job_posts_and_hiring_activ")}</p>
+          Based on your job posts and hiring activity
+        </p>
         {data.recommended.length === 0 ?
           <p className="text-sm text-[#6B7A73] py-4">
-            {t("app_employer_dashboard_page.no_new_applicants_to_review_right_now")}</p>
-        : <div className="flex flex-col divide-y divide-[#EFDDC5]">
+            No new applicants to review right now.
+          </p>
+          : <div className="flex flex-col divide-y divide-[#EFDDC5]">
             {data.recommended.map((candidate) => (
               <Link
                 key={candidate.applicationId}
@@ -240,7 +248,8 @@ export default function EmployerDashboardPage() {
                 </div>
                 {candidate.matchScore !== null && (
                   <span className="shrink-0 text-xs font-medium text-[#C6543A] bg-white px-2.5 py-1 rounded-full">
-                    {candidate.matchScore}{t("app_employer_dashboard_page.ai_match")}</span>
+                    {candidate.matchScore}% AI Match
+                  </span>
                 )}
               </Link>
             ))}
@@ -250,7 +259,8 @@ export default function EmployerDashboardPage() {
           href="/employer/candidates"
           className="mt-4 flex items-center gap-1 text-sm font-medium text-[#C6543A] hover:gap-1.5 transition-all w-fit"
         >
-          {t("app_employer_dashboard_page.browse_all_matches")}<ArrowRight size={14} />
+          Browse all matches
+          <ArrowRight size={14} />
         </Link>
       </div>
     </div>

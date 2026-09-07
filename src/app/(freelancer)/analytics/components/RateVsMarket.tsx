@@ -1,10 +1,14 @@
+"use client";
+
 import type { RateComparison } from "@/lib/queries/analytics";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 type Props = {
   data: RateComparison;
 };
 
 export default function RateVsMarket({ data }: Props) {
+  const { formatCurrency } = useCurrency();
   const { category, yourRate, avgVerified, avgUnverified } = data;
 
   const values = [yourRate, avgVerified, avgUnverified].filter(
@@ -38,7 +42,7 @@ export default function RateVsMarket({ data }: Props) {
       <p className="text-xs text-[#8A8A7E] mb-5">
         {category ?
           `Hourly rate compared to other freelancers in ${category}`
-        : "Add skills to your profile to compare against your category"}
+          : "Add skills to your profile to compare against your category"}
       </p>
 
       <div className="flex flex-col gap-4">
@@ -49,7 +53,9 @@ export default function RateVsMarket({ data }: Props) {
                 {item.label}
               </span>
               <span className="text-sm font-semibold text-[#1F2A22]">
-                {item.value != null ? `$${item.value}/hr` : "No data yet"}
+                {item.value != null ?
+                  `${formatCurrency(item.value)}/hr`
+                  : "No data yet"}
               </span>
             </div>
             <div className="w-full h-3 rounded-full bg-[#F5F1E9]">

@@ -110,10 +110,8 @@ export async function getJobsForFreelancer(
       postedAgo: formatTimeAgo(job.created_at),
       proposals: proposalCount,
       tags,
-      priceRange:
-        job.min_budget && job.max_budget ?
-          `$${job.min_budget}-${job.max_budget}`
-        : "Budget not set",
+      minBudget: job.min_budget,
+      maxBudget: job.max_budget,
       duration: job.duration ?? "Not specified",
       level: mapExperienceLevel(job.experience_level),
       firstGig: isEntryLevel && proposalCount < 5,

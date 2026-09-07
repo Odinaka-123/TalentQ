@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       type: "withdrawal_initiated",
       title: "Withdrawal initiated",
-      body: `$${netAmount.toFixed(2)} is on its way to ${account.bank_name} · •••• ${account.account_number_last4}.`,
+      body: `₦${netAmount.toLocaleString()} is on its way to ${account.bank_name} · •••• ${account.account_number_last4}.`,
       link: "/payments?tab=history",
     });
 

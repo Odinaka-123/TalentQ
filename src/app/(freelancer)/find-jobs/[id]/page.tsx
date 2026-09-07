@@ -1,6 +1,5 @@
 "use client";
 
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, MapPin, Clock, Calendar, CheckCircle2 } from "lucide-react";
@@ -10,12 +9,13 @@ import {
   applyToJob,
   type JobDetail,
 } from "@/lib/queries/jobDetail";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 export default function JobDetailPage() {
-    const { t } = useLanguage();
   const params = useParams();
   const router = useRouter();
   const supabase = createClient();
+  const { formatCurrency } = useCurrency();
   const jobId = params.id as string;
 
   const [userId, setUserId] = useState<string | null>(null);
@@ -77,7 +77,8 @@ export default function JobDetailPage() {
   if (!job) {
     return (
       <div className="text-center py-16 text-sm text-[#6B7A73]">
-        {t("app_freelancer_find-jobs_id_page.this_job_couldn_t_be_found")}</div>
+        This job couldn&apos;t be found.
+      </div>
     );
   }
 
@@ -90,7 +91,8 @@ export default function JobDetailPage() {
         className="inline-flex items-center gap-1.5 text-sm text-[#6B7A73] hover:text-[#1B3A2F] transition-colors mb-6"
       >
         <ArrowLeft size={14} />
-        {t("app_freelancer_find-jobs_id_page.back_to_find_jobs")}</button>
+        Back to Find Jobs
+      </button>
 
       <div className="bg-white rounded-2xl p-5 sm:p-6 mb-4">
         <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
@@ -104,8 +106,8 @@ export default function JobDetailPage() {
           <div className="text-right shrink-0">
             <p className="text-lg font-bold text-[#1B3A2F]">
               {job.minBudget && job.maxBudget ?
-                `$${job.minBudget}-${job.maxBudget}`
-              : "Budget not set"}
+                `${formatCurrency(job.minBudget)}–${formatCurrency(job.maxBudget)}`
+                : "Budget not set"}
             </p>
             <p className="text-xs text-[#9AA79F]">{job.paymentType}</p>
           </div>
@@ -120,7 +122,7 @@ export default function JobDetailPage() {
           </span>
           {job.applicationDeadline && (
             <span className="flex items-center gap-1.5">
-              <Calendar size={13} /> {t("app_freelancer_find-jobs_id_page.apply_by")}{" "}
+              <Calendar size={13} /> Apply by{" "}
               {new Date(job.applicationDeadline).toLocaleDateString(undefined, {
                 month: "short",
                 day: "numeric",
@@ -145,7 +147,8 @@ export default function JobDetailPage() {
 
         <div className="border-t border-[#F0ECE3] pt-5">
           <h2 className="text-sm font-semibold text-[#1B3A2F] mb-2">
-            {t("app_freelancer_find-jobs_id_page.job_description")}</h2>
+            Job Description
+          </h2>
           <p className="text-sm text-[#3E4C46] whitespace-pre-wrap">
             {job.description}
           </p>
@@ -153,24 +156,27 @@ export default function JobDetailPage() {
       </div>
 
       <p className="text-xs text-[#9AA79F] mb-4">
-        {job.proposals} {t("app_freelancer_find-jobs_id_page.proposal")}{job.proposals === 1 ? "" : "s"} {t("app_freelancer_find-jobs_id_page.so_far")}</p>
+        {job.proposals} proposal{job.proposals === 1 ? "" : "s"} so far
+      </p>
 
       {error && <p className="text-sm text-[#C6543A] mb-4">{error}</p>}
 
       {job.alreadyApplied ?
         <div className="flex items-center gap-2 rounded-full bg-[#E3F2E8] px-5 py-3 text-sm font-medium text-[#2F8C4D] w-fit">
           <CheckCircle2 size={16} />
-          {t("app_freelancer_find-jobs_id_page.you_ve_applied_to_this_job")}</div>
-      : isClosed ?
-        <div className="rounded-full bg-[#F0ECE3] px-5 py-3 text-sm font-medium text-[#9AA79F] w-fit">
-          {t("app_freelancer_find-jobs_id_page.this_job_is_no_longer_accepting_applicat")}</div>
-      : <button
-          onClick={handleApply}
-          disabled={applying}
-          className="rounded-full bg-[#A8531E] text-white text-sm font-medium px-6 py-3 hover:bg-[#94481A] transition-colors disabled:opacity-60"
-        >
-          {applying ? "Submitting..." : "Apply Now"}
-        </button>
+          You&apos;ve applied to this job
+        </div>
+        : isClosed ?
+          <div className="rounded-full bg-[#F0ECE3] px-5 py-3 text-sm font-medium text-[#9AA79F] w-fit">
+            This job is no longer accepting applications
+          </div>
+          : <button
+            onClick={handleApply}
+            disabled={applying}
+            className="rounded-full bg-[#A8531E] text-white text-sm font-medium px-6 py-3 hover:bg-[#94481A] transition-colors disabled:opacity-60"
+          >
+            {applying ? "Submitting..." : "Apply Now"}
+          </button>
       }
     </div>
   );

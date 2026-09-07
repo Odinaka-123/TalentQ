@@ -1,21 +1,22 @@
 "use client";
 
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Building2, MapPin, Clock, Users } from "lucide-react";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 export type JobLevel = "Beginner" | "Intermediate" | "Expert";
 
 export interface Job {
   id: string;
   title: string;
-  badges?: string[]; 
+  badges?: string[];
   client: string;
-  location: string; 
-  postedAgo: string; 
+  location: string;
+  postedAgo: string;
   proposals: number;
   tags: string[];
-  priceRange: string; 
-  duration: string; 
+  minBudget: number | null;
+  maxBudget: number | null;
+  duration: string;
   level: JobLevel;
 }
 
@@ -31,7 +32,13 @@ interface JobCardProps {
 }
 
 export default function JobCard({ job, onClick }: JobCardProps) {
-    const { t } = useLanguage();
+  const { formatCurrency } = useCurrency();
+
+  const priceRange =
+    job.minBudget && job.maxBudget ?
+      `${formatCurrency(job.minBudget)}–${formatCurrency(job.maxBudget)}`
+      : "Budget not set";
+
   return (
     <button
       type="button"
@@ -52,7 +59,7 @@ export default function JobCard({ job, onClick }: JobCardProps) {
 
         <div className="flex flex-col items-end shrink-0">
           <p className="text-sm sm:text-base font-semibold text-[#1B3A2F]">
-            {job.priceRange}
+            {priceRange}
           </p>
           <div className="flex items-center gap-1.5 mt-1">
             <span className="text-[11px] text-[#9AA79F]">{job.duration}</span>
@@ -84,7 +91,8 @@ export default function JobCard({ job, onClick }: JobCardProps) {
         </span>
         <span className="flex items-center gap-1.5">
           <Users size={13} />
-          {job.proposals} {t("app_freelancer_components_job_card.proposals")}</span>
+          {job.proposals} Proposals
+        </span>
       </div>
 
       <div className="flex flex-wrap gap-2">

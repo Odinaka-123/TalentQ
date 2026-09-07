@@ -1,4 +1,6 @@
 import "./globals.css";
+import { CurrencyProvider } from "@/lib/currency/CurrencyContext";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 export const metadata = {
   title: "TalentQ",
@@ -14,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <LanguageProvider>
+          <CurrencyProvider>{children}</CurrencyProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
