@@ -13,17 +13,18 @@ import {
   getPaymentHistory,
   type PaymentHistoryRow,
 } from "@/lib/queries/payments";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
-const statusStyles: Record<
-  PaymentHistoryRow["status"],
-  { icon: typeof CheckCircle2; bg: string; fg: string }
-> = {
+type StatusStyle = { icon: typeof CheckCircle2; bg: string; fg: string };
+
+const statusStyles: Record<PaymentHistoryRow["status"], StatusStyle> = {
   Completed: { icon: CheckCircle2, bg: "bg-[#D8E7DE]", fg: "text-[#3E8E5A]" },
   Pending: { icon: Clock, bg: "bg-[#FBEADB]", fg: "text-[#DE814A]" },
   Failed: { icon: XCircle, bg: "bg-[#FBE9E5]", fg: "text-[#C6543A]" },
 };
 
 export default function PaymentHistory() {
+  const { formatCurrency } = useCurrency();
   const [transactions, setTransactions] = useState<PaymentHistoryRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -135,16 +136,20 @@ export default function PaymentHistory() {
                       </div>
                     </td>
                     <td className="px-4 py-4 text-[#5C5347]">{t.party}</td>
-                    <td className="px-4 py-4 text-[#1F2A22]">{t.gross}</td>
-                    <td className="px-4 py-4 text-[#C6543A]">{t.fee}</td>
+                    <td className="px-4 py-4 text-[#1F2A22]">
+                      {formatCurrency(t.grossNgn)}
+                    </td>
+                    <td className="px-4 py-4 text-[#C6543A]">
+                      {t.feeNgn > 0 ? `-${formatCurrency(t.feeNgn)}` : "-"}
+                    </td>
                     <td
                       className={`px-4 py-4 font-medium ${
-                        t.received.startsWith("-") ?
+                        t.receivedNgn < 0 ?
                           "text-[#C6543A]"
                         : "text-[#3E8E5A]"
                       }`}
                     >
-                      {t.received}
+                      {formatCurrency(t.receivedNgn, true)}
                     </td>
                     <td className="px-4 py-4 text-[#8A8A7E]">{t.date}</td>
                     <td className="px-5 sm:px-6 py-4">

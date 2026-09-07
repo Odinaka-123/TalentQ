@@ -1,24 +1,152 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileTabs from "./components/ProfileTabs";
 import TeamList from "./components/TeamList";
 import HistoryList from "./components/HistoryList";
 import EditProfileModal from "./components/EditProfileModal";
-import { createClient } from "@/lib/supabase/client";
-import { getEmployerProfile } from "@/lib/queries/employer-profile";
 
 type Tab = "team" | "history";
-type EmployerProfileData = Awaited<ReturnType<typeof getEmployerProfile>>;
 
-export default function EmployerProfilePage() {
+type Profile = {
+  full_name: string | null;
+  avatar_url: string | null;
+  identity_verification_status: string | null;
+};
+
+type EmployerDetails = {
+  company_name: string | null;
+  industry: string | null;
+  country: string | null;
+  company_size: string | null;
+  budget_range: string | null;
+  hiring_categories: string[] | null;
+} | null;
+
+export type TeamMemberRow = {
+  id: string;
+  employer_id: string;
+  user_id: string | null;
+  email: string;
+  role: string;
+  status: "Active" | "Pending" | "Inactive";
+  invited_at: string;
+  joined_at: string | null;
+  profiles: { full_name: string } | { full_name: string }[] | null;
+};
+
+export type ReviewRow = {
+  id: string;
+  rating: number;
+  comment: string | null;
+  created_at: string;
+  contracts:
+    | {
+        freelancer_id: string;
+        jobs: { title: string } | { title: string }[] | null;
+        profiles: { full_name: string } | { full_name: string }[] | null;
+      }
+    | {
+        freelancer_id: string;
+        jobs: { title: string } | { title: string }[] | null;
+        profiles: { full_name: string } | { full_name: string }[] | null;
+      }[]
+    | null;
+};
+
+export type EmployerProfileData = {
+  profile: Profile;
+  details: EmployerDetails;
+  team: TeamMemberRow[];
+  reviews: ReviewRow[];
+};
+
+type ProfileRow = {
+  full_name: string | null;
+  avatar_url: string | null;
+  identity_verification_status: string | null;
+  employer_details:
+    | {
+        company_name: string | null;
+        industry: string | null;
+        country: string | null;
+        company_size: string | null;
+        budget_range: string | null;
+        hiring_categories: string[] | null;
+      }
+    | {
+        company_name: string | null;
+        industry: string | null;
+        country: string | null;
+        company_size: string | null;
+        budget_range: string | null;
+        hiring_categories: string[] | null;
+      }[]
+    | null;
+};
+
+function firstOrSelf<T>(value: T | T[] | null | undefined): T | null {
+  if (Array.isArray(value)) return value[0] ?? null;
+  return value ?? null;
+}
+
+async function getEmployerProfile(
+  userId: string,
+): Promise<EmployerProfileData> {
   const supabase = createClient();
+
+  const { data } = await supabase
+    .from("profiles")
+    .select(
+      "full_name, avatar_url, identity_verification_status, employer_details ( company_name, industry, country, company_size, budget_range, hiring_categories )",
+    )
+    .eq("id", userId)
+    .single();
+
+  const row = data as ProfileRow | null;
+  const details = firstOrSelf(row?.employer_details ?? null);
+
+  const { data: teamData } = await supabase
+    .from("team_members")
+    .select(
+      "id, employer_id, user_id, email, role, status, invited_at, joined_at, profiles ( full_name )",
+    )
+    .eq("employer_id", userId)
+    .order("invited_at", { ascending: false });
+
+  // TODO: wire up real reviews once the reviews/contracts schema is confirmed.
+  const reviews: ReviewRow[] = [];
+
+  return {
+    profile: {
+      full_name: row?.full_name ?? null,
+      avatar_url: row?.avatar_url ?? null,
+      identity_verification_status: row?.identity_verification_status ?? null,
+    },
+    details: details
+      ? {
+          company_name: details.company_name,
+          industry: details.industry,
+          country: details.country,
+          company_size: details.company_size,
+          budget_range: details.budget_range,
+          hiring_categories: details.hiring_categories,
+        }
+      : null,
+    team: (teamData ?? []) as TeamMemberRow[],
+    reviews,
+  };
+}
+
+export default function ProfilePage() {
+  const supabase = createClient();
+  const [userId, setUserId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("team");
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<EmployerProfileData | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
   const [editOpen, setEditOpen] = useState(false);
+  const [data, setData] = useState<EmployerProfileData | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -43,23 +171,8 @@ export default function EmployerProfilePage() {
   if (loading) {
     return (
       <div className="animate-pulse">
-        <div className="bg-white rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-[#EDEAE1] shrink-0" />
-          <div className="flex-1 min-w-0">
-            <div className="h-5 w-48 rounded bg-[#EDEAE1] mb-2" />
-            <div className="h-3.5 w-40 rounded bg-[#F0ECE3] mb-3" />
-            <div className="h-3 w-32 rounded bg-[#F0ECE3]" />
-          </div>
-          <div className="h-9 w-28 rounded-full bg-[#EDEAE1] shrink-0" />
-        </div>
-
-        <div className="mt-6">
-          <div className="flex gap-2 mb-5">
-            <div className="h-8 w-20 rounded-full bg-[#EDEAE1]" />
-            <div className="h-8 w-20 rounded-full bg-[#F0ECE3]" />
-          </div>
-          <div className="bg-white rounded-2xl h-48" />
-        </div>
+        <div className="bg-white rounded-2xl p-5 sm:p-6 h-32" />
+        <div className="mt-6 h-64 rounded-2xl bg-white" />
       </div>
     );
   }
@@ -88,7 +201,9 @@ export default function EmployerProfilePage() {
           <TeamList
             employerId={userId}
             team={data.team}
-            onTeamChange={(team) => setData({ ...data, team })}
+            onTeamChange={(team) =>
+              setData((prev) => (prev ? { ...prev, team } : prev))
+            }
           />
         )}
         {activeTab === "history" && <HistoryList reviews={data.reviews} />}
@@ -100,14 +215,9 @@ export default function EmployerProfilePage() {
           profile={data.profile}
           details={data.details}
           onClose={() => setEditOpen(false)}
-          onSaved={(profile, details) => {
-            setData({
-              ...data,
-              profile: { ...data.profile, ...profile },
-              details,
-            });
-            setEditOpen(false);
-          }}
+          onSaved={(profile, details) =>
+            setData((prev) => (prev ? { ...prev, profile, details } : prev))
+          }
         />
       )}
     </div>

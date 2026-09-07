@@ -7,11 +7,16 @@ import {
   getEmployerPaymentHistory,
   type EmployerTransaction,
 } from "@/lib/queries/employer-payment-history";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
-const statusStyles: Record<
-  EmployerTransaction["status"],
-  { bg: string; color: string; icon: typeof CheckCircle2; label: string }
-> = {
+type StatusStyle = {
+  bg: string;
+  color: string;
+  icon: typeof CheckCircle2;
+  label: string;
+};
+
+const statusStyles: Record<EmployerTransaction["status"], StatusStyle> = {
   completed: { bg: "#D8E7DE", color: "#3E8E5A", icon: CheckCircle2, label: "Completed" },
   pending: { bg: "#F2DFC8", color: "#DE814A", icon: Clock, label: "Pending" },
   failed: { bg: "#F7DADA", color: "#C6543A", icon: XCircle, label: "Failed" },
@@ -19,6 +24,7 @@ const statusStyles: Record<
 
 export default function EmployerPaymentHistory() {
   const supabase = createClient();
+  const { formatCurrency } = useCurrency();
   const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState<EmployerTransaction[]>([]);
 
@@ -82,13 +88,13 @@ export default function EmployerPaymentHistory() {
                     </td>
                     <td className="px-4 py-4 text-[#5C5347]">{t.freelancerName}</td>
                     <td className="px-4 py-4 text-[#1F2A22]">
-                      ${t.gross.toLocaleString()}
+                      {formatCurrency(t.gross)}
                     </td>
                     <td className="px-4 py-4 text-[#C6543A]">
-                      -${t.fee.toLocaleString()}
+                      -{formatCurrency(t.fee)}
                     </td>
                     <td className="px-4 py-4 font-medium text-[#1F2A22]">
-                      ${t.net.toLocaleString()}
+                      {formatCurrency(t.net)}
                     </td>
                     <td className="px-4 py-4 text-[#8A8A7E]">
                       {new Date(t.date).toLocaleDateString("en-US", {

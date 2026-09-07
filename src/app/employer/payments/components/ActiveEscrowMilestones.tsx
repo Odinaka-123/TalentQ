@@ -1,5 +1,8 @@
+"use client";
+
 import { Lock } from "lucide-react";
 import type { ActiveMilestone } from "@/lib/queries/employer-payments";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 const statusLabel: Record<ActiveMilestone["status"], string> = {
   pending: "Awaiting Delivery",
@@ -11,6 +14,8 @@ export default function ActiveEscrowMilestones({
 }: {
   milestones: ActiveMilestone[];
 }) {
+  const { formatCurrency } = useCurrency();
+
   if (milestones.length === 0) {
     return (
       <div className="rounded-2xl bg-white px-6 py-6 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A] mb-6">
@@ -60,7 +65,7 @@ export default function ActiveEscrowMilestones({
 
             <div className="text-right shrink-0">
               <p className="text-sm font-semibold text-[#1F2A22]">
-                ${m.amount.toLocaleString()}
+                {formatCurrency(m.amount)}
               </p>
               <p className="text-xs text-[#8A8A7E]">On hold</p>
             </div>

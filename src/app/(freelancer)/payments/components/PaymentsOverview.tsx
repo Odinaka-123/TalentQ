@@ -7,18 +7,13 @@ import {
   getPaymentsOverview,
   type PaymentsOverviewData,
 } from "@/lib/queries/payments";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 import EscrowTimeline from "./EscrowTimeline";
 import StatCard from "./StatCard";
 import RecentTransactions from "./RecentTransactions";
 
-function formatMoney(amount: number) {
-  return `$${amount.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-}
-
 export default function PaymentsOverview() {
+  const { formatCurrency } = useCurrency();
   const [data, setData] = useState<PaymentsOverviewData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -105,7 +100,7 @@ export default function PaymentsOverview() {
   const statCards = [
     {
       label: "Available Balance",
-      value: formatMoney(stats.availableBalance),
+      value: formatCurrency(stats.availableBalance),
       meta: "Ready to withdraw",
       icon: Wallet,
       iconBg: "#E3F2E8",
@@ -113,7 +108,7 @@ export default function PaymentsOverview() {
     },
     {
       label: "In Escrow",
-      value: formatMoney(stats.inEscrow),
+      value: formatCurrency(stats.inEscrow),
       meta: "Held until milestones complete",
       icon: Lock,
       iconBg: "#FCEFE3",
@@ -121,7 +116,7 @@ export default function PaymentsOverview() {
     },
     {
       label: "Pending Release",
-      value: formatMoney(stats.pendingRelease),
+      value: formatCurrency(stats.pendingRelease),
       meta: "Delivered, awaiting client approval",
       icon: Clock,
       iconBg: "#E8F0FE",
@@ -129,7 +124,7 @@ export default function PaymentsOverview() {
     },
     {
       label: "Earned This Year",
-      value: formatMoney(stats.totalEarnedThisYear),
+      value: formatCurrency(stats.totalEarnedThisYear),
       meta: `Jan 1 – ${new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" })}`,
       icon: TrendingUp,
       iconBg: "#EFE8FB",
@@ -168,7 +163,7 @@ export default function PaymentsOverview() {
                 milestones: group.milestones.map((m) => ({
                   id: m.id,
                   title: m.title,
-                  amount: formatMoney(m.amount),
+                  amount: formatCurrency(m.amount),
                   status: m.status,
                 })),
               }))}
@@ -177,7 +172,14 @@ export default function PaymentsOverview() {
           }
         </div>
 
-        <RecentTransactions transactions={recentTransactions} />
+        <RecentTransactions
+          transactions={recentTransactions.map((t) => ({
+            title: t.title,
+            meta: t.meta,
+            amount: formatCurrency(t.amountNgn, true),
+            positive: t.positive,
+          }))}
+        />
       </div>
     </div>
   );

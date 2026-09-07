@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Sun, Moon, ChevronDown } from "lucide-react";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
+import type { CurrencyCode } from "@/lib/queries/currency";
 
 type Density = "compact" | "comfortable" | "spacious";
 type Theme = "light" | "dark";
@@ -12,13 +14,20 @@ const densityOptions: { key: Density; label: string }[] = [
   { key: "spacious", label: "Spacious" },
 ];
 
+const currencyOptions: { value: CurrencyCode; label: string }[] = [
+  { value: "USD", label: "USD ($)" },
+  { value: "NGN", label: "NGN (₦)" },
+  { value: "EUR", label: "EUR (€)" },
+  { value: "GBP", label: "GBP (£)" },
+];
+
 export default function AppearanceTab() {
   const [density, setDensity] = useState<Density>("compact");
   const [theme, setTheme] = useState<Theme>("light");
   const [language, setLanguage] = useState("English UK");
-  const [currency, setCurrency] = useState("USD ($)");
   const [dateFormat, setDateFormat] = useState("DD/MM/YYYY");
   const [timezone, setTimezone] = useState("Nigeria (GMT+1)");
+  const { currency, setCurrency } = useCurrency();
 
   return (
     <div className="flex flex-col gap-6">
@@ -64,12 +73,28 @@ export default function AppearanceTab() {
             onChange={setLanguage}
             options={["English UK", "English US", "French", "Portuguese"]}
           />
-          <SelectField
-            label="Currency display"
-            value={currency}
-            onChange={setCurrency}
-            options={["USD ($)", "NGN (₦)", "GHS (₵)", "KES (KSh)"]}
-          />
+          <div>
+            <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
+              Currency display
+            </label>
+            <div className="relative">
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+                className="w-full appearance-none rounded-lg border border-[#E5E0D6] bg-white px-4 py-2.5 pr-9 text-sm text-[#1F2A22] outline-none focus:border-[#DE814A]"
+              >
+                {currencyOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                size={16}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A8A7E] pointer-events-none"
+              />
+            </div>
+          </div>
           <SelectField
             label="Date format"
             value={dateFormat}

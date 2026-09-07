@@ -6,7 +6,7 @@ import TeamMemberRow from "./TeamMemberRow";
 import InviteTeamMemberModal, { InviteDraft } from "./InviteTeamMemberModal";
 import { createClient } from "@/lib/supabase/client";
 import { inviteTeamMember, removeTeamMember } from "@/lib/mutations/team";
-import type { TeamMemberRow as TeamMemberRowData } from "@/lib/queries/employer-profile";
+import type { TeamMemberRow as TeamMemberRowData } from "../page";
 
 type TeamListProps = {
   employerId: string;

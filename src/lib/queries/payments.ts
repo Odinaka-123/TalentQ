@@ -20,7 +20,7 @@ export type EscrowGroup = {
 export type RecentTransaction = {
   title: string;
   meta: string;
-  amount: string;
+  amountNgn: number;
   positive: boolean;
 };
 
@@ -38,22 +38,13 @@ export type PaymentsOverviewData = {
 export type PaymentHistoryRow = {
   title: string;
   party: string;
-  gross: string;
-  fee: string;
-  received: string;
+  grossNgn: number;
+  feeNgn: number;
+  receivedNgn: number;
   date: string;
   status: "Completed" | "Pending" | "Failed";
   direction: "in" | "out";
 };
-
-function formatCurrency(amount: number, signed = false): string {
-  const abs = Math.abs(amount).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  if (!signed) return `$${abs}`;
-  return amount < 0 ? `-$${abs}` : `+$${abs}`;
-}
 
 function mapTransactionStatus(status: TransactionStatus): "Completed" | "Pending" | "Failed" {
   if (status === "completed") return "Completed";
@@ -131,7 +122,7 @@ export async function getPaymentsOverview(
 
       return {
         client: employerDetails?.company_name ?? employerProfile?.full_name ?? "Client",
-        meta: `${job?.title ?? "Contract"} · $${total.toLocaleString()} total`,
+        meta: `${job?.title ?? "Contract"} · ₦${total.toLocaleString()} total`,
         milestones: mapped,
       };
     });
@@ -187,7 +178,7 @@ export async function getPaymentsOverview(
     return {
       title: label,
       meta: `${mapTransactionStatus(t.status as TransactionStatus)} · ${new Date(t.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`,
-      amount: formatCurrency(signedAmount, true),
+      amountNgn: signedAmount,
       positive: isCredit,
     };
   });
@@ -273,9 +264,9 @@ export async function getPaymentHistory(freelancerId: string): Promise<PaymentHi
     return {
       title,
       party,
-      gross: isWithdrawal ? formatCurrency(gross) : formatCurrency(gross, true),
-      fee: fee > 0 ? `-${formatCurrency(fee)}` : "-",
-      received: isWithdrawal ? `-${formatCurrency(gross)}` : formatCurrency(net, true),
+      grossNgn: gross,
+      feeNgn: fee,
+      receivedNgn: isWithdrawal ? -gross : net,
       date: new Date(t.created_at).toLocaleDateString(undefined, {
         month: "short",
         day: "numeric",

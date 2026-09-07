@@ -13,13 +13,15 @@ type CandidateActionsProps = {
   onStatusChange: (status: PipelineStatus) => void;
 };
 
-const ADVANCE_LABEL: Partial<Record<PipelineStatus, string>> = {
+const ADVANCE_LABEL: Partial<Record<PipelineStatus | "Rejected", string>> = {
   Invited: "Move to Interviewing",
   Interviewing: "Send Offer",
   "Offer Sent": "Mark as Hired",
 };
 
-const NEXT_STATUS_LABEL: Partial<Record<PipelineStatus, PipelineStatus>> = {
+const NEXT_STATUS_LABEL: Partial<
+  Record<PipelineStatus | "Rejected", PipelineStatus>
+> = {
   Invited: "Interviewing",
   Interviewing: "Offer Sent",
   "Offer Sent": "Hired",
@@ -99,7 +101,9 @@ export default function CandidateActions({
       if (!res.ok) throw new Error(data.error || "Couldn't reject candidate");
       router.push("/employer/candidates");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't reject candidate");
+      setError(
+        err instanceof Error ? err.message : "Couldn't reject candidate",
+      );
       setRejecting(false);
     }
   };
@@ -148,9 +152,11 @@ export default function CandidateActions({
               disabled={advancing}
               className="flex items-center gap-2 rounded-full bg-[#3E8E5A] px-4 py-2 text-sm font-medium text-white hover:bg-[#357A4D] transition-colors disabled:opacity-60"
             >
-              {advancing ?
+              {advancing ? (
                 <Loader2 size={14} className="animate-spin" />
-              : <ArrowRight size={14} />}
+              ) : (
+                <ArrowRight size={14} />
+              )}
               {advanceLabel}
             </button>
           )}
@@ -172,9 +178,11 @@ export default function CandidateActions({
               disabled={rejecting}
               className="flex items-center gap-2 rounded-full border border-[#E5E0D6] px-4 py-2 text-sm font-medium text-[#8A8A7E] hover:bg-[#F7DADA] hover:text-[#C6543A] hover:border-[#F0C4C4] transition-colors disabled:opacity-60"
             >
-              {rejecting ?
+              {rejecting ? (
                 <Loader2 size={14} className="animate-spin" />
-              : <X size={14} />}
+              ) : (
+                <X size={14} />
+              )}
               Reject
             </button>
           )}

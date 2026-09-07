@@ -10,9 +10,11 @@ import {
   getEmployerPaymentsOverview,
   type EmployerPaymentsOverview as OverviewData,
 } from "@/lib/queries/employer-payments";
+import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 export default function EmployerPaymentsOverview() {
   const supabase = createClient();
+  const { formatCurrency } = useCurrency();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<OverviewData | null>(null);
 
@@ -43,14 +45,14 @@ export default function EmployerPaymentsOverview() {
           icon={PiggyBank}
           iconBg="#FBEADB"
           iconColor="#DE814A"
-          value={`$${data.totalFunded.toLocaleString()}`}
+          value={formatCurrency(data.totalFunded)}
           label="Total Funded"
         />
         <EmployerStatCard
           icon={Lock}
           iconBg="#DDEEE2"
           iconColor="#3E8E5A"
-          value={`$${data.inEscrow.toLocaleString()}`}
+          value={formatCurrency(data.inEscrow)}
           label="In Escrow"
         />
         {/* "Available Balance" card removed — no backing concept for an

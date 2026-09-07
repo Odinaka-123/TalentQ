@@ -1,9 +1,14 @@
 import DashboardShell from "./components/DashboardShell";
+import { CurrencyProvider } from "@/lib/currency/CurrencyContext";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <DashboardShell>{children}</DashboardShell>;
+  return (
+    <CurrencyProvider>
+      <DashboardShell>{children}</DashboardShell>
+    </CurrencyProvider>
+  );
 }
