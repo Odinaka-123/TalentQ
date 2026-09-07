@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 
 type Partner = {
@@ -14,13 +15,13 @@ const partners: Partner[] = [
 ];
 
 export default function PaymentPartners() {
+    const { t } = useLanguage();
   const [selected, setSelected] = useState("paystack");
 
   return (
     <div>
       <h3 className="text-sm font-semibold text-[#1F2A22] mb-4">
-        Payment Partners
-      </h3>
+        {t("app_employer_payments_components_payment_partners.payment_partners")}</h3>
 
       <div className="flex flex-col gap-3">
         {partners.map((partner) => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -85,6 +86,7 @@ function BottomNav({
   name,
   avatarUrl,
 }: NavLinksProps & { name: string; avatarUrl: string | null }) {
+    const { t } = useLanguage();
   return (
     <div>
       <div className="border-t border-white mb-4" />
@@ -121,7 +123,7 @@ function BottomNav({
         <Avatar src={avatarUrl} name={name} size={36} />
         <div className="min-w-0">
           <p className="text-sm font-medium text-white truncate">{name}</p>
-          <p className="text-xs text-[#DE814A]">Employer</p>
+          <p className="text-xs text-[#DE814A]">{t("app_employer_components_sidebar.employer")}</p>
         </div>
       </Link>
     </div>

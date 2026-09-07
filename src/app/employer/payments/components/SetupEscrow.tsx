@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Plus, Trash2, Loader2 } from "lucide-react";
@@ -13,6 +14,7 @@ type MilestoneRow = { title: string; amount: string; dueDate: string };
 const emptyRow: MilestoneRow = { title: "", amount: "", dueDate: "" };
 
 export default function SetupEscrow() {
+    const { t } = useLanguage();
   const router = useRouter();
   const params = useSearchParams();
   const applicationId = params.get("candidate");
@@ -80,8 +82,7 @@ export default function SetupEscrow() {
   if (!applicationId) {
     return (
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
-        No candidate selected.
-      </div>
+        {t("app_employer_payments_components_setup_escrow.no_candidate_selected")}</div>
     );
   }
 
@@ -92,8 +93,7 @@ export default function SetupEscrow() {
   return (
     <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
       <h3 className="text-sm font-semibold text-[#1F2A22] mb-1">
-        Set Up Escrow
-      </h3>
+        {t("app_employer_payments_components_setup_escrow.set_up_escrow")}</h3>
       <p className="text-xs text-[#8A8A7E] mb-6">
         {preview ?
           `${preview.jobTitle} · ${preview.freelancerName}`
@@ -147,8 +147,7 @@ export default function SetupEscrow() {
         onClick={addRow}
         className="flex items-center gap-1.5 text-xs font-medium text-[#C6543A] hover:underline mb-6"
       >
-        <Plus size={14} /> Add another milestone
-      </button>
+        <Plus size={14} /> {t("app_employer_payments_components_setup_escrow.add_another_milestone")}</button>
 
       {error && <p className="text-xs text-[#C6543A] mb-4">{error}</p>}
 

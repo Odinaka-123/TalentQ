@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion, type Variants } from "framer-motion";
 
 const steps = [
@@ -50,6 +51,7 @@ const heading: Variants = {
 };
 
 export default function HowItWorks() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 py-16 sm:py-20">
       <div className="w-full max-w-5xl">
@@ -60,8 +62,7 @@ export default function HowItWorks() {
           variants={heading}
           className="text-xs sm:text-sm font-semibold tracking-wide text-[#C6543A] uppercase mb-3"
         >
-          How it works
-        </motion.p>
+          {t("app_landing_components_how_it_works.how_it_works")}</motion.p>
         <motion.h2
           initial="hidden"
           whileInView="show"
@@ -70,8 +71,7 @@ export default function HowItWorks() {
           transition={{ delay: 0.05 }}
           className="text-2xl sm:text-3xl font-bold text-[#1F2A22] mb-10 sm:mb-12"
         >
-          Your payment is protected at every step
-        </motion.h2>
+          {t("app_landing_components_how_it_works.your_payment_is_protected_at_every_step")}</motion.h2>
 
         <motion.div
           initial="hidden"

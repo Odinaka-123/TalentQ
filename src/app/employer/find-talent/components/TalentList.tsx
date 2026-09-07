@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import {
   getAvailableTalent,
@@ -8,6 +9,7 @@ import {
 import TalentCard from "./TalentCard";
 
 export default function TalentList({ search }: { search: string }) {
+    const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [talent, setTalent] = useState<TalentListing[]>([]);
 
@@ -45,8 +47,7 @@ export default function TalentList({ search }: { search: string }) {
   if (filtered.length === 0) {
     return (
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
-        No talent found.
-      </div>
+        {t("app_employer_find-talent_components_talent_list.no_talent_found")}</div>
     );
   }
 

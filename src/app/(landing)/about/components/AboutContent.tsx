@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion, type Variants } from "framer-motion";
 
 const container: Variants = {
@@ -23,6 +24,7 @@ const item: Variants = {
 };
 
 export default function AboutContent() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pb-6">
       <motion.div
@@ -42,25 +44,14 @@ export default function AboutContent() {
             variants={item}
             className="text-xl sm:text-2xl font-bold text-[#DE814A] mb-5"
           >
-            Talent exists everywhere. Opportunity doesn&apos;t.
-          </motion.h2>
+            {t("app_landing_about_components_about_content.talent_exists_everywhere_opportunity_doe")}</motion.h2>
           <div className="flex flex-col gap-4 text-sm sm:text-base text-white/90 max-w-2xl">
             <motion.p variants={item}>
-              Africa is home to one of the world&apos;s fastest-growing
-              communities of developers, designers, marketers, writers,
-              researchers, consultants, and digital professionals. Yet many
-              struggle to access global opportunities—not because they lack
-              skills, but because they struggle to gain visibility and earn
-              trust.
-            </motion.p>
+              {t("app_landing_about_components_about_content.africa_is_home_to_one_of_the_world_s_fas")}</motion.p>
             <motion.p variants={item}>
-              TalentQ was created to change that.
-            </motion.p>
+              {t("app_landing_about_components_about_content.talentq_was_created_to_change_that")}</motion.p>
             <motion.p variants={item}>
-              Instead of competing in crowded marketplaces driven by low
-              prices and unverified profiles, TalentQ gives skilled African
-              professionals a platform where credibility comes first.
-            </motion.p>
+              {t("app_landing_about_components_about_content.instead_of_competing_in_crowded_marketpl")}</motion.p>
           </div>
         </motion.div>
       </motion.div>

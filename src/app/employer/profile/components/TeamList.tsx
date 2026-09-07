@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import TeamMemberRow from "./TeamMemberRow";
@@ -40,6 +41,7 @@ export default function TeamList({
   team,
   onTeamChange,
 }: TeamListProps) {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -57,21 +59,19 @@ export default function TeamList({
     <>
       <div className="rounded-2xl bg-white px-6 py-2 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A]">
         <div className="flex items-center justify-between py-4">
-          <h3 className="text-sm font-semibold text-[#1F2A22]">Team Members</h3>
+          <h3 className="text-sm font-semibold text-[#1F2A22]">{t("app_employer_profile_components_team_list.team_members")}</h3>
           <button
             type="button"
             onClick={() => setModalOpen(true)}
             className="flex items-center gap-1.5 rounded-full bg-[#A8531E] px-3.5 py-1.5 text-xs font-medium text-white hover:bg-[#94481A] transition-colors"
           >
             <Plus size={13} />
-            Invite Member
-          </button>
+            {t("app_employer_profile_components_team_list.invite_member")}</button>
         </div>
 
         {team.length === 0 ?
           <p className="text-sm text-[#8A8A7E] text-center py-8">
-            No team members yet.
-          </p>
+            {t("app_employer_profile_components_team_list.no_team_members_yet")}</p>
         : <div className="flex flex-col divide-y divide-[#EFEBE2]">
             {team.map((member) => {
               const linkedProfile = firstOrSelf(member.profiles);

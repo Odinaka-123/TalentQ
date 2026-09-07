@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowRight } from "lucide-react";
@@ -8,6 +9,7 @@ import NavLink from "./NavLink";
 type NavItem = { href: string; label: string };
 
 export default function MobileMenu({ navItems }: { navItems: NavItem[] }) {
+    const { t } = useLanguage();
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,7 +25,7 @@ export default function MobileMenu({ navItems }: { navItems: NavItem[] }) {
       {open && (
         <div className="fixed inset-0 z-50 bg-[#F5F1E9] flex flex-col px-6 py-6">
           <div className="flex items-center justify-between">
-            <span className="text-lg font-bold text-[#1F2A22]">Menu</span>
+            <span className="text-lg font-bold text-[#1F2A22]">{t("components_header_mobile_menu.menu")}</span>
             <button
               onClick={() => setOpen(false)}
               aria-label="Close menu"
@@ -47,15 +49,13 @@ export default function MobileMenu({ navItems }: { navItems: NavItem[] }) {
               onClick={() => setOpen(false)}
               className="w-full text-center rounded-full border border-[#D9CFC0] px-4 py-2.5 text-sm font-medium text-[#1F2A22]"
             >
-              Sign in
-            </Link>
+              {t("components_header_mobile_menu.sign_in")}</Link>
             <Link
               href="/signup"
               onClick={() => setOpen(false)}
               className="w-full flex items-center justify-center gap-1.5 rounded-full bg-[#C6543A] px-4 py-2.5 text-sm font-medium text-white"
             >
-              Join us
-              <ArrowRight size={14} />
+              {t("components_header_mobile_menu.join_us")}<ArrowRight size={14} />
             </Link>
           </div>
         </div>

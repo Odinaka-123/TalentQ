@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
 type JobDetailsData = {
   title: string;
   jobType: string;
@@ -20,6 +22,7 @@ export default function JobDetailsStep({
   data,
   onChange,
 }: JobDetailsStepProps) {
+    const { t } = useLanguage();
   const update = (key: keyof JobDetailsData, value: string) => {
     onChange({ ...data, [key]: value });
   };
@@ -27,14 +30,12 @@ export default function JobDetailsStep({
   return (
     <div className="rounded-2xl bg-white px-6 py-6 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A]">
       <h2 className="text-base font-semibold text-[#1F2A22] mb-5">
-        Job Details
-      </h2>
+        {t("app_employer_post-job_components_job_details_step.job_details")}</h2>
 
       <div className="flex flex-col gap-5">
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Job Title
-          </label>
+            {t("app_employer_post-job_components_job_details_step.job_title")}</label>
           <input
             type="text"
             value={data.title}
@@ -47,8 +48,7 @@ export default function JobDetailsStep({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-              Job Type
-            </label>
+              {t("app_employer_post-job_components_job_details_step.job_type")}</label>
             <select
               value={data.jobType}
               onChange={(e) => update("jobType", e.target.value)}
@@ -64,8 +64,7 @@ export default function JobDetailsStep({
 
           <div>
             <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-              Work Arrangement
-            </label>
+              {t("app_employer_post-job_components_job_details_step.work_arrangement")}</label>
             <select
               value={data.workArrangement}
               onChange={(e) => update("workArrangement", e.target.value)}
@@ -82,8 +81,7 @@ export default function JobDetailsStep({
 
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Department / Team
-          </label>
+            {t("app_employer_post-job_components_job_details_step.department_team")}</label>
           <input
             type="text"
             value={data.department}
@@ -95,8 +93,7 @@ export default function JobDetailsStep({
 
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Job Description
-          </label>
+            {t("app_employer_post-job_components_job_details_step.job_description")}</label>
           <textarea
             value={data.description}
             onChange={(e) => update("description", e.target.value)}

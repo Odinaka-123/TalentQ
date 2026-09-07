@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { HelpCircle, Loader2 } from "lucide-react";
@@ -21,6 +22,7 @@ const EMPTY_FIELDS: EmployerProfileData = {
 };
 
 export default function ProfileInformation() {
+    const { t } = useLanguage();
   const [userId, setUserId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [fields, setFields] = useState<EmployerProfileData>(EMPTY_FIELDS);
@@ -84,8 +86,7 @@ export default function ProfileInformation() {
   return (
     <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
       <h3 className="text-base font-semibold text-[#1F2A22] mb-5">
-        Profile Information
-      </h3>
+        {t("app_employer_settings_components_profile_information.profile_information")}</h3>
 
       <div className="flex items-center gap-4 mb-6">
         <div className="w-14 h-14 rounded-full bg-[#3E5C50] overflow-hidden shrink-0 relative">
@@ -104,9 +105,8 @@ export default function ProfileInformation() {
             disabled
             className="text-sm font-medium text-[#C6543A] hover:underline disabled:opacity-50 disabled:no-underline disabled:cursor-not-allowed"
           >
-            Change Photo
-          </button>
-          <p className="text-xs text-[#8A8A7E] mt-0.5">Coming soon</p>
+            {t("app_employer_settings_components_profile_information.change_photo")}</button>
+          <p className="text-xs text-[#8A8A7E] mt-0.5">{t("app_employer_settings_components_profile_information.coming_soon")}</p>
         </div>
       </div>
 
@@ -117,8 +117,7 @@ export default function ProfileInformation() {
       )}
       {saved && (
         <p className="text-xs text-[#3E8E5A] bg-[#DDEEE2] rounded-lg px-3 py-2 mb-4">
-          Changes saved.
-        </p>
+          {t("app_employer_settings_components_profile_information.changes_saved")}</p>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
@@ -139,7 +138,7 @@ export default function ProfileInformation() {
         />
         <div>
           <div className="flex items-center gap-1.5 mb-1.5">
-            <label className="text-xs font-medium text-[#1F2A22]">Email</label>
+            <label className="text-xs font-medium text-[#1F2A22]">{t("app_employer_settings_components_profile_information.email")}</label>
             <HelpCircle size={12} className="text-[#B9B4A6]" />
           </div>
           <input

@@ -1,9 +1,11 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function TalentBanner() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pb-16 sm:pb-20">
       <motion.div
@@ -36,8 +38,7 @@ export default function TalentBanner() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
             className="text-xl sm:text-2xl md:text-3xl font-bold text-white max-w-xl"
           >
-            Talent is ranked by track record, not by who pays the most.
-          </motion.h2>
+            {t("app_landing_components_talent_banner.talent_is_ranked_by_track_record_not_by_")}</motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -45,9 +46,7 @@ export default function TalentBanner() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
             className="mt-4 text-sm sm:text-base text-white/80 max-w-md"
           >
-            No paid placements. No boosted listings. What you see is who&apos;s
-            actually delivering.
-          </motion.p>
+            {t("app_landing_components_talent_banner.no_paid_placements_no_boosted_listings_w")}</motion.p>
         </div>
       </motion.div>
     </section>

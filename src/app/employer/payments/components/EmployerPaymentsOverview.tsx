@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { PiggyBank, Lock } from "lucide-react";
 import EmployerStatCard from "./EmployerStatCard";
@@ -13,6 +14,7 @@ import {
 import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 export default function EmployerPaymentsOverview() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const { formatCurrency } = useCurrency();
   const [loading, setLoading] = useState(true);
@@ -63,9 +65,7 @@ export default function EmployerPaymentsOverview() {
 
       <div className="rounded-2xl border border-[#E8A47E] bg-[#FBF0E4] px-5 py-4 mb-6">
         <p className="text-sm text-[#1F2A22]">
-          All fees shown at the 10% TalentQ service rate. Withdrawal
-          transactions carry no additional fee.
-        </p>
+          {t("app_employer_payments_components_employer_payments_overview.all_fees_shown_at_the_10_talentq_service")}</p>
       </div>
 
       <ActiveEscrowMilestones milestones={data.activeMilestones} />

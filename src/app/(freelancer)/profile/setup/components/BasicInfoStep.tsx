@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
 type BasicInfoData = {
   fullName: string;
   headline: string;
@@ -16,6 +18,7 @@ export default function BasicInfoStep({
   onChange,
   onContinue,
 }: BasicInfoStepProps) {
+    const { t } = useLanguage();
   const update = (key: keyof BasicInfoData, value: string) => {
     onChange({ ...data, [key]: value });
   };
@@ -24,16 +27,14 @@ export default function BasicInfoStep({
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-[#1F2A22] mb-1">Basic Info</h1>
+      <h1 className="text-xl font-bold text-[#1F2A22] mb-1">{t("app_freelancer_profile_setup_components_basic_info_step.basic_info")}</h1>
       <p className="text-sm text-[#8A8A7E] mb-5">
-        This is how employers will see you.
-      </p>
+        {t("app_freelancer_profile_setup_components_basic_info_step.this_is_how_employers_will_see_you")}</p>
 
       <div className="flex flex-col gap-4 mb-6">
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Full Name
-          </label>
+            {t("app_freelancer_profile_setup_components_basic_info_step.full_name")}</label>
           <input
             type="text"
             value={data.fullName}
@@ -45,8 +46,7 @@ export default function BasicInfoStep({
 
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Professional Title
-          </label>
+            {t("app_freelancer_profile_setup_components_basic_info_step.professional_title")}</label>
           <input
             type="text"
             value={data.headline}
@@ -63,8 +63,7 @@ export default function BasicInfoStep({
         onClick={onContinue}
         className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Continue
-      </button>
+        {t("app_freelancer_profile_setup_components_basic_info_step.continue")}</button>
     </div>
   );
 }

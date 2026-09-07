@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
@@ -14,6 +15,7 @@ import { createClient } from "@/lib/supabase/client";
 import { getFreelancerDashboard } from "@/lib/queries/dashboard";
 
 export default function DashboardPage() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Awaited<
@@ -176,28 +178,23 @@ export default function DashboardPage() {
                 : "Identity Verification Needed"}
               </p>
               <p className="text-xs text-[#6B7A73] mt-0.5">
-                Complete it to appear in more searches and unlock expert-level
-                jobs.
-              </p>
+                {t("app_freelancer_dashboard_page.complete_it_to_appear_in_more_searches_a")}</p>
             </div>
           </div>
           <Link
             href="/verification"
             className="shrink-0 bg-[#C6543A] text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-[#B24932] transition-colors self-start sm:self-auto"
           >
-            Continue
-          </Link>
+            {t("app_freelancer_dashboard_page.continue")}</Link>
         </div>
       )}
 
       <div>
         <h2 className="text-base font-semibold text-[#1B3A2F] mb-3">
-          Active Contracts
-        </h2>
+          {t("app_freelancer_dashboard_page.active_contracts")}</h2>
         {data.activeContracts.length === 0 ?
           <div className="bg-white rounded-2xl p-6 text-center text-sm text-[#6B7A73]">
-            No active contracts yet.
-          </div>
+            {t("app_freelancer_dashboard_page.no_active_contracts_yet")}</div>
         : <div className="flex flex-col gap-3">
             {data.activeContracts.map((c) => (
               <div
@@ -221,8 +218,7 @@ export default function DashboardPage() {
                     />
                   </div>
                   <p className="text-xs text-[#9AA79F] mt-1.5">
-                    {c.progress}% Complete
-                  </p>
+                    {c.progress}{t("app_freelancer_dashboard_page.complete")}</p>
                 </div>
               </div>
             ))}
@@ -233,15 +229,12 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 bg-white rounded-2xl p-4 sm:p-5">
           <h2 className="text-base font-semibold text-[#1B3A2F]">
-            Recommended for You
-          </h2>
+            {t("app_freelancer_dashboard_page.recommended_for_you")}</h2>
           <p className="text-xs text-[#6B7A73] mb-4">
-            Based on your skills and activity
-          </p>
+            {t("app_freelancer_dashboard_page.based_on_your_skills_and_activity")}</p>
           {data.recommended.length === 0 ?
             <p className="text-sm text-[#6B7A73] py-4">
-              Add skills to your profile to see job matches here.
-            </p>
+              {t("app_freelancer_dashboard_page.add_skills_to_your_profile_to_see_job_ma")}</p>
           : <div className="flex flex-col divide-y divide-[#F0ECE3]">
               {data.recommended.map((job) => (
                 <div
@@ -259,8 +252,7 @@ export default function DashboardPage() {
                     </p>
                   </div>
                   <span className="shrink-0 text-xs font-medium text-[#2F8C4D] bg-[#E3F2E8] px-2.5 py-1 rounded-full">
-                    {job.matchScore}% Match
-                  </span>
+                    {job.matchScore}{t("app_freelancer_dashboard_page.match")}</span>
                 </div>
               ))}
             </div>
@@ -269,17 +261,15 @@ export default function DashboardPage() {
             href="/find-jobs"
             className="mt-4 flex items-center gap-1 text-sm font-medium text-[#C6543A] hover:gap-1.5 transition-all w-fit"
           >
-            Browse all matches
-            <ArrowRight size={14} />
+            {t("app_freelancer_dashboard_page.browse_all_matches")}<ArrowRight size={14} />
           </Link>
         </div>
 
         <div className="bg-white rounded-2xl p-4 sm:p-5">
           <h2 className="text-base font-semibold text-[#1B3A2F] mb-4">
-            Recent Activity
-          </h2>
+            {t("app_freelancer_dashboard_page.recent_activity")}</h2>
           {data.activity.length === 0 ?
-            <p className="text-sm text-[#6B7A73]">No recent activity yet.</p>
+            <p className="text-sm text-[#6B7A73]">{t("app_freelancer_dashboard_page.no_recent_activity_yet")}</p>
           : <ul className="flex flex-col gap-3">
               {data.activity.map((item, i) => (
                 <li key={i} className="flex items-start gap-2.5">

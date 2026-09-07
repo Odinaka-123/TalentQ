@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { Building2, CheckCircle2, Loader2 } from "lucide-react";
 
@@ -10,6 +11,7 @@ export default function ConnectPayoutAccount({
 }: {
   onConnected: () => void;
 }) {
+    const { t } = useLanguage();
   const [banks, setBanks] = useState<Bank[]>([]);
   const [bankCode, setBankCode] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
@@ -112,11 +114,9 @@ export default function ConnectPayoutAccount({
         </div>
         <div>
           <h3 className="text-sm font-semibold text-[#1F2A22]">
-            Connect a bank account
-          </h3>
+            {t("app_freelancer_payments_components_connect_payout_account.connect_a_bank_account")}</h3>
           <p className="text-xs text-[#8A8A7E]">
-            Nigerian bank accounts only, for now
-          </p>
+            {t("app_freelancer_payments_components_connect_payout_account.nigerian_bank_accounts_only_for_now")}</p>
         </div>
       </div>
 
@@ -129,8 +129,7 @@ export default function ConnectPayoutAccount({
       <div className="flex flex-col gap-4">
         <div>
           <label className="text-xs font-medium text-[#1F2A22] mb-1.5 block">
-            Bank
-          </label>
+            {t("app_freelancer_payments_components_connect_payout_account.bank")}</label>
           {loadingBanks ?
             <div className="h-10 rounded-lg bg-[#F5F1E9] animate-pulse" />
           : <select
@@ -142,7 +141,7 @@ export default function ConnectPayoutAccount({
               }}
               className="w-full rounded-lg border border-[#E5E0D6] px-3 py-2.5 text-sm text-[#1F2A22] outline-none focus:border-[#DE814A]"
             >
-              <option value="">Select your bank</option>
+              <option value="">{t("app_freelancer_payments_components_connect_payout_account.select_your_bank")}</option>
               {banks.map((b) => (
                 <option key={b.code} value={b.code}>
                   {b.name}
@@ -154,8 +153,7 @@ export default function ConnectPayoutAccount({
 
         <div>
           <label className="text-xs font-medium text-[#1F2A22] mb-1.5 block">
-            Account number
-          </label>
+            {t("app_freelancer_payments_components_connect_payout_account.account_number")}</label>
           <input
             type="text"
             inputMode="numeric"
@@ -184,8 +182,7 @@ export default function ConnectPayoutAccount({
           >
             {resolving ?
               <span className="flex items-center justify-center gap-2">
-                <Loader2 size={14} className="animate-spin" /> Verifying...
-              </span>
+                <Loader2 size={14} className="animate-spin" /> {t("app_freelancer_payments_components_connect_payout_account.verifying")}</span>
             : "Verify account"}
           </button>
         }

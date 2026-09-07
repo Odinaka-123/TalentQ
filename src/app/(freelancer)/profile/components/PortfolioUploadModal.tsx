@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState, useRef } from "react";
 import { X, ImagePlus, Loader2 } from "lucide-react";
 
@@ -18,6 +19,7 @@ export default function PortfolioUploadModal({
   onClose,
   onSubmit,
 }: PortfolioUploadModalProps) {
+    const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -127,8 +129,7 @@ export default function PortfolioUploadModal({
       >
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-semibold text-[#1F2A22]">
-            Add Portfolio Item
-          </h2>
+            {t("app_freelancer_profile_components_portfolio_upload_modal.add_portfolio_item")}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -182,7 +183,7 @@ export default function PortfolioUploadModal({
 
         <div className="flex flex-col gap-3 mb-4">
           <div>
-            <label className="text-xs text-[#8A8A7E] block mb-1">Title</label>
+            <label className="text-xs text-[#8A8A7E] block mb-1">{t("app_freelancer_profile_components_portfolio_upload_modal.title")}</label>
             <input
               type="text"
               value={title}
@@ -193,7 +194,7 @@ export default function PortfolioUploadModal({
           </div>
 
           <div>
-            <label className="text-xs text-[#8A8A7E] block mb-1">Tags</label>
+            <label className="text-xs text-[#8A8A7E] block mb-1">{t("app_freelancer_profile_components_portfolio_upload_modal.tags")}</label>
             <div className="w-full rounded-lg border border-[#E5E0D6] bg-white px-2 py-2 flex flex-wrap items-center gap-1.5 focus-within:border-[#DE814A]">
               {tags.map((tag) => (
                 <span
@@ -232,8 +233,7 @@ export default function PortfolioUploadModal({
             disabled={submitting}
             className="flex-1 rounded-full border border-[#DE814A] py-2.5 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors disabled:opacity-50"
           >
-            Cancel
-          </button>
+            {t("app_freelancer_profile_components_portfolio_upload_modal.cancel")}</button>
           <button
             type="button"
             onClick={handleSubmit}

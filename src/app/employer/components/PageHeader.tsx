@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Bell, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +17,7 @@ export default function PageHeader({
   statusLabel,
   statusColor = "#3E8E5A",
 }: PageHeaderProps) {
+    const { t } = useLanguage();
   const router = useRouter();
 
   return (
@@ -42,8 +44,7 @@ export default function PageHeader({
           {verified && (
             <span className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-[#3E8E5A]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#3E8E5A]" />
-              Verified Employer
-            </span>
+              {t("app_employer_components_page_header.verified_employer")}</span>
           )}
 
           <button

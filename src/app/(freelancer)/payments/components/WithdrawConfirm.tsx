@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { Wallet, Loader2 } from "lucide-react";
 
@@ -20,6 +21,7 @@ export default function WithdrawConfirm({
   onBack,
   onSuccess,
 }: WithdrawConfirmProps) {
+    const { t } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -58,17 +60,15 @@ export default function WithdrawConfirm({
       </div>
 
       <h2 className="text-lg font-semibold text-[#1F2A22]">
-        Confirm Withdrawal
-      </h2>
+        {t("app_freelancer_payments_components_withdraw_confirm.confirm_withdrawal")}</h2>
       <p className="text-sm text-[#8A8A7E] mt-1 mb-6">
-        Review your withdrawal details below
-      </p>
+        {t("app_freelancer_payments_components_withdraw_confirm.review_your_withdrawal_details_below")}</p>
 
       <div className="w-full flex flex-col gap-2">
         <div className="rounded-xl bg-[#FBF0E4] px-4 py-3 flex items-center justify-between">
           <div className="text-left">
-            <p className="text-xs text-[#8A8A7E]">Amount</p>
-            <p className="text-xs text-[#8A8A7E]">Withdrawal fee (10%)</p>
+            <p className="text-xs text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw_confirm.amount")}</p>
+            <p className="text-xs text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw_confirm.withdrawal_fee_10")}</p>
           </div>
           <div className="text-right">
             <p className="text-sm font-semibold text-[#1F2A22]">
@@ -80,8 +80,8 @@ export default function WithdrawConfirm({
 
         <div className="rounded-xl bg-[#FBF0E4] px-4 py-3 flex items-center justify-between">
           <div className="text-left">
-            <p className="text-sm font-semibold text-[#1F2A22]">You receive</p>
-            <p className="text-xs text-[#8A8A7E]">Method</p>
+            <p className="text-sm font-semibold text-[#1F2A22]">{t("app_freelancer_payments_components_withdraw_confirm.you_receive")}</p>
+            <p className="text-xs text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw_confirm.method")}</p>
           </div>
           <div className="text-right">
             <p className="text-sm font-semibold text-[#3E8E5A]">
@@ -93,10 +93,7 @@ export default function WithdrawConfirm({
       </div>
 
       <p className="text-xs text-[#8A8A7E] mt-4">
-        TalentQ&apos;s 10% service fee was already applied when this payment was
-        released from escrow. A separate 10% fee applies when withdrawing to
-        your bank, covering payout processing costs.
-      </p>
+        {t("app_freelancer_payments_components_withdraw_confirm.talentq_s_10_service_fee_was_already_app")}</p>
 
       {error && (
         <p className="text-xs text-[#C6543A] mt-3 w-full text-left">{error}</p>
@@ -109,8 +106,7 @@ export default function WithdrawConfirm({
           disabled={submitting}
           className="flex-1 rounded-full border border-[#DE814A] py-2.5 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors disabled:opacity-50"
         >
-          Back
-        </button>
+          {t("app_freelancer_payments_components_withdraw_confirm.back")}</button>
         <button
           type="button"
           onClick={handleConfirm}

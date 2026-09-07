@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
 type RateExperienceData = {
   hourlyRate: string;
   yearsExperience: string;
@@ -16,6 +18,7 @@ export default function RateExperienceStep({
   onChange,
   onContinue,
 }: RateExperienceStepProps) {
+    const { t } = useLanguage();
   const update = (key: keyof RateExperienceData, value: string) => {
     onChange({ ...data, [key]: value });
   };
@@ -25,17 +28,14 @@ export default function RateExperienceStep({
   return (
     <div>
       <h1 className="text-xl font-bold text-[#1F2A22] mb-1">
-        Rate & Experience
-      </h1>
+        {t("app_freelancer_profile_setup_components_rate_experience_step.rate_experience")}</h1>
       <p className="text-sm text-[#8A8A7E] mb-5">
-        Set your rate — you can change this anytime.
-      </p>
+        {t("app_freelancer_profile_setup_components_rate_experience_step.set_your_rate_you_can_change_this_anytim")}</p>
 
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Hourly Rate ($)
-          </label>
+            {t("app_freelancer_profile_setup_components_rate_experience_step.hourly_rate")}</label>
           <input
             type="number"
             value={data.hourlyRate}
@@ -47,8 +47,7 @@ export default function RateExperienceStep({
 
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Years of Experience
-          </label>
+            {t("app_freelancer_profile_setup_components_rate_experience_step.years_of_experience")}</label>
           <input
             type="number"
             value={data.yearsExperience}
@@ -65,8 +64,7 @@ export default function RateExperienceStep({
         onClick={onContinue}
         className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Continue
-      </button>
+        {t("app_freelancer_profile_setup_components_rate_experience_step.continue")}</button>
     </div>
   );
 }

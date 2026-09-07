@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ export default function TalentProfilePage({
 }: {
   params: Promise<{ freelancerId: string }>;
 }) {
+    const { t } = useLanguage();
   const { freelancerId } = use(params);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -41,8 +43,7 @@ export default function TalentProfilePage({
   if (!profile) {
     return (
       <div className="text-center py-16 text-sm text-[#8A8A7E]">
-        Profile not found.
-      </div>
+        {t("app_employer_find-talent_freelancer_id_page.profile_not_found")}</div>
     );
   }
 
@@ -53,8 +54,7 @@ export default function TalentProfilePage({
         className="inline-flex items-center gap-1.5 text-xs text-[#C6543A] font-medium hover:underline mb-3"
       >
         <ArrowLeft size={12} />
-        Back to Search
-      </Link>
+        {t("app_employer_find-talent_freelancer_id_page.back_to_search")}</Link>
 
       <div className="rounded-2xl border border-[#DE814A] bg-white px-6 py-5 mb-4">
         <div className="flex items-start gap-4 mb-4">
@@ -77,8 +77,7 @@ export default function TalentProfilePage({
               {profile.identityVerified && (
                 <span className="flex items-center gap-1 text-xs text-[#DE814A]">
                   <ShieldCheck size={12} />
-                  Identity and skills verified
-                </span>
+                  {t("app_employer_find-talent_freelancer_id_page.identity_and_skills_verified")}</span>
               )}
               {profile.overallRating !== null && (
                 <span className="flex items-center gap-1 text-xs text-[#1F2A22] font-medium">
@@ -100,8 +99,7 @@ export default function TalentProfilePage({
             }
             className="rounded-full border border-[#DE814A] px-4 py-2 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors"
           >
-            Send message
-          </button>
+            {t("app_employer_find-talent_freelancer_id_page.send_message")}</button>
           {/* TODO: "Make an Offer" — still pending the contracts.job_id
               nullability decision flagged earlier */}
         </div>
@@ -109,7 +107,7 @@ export default function TalentProfilePage({
 
       {profile.skills.length > 0 && (
         <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6 mb-4">
-          <h3 className="text-sm font-semibold text-[#1F2A22] mb-3">Skills</h3>
+          <h3 className="text-sm font-semibold text-[#1F2A22] mb-3">{t("app_employer_find-talent_freelancer_id_page.skills")}</h3>
           <div className="flex flex-wrap gap-2">
             {profile.skills.map((skill) => (
               <span
@@ -126,8 +124,7 @@ export default function TalentProfilePage({
       {profile.portfolio.length > 0 && (
         <div className="mb-4">
           <h3 className="text-sm font-semibold text-[#1F2A22] mb-3">
-            Portfolio
-          </h3>
+            {t("app_employer_find-talent_freelancer_id_page.portfolio")}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {profile.portfolio.map((item) => (
               <div
@@ -158,7 +155,7 @@ export default function TalentProfilePage({
 
       {profile.reviews.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-[#1F2A22] mb-3">Reviews</h3>
+          <h3 className="text-sm font-semibold text-[#1F2A22] mb-3">{t("app_employer_find-talent_freelancer_id_page.reviews")}</h3>
           <div className="flex flex-col gap-3">
             {profile.reviews.map((review) => (
               <div

@@ -1,0 +1,3018 @@
+[
+  {
+    "file": "src\\app\\onboarding\\page.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_page.saving",
+        "text": "Saving..."
+      }
+    ]
+  },
+  {
+    "file": "src\\components\\Footer\\index.tsx",
+    "items": [
+      {
+        "key": "components_footer_index.a_fair_verified_marketplace_for_african_",
+        "text": "A fair, verified marketplace for African freelancers and the businesses that hire them."
+      },
+      {
+        "key": "components_footer_index.2026_all_rights_reserved_talentq",
+        "text": "© 2026 All Rights Reserved TalentQ"
+      },
+      {
+        "key": "components_footer_index.verified_by_identity_check_protected_by_",
+        "text": "Verified by identity check · Protected by escrow"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\components\\Header\\Header.tsx",
+    "items": [
+      {
+        "key": "components_header_header.sign_in",
+        "text": "Sign in"
+      },
+      {
+        "key": "components_header_header.join_us",
+        "text": "Join us"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\components\\Header\\MobileMenu.tsx",
+    "items": [
+      {
+        "key": "components_header_mobile_menu.menu",
+        "text": "Menu"
+      },
+      {
+        "key": "components_header_mobile_menu.sign_in",
+        "text": "Sign in"
+      },
+      {
+        "key": "components_header_mobile_menu.join_us",
+        "text": "Join us"
+      }
+    ]
+  },
+  {
+    "file": "src\\components\\SkillSelector\\SkillSelectorModal.tsx",
+    "items": [
+      {
+        "key": "components_skill_selector_skill_selector_modal.add_skills",
+        "text": "Add skills"
+      },
+      {
+        "key": "components_skill_selector_skill_selector_modal.selected",
+        "text": "selected"
+      },
+      {
+        "key": "components_skill_selector_skill_selector_modal.no_skills_found_for",
+        "text": "No skills found for \""
+      },
+      {
+        "key": "components_skill_selector_skill_selector_modal.done",
+        "text": "Done"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(auth)\\forgot-password\\page.tsx",
+    "items": [
+      {
+        "key": "app_auth_forgot-password_page.back_to_log_in",
+        "text": "Back to log in"
+      },
+      {
+        "key": "app_auth_forgot-password_page.email",
+        "text": "Email"
+      },
+      {
+        "key": "app_auth_forgot-password_page.remember_your_password",
+        "text": "Remember your password?"
+      },
+      {
+        "key": "app_auth_forgot-password_page.log_in",
+        "text": "Log in"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(auth)\\login\\page.tsx",
+    "items": [
+      {
+        "key": "app_auth_login_page.email",
+        "text": "Email"
+      },
+      {
+        "key": "app_auth_login_page.password",
+        "text": "Password"
+      },
+      {
+        "key": "app_auth_login_page.forgot_password",
+        "text": "Forgot password?"
+      },
+      {
+        "key": "app_auth_login_page.or",
+        "text": "OR"
+      },
+      {
+        "key": "app_auth_login_page.don_t_have_an_account",
+        "text": "Don't have an account?"
+      },
+      {
+        "key": "app_auth_login_page.sign_up",
+        "text": "Sign up"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(auth)\\signup\\page.tsx",
+    "items": [
+      {
+        "key": "app_auth_signup_page.full_name",
+        "text": "Full name"
+      },
+      {
+        "key": "app_auth_signup_page.email",
+        "text": "Email"
+      },
+      {
+        "key": "app_auth_signup_page.password",
+        "text": "Password"
+      },
+      {
+        "key": "app_auth_signup_page.must_be_at_least_8_characters",
+        "text": "Must be at least 8 characters."
+      },
+      {
+        "key": "app_auth_signup_page.or",
+        "text": "OR"
+      },
+      {
+        "key": "app_auth_signup_page.already_have_an_account",
+        "text": "Already have an account?"
+      },
+      {
+        "key": "app_auth_signup_page.log_in",
+        "text": "Log in"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(auth)\\verify-otp\\page.tsx",
+    "items": [
+      {
+        "key": "app_auth_verify-otp_page.back",
+        "text": "Back"
+      },
+      {
+        "key": "app_auth_verify-otp_page.didn_t_get_a_code",
+        "text": "Didn't get a code?"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\components\\JobCard.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_components_job_card.proposals",
+        "text": "Proposals"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\components\\NotificationsPanel.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_components_notifications_panel.notifications",
+        "text": "Notifications"
+      },
+      {
+        "key": "app_freelancer_components_notifications_panel.mark_all_read",
+        "text": "Mark all read"
+      },
+      {
+        "key": "app_freelancer_components_notifications_panel.no_notifications_yet",
+        "text": "No notifications yet."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\components\\Sidebar.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_components_sidebar.freelancer",
+        "text": "Freelancer"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\components\\TopBar.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_components_top_bar.hello",
+        "text": "Hello"
+      },
+      {
+        "key": "app_freelancer_components_top_bar.what_are_we_locking_in_today",
+        "text": "What are we locking in today?"
+      },
+      {
+        "key": "app_freelancer_components_top_bar.find_a_job",
+        "text": "Find a job"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\dashboard\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_dashboard_page.complete_it_to_appear_in_more_searches_a",
+        "text": "Complete it to appear in more searches and unlock expert-level jobs."
+      },
+      {
+        "key": "app_freelancer_dashboard_page.continue",
+        "text": "Continue"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.active_contracts",
+        "text": "Active Contracts"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.no_active_contracts_yet",
+        "text": "No active contracts yet."
+      },
+      {
+        "key": "app_freelancer_dashboard_page.complete",
+        "text": "% Complete"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.recommended_for_you",
+        "text": "Recommended for You"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.based_on_your_skills_and_activity",
+        "text": "Based on your skills and activity"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.add_skills_to_your_profile_to_see_job_ma",
+        "text": "Add skills to your profile to see job matches here."
+      },
+      {
+        "key": "app_freelancer_dashboard_page.match",
+        "text": "% Match"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.browse_all_matches",
+        "text": "Browse all matches"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.recent_activity",
+        "text": "Recent Activity"
+      },
+      {
+        "key": "app_freelancer_dashboard_page.no_recent_activity_yet",
+        "text": "No recent activity yet."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\find-jobs\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_find-jobs_page.first_gig_opportunities",
+        "text": "First Gig Opportunities"
+      },
+      {
+        "key": "app_freelancer_find-jobs_page.view_first_gigs",
+        "text": "View First Gigs"
+      },
+      {
+        "key": "app_freelancer_find-jobs_page.jobs",
+        "text": "jobs"
+      },
+      {
+        "key": "app_freelancer_find-jobs_page.match_your_profile",
+        "text": "match your profile"
+      },
+      {
+        "key": "app_freelancer_find-jobs_page.no_jobs_to_show_right_now",
+        "text": "No jobs to show right now."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\help-support\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_help-support_page.how_can_we_help",
+        "text": "How can we help?"
+      },
+      {
+        "key": "app_freelancer_help-support_page.search_our_guides_or_contact_support_we_",
+        "text": "Search our guides or contact support — we respond within 4 hours."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\messages\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_messages_page.no_conversations_yet",
+        "text": "No conversations yet."
+      },
+      {
+        "key": "app_freelancer_messages_page.messages",
+        "text": "Messages"
+      },
+      {
+        "key": "app_freelancer_messages_page.replying_to",
+        "text": "Replying to"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_page.profile_not_found",
+        "text": "Profile not found."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\settings\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_settings_page.privacy_settings_coming_next",
+        "text": "Privacy settings — coming next"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\components\\CtaBanner.tsx",
+    "items": [
+      {
+        "key": "app_landing_components_cta_banner.start_free_no_card_required_to_browse_or",
+        "text": "Start free — no card required to browse or post."
+      },
+      {
+        "key": "app_landing_components_cta_banner.no_paid_placements_no_boosted_listings_w",
+        "text": "No paid placements. No boosted listings. What you see is who's actually delivering."
+      },
+      {
+        "key": "app_landing_components_cta_banner.join_us",
+        "text": "Join us"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\components\\FreelancerTiers.tsx",
+    "items": [
+      {
+        "key": "app_landing_components_freelancer_tiers.for_freelancers",
+        "text": "For freelancers"
+      },
+      {
+        "key": "app_landing_components_freelancer_tiers.there_s_a_lane_for_wherever_you_are",
+        "text": "There's a lane for wherever you are"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\components\\Hero.tsx",
+    "items": [
+      {
+        "key": "app_landing_components_hero.find_work_you_can_trust",
+        "text": "Find work you can trust."
+      },
+      {
+        "key": "app_landing_components_hero.hire_talent_you_can_verify",
+        "text": "Hire talent you can verify."
+      },
+      {
+        "key": "app_landing_components_hero.no_fake_listings_no_pay_to_win_visibilit",
+        "text": "No fake listings. No pay-to-win visibility. Your money stays protected until the work is done."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\components\\HowItWorks.tsx",
+    "items": [
+      {
+        "key": "app_landing_components_how_it_works.how_it_works",
+        "text": "How it works"
+      },
+      {
+        "key": "app_landing_components_how_it_works.your_payment_is_protected_at_every_step",
+        "text": "Your payment is protected at every step"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\components\\TalentBanner.tsx",
+    "items": [
+      {
+        "key": "app_landing_components_talent_banner.talent_is_ranked_by_track_record_not_by_",
+        "text": "Talent is ranked by track record, not by who pays the most."
+      },
+      {
+        "key": "app_landing_components_talent_banner.no_paid_placements_no_boosted_listings_w",
+        "text": "No paid placements. No boosted listings. What you see is who's actually delivering."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\components\\Testimonials.tsx",
+    "items": [
+      {
+        "key": "app_landing_components_testimonials.from_people_using_it",
+        "text": "From people using it"
+      },
+      {
+        "key": "app_landing_components_testimonials.real_outcomes_not_slogans",
+        "text": "Real outcomes, not slogans"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\components\\TrustSafety.tsx",
+    "items": [
+      {
+        "key": "app_landing_components_trust_safety.trust_safety",
+        "text": "Trust & safety"
+      },
+      {
+        "key": "app_landing_components_trust_safety.built_to_stop_the_two_things_that_ruin_m",
+        "text": "Built to stop the two things that ruin marketplaces"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\components\\NotificationsPanel.tsx",
+    "items": [
+      {
+        "key": "app_employer_components_notifications_panel.notifications",
+        "text": "Notifications"
+      },
+      {
+        "key": "app_employer_components_notifications_panel.mark_all_read",
+        "text": "Mark all read"
+      },
+      {
+        "key": "app_employer_components_notifications_panel.no_notifications_yet",
+        "text": "No notifications yet."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\components\\PageHeader.tsx",
+    "items": [
+      {
+        "key": "app_employer_components_page_header.verified_employer",
+        "text": "Verified Employer"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\components\\Sidebar.tsx",
+    "items": [
+      {
+        "key": "app_employer_components_sidebar.employer",
+        "text": "Employer"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\components\\TopBar.tsx",
+    "items": [
+      {
+        "key": "app_employer_components_top_bar.hello",
+        "text": "Hello"
+      },
+      {
+        "key": "app_employer_components_top_bar.what_are_we_doing_today",
+        "text": "What are we doing today?"
+      },
+      {
+        "key": "app_employer_components_top_bar.post_a_job",
+        "text": "Post a job"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\dashboard\\page.tsx",
+    "items": [
+      {
+        "key": "app_employer_dashboard_page.complete_your_setup_to_unlock_ai_powered",
+        "text": "Complete your setup to unlock AI-powered matching."
+      },
+      {
+        "key": "app_employer_dashboard_page.continue",
+        "text": "Continue"
+      },
+      {
+        "key": "app_employer_dashboard_page.active_contracts",
+        "text": "Active Contracts"
+      },
+      {
+        "key": "app_employer_dashboard_page.no_active_contracts_yet",
+        "text": "No active contracts yet."
+      },
+      {
+        "key": "app_employer_dashboard_page.complete",
+        "text": "% Complete"
+      },
+      {
+        "key": "app_employer_dashboard_page.recommended_for_you",
+        "text": "Recommended for You"
+      },
+      {
+        "key": "app_employer_dashboard_page.based_on_your_job_posts_and_hiring_activ",
+        "text": "Based on your job posts and hiring activity"
+      },
+      {
+        "key": "app_employer_dashboard_page.no_new_applicants_to_review_right_now",
+        "text": "No new applicants to review right now."
+      },
+      {
+        "key": "app_employer_dashboard_page.ai_match",
+        "text": "% AI Match"
+      },
+      {
+        "key": "app_employer_dashboard_page.browse_all_matches",
+        "text": "Browse all matches"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\help-support\\page.tsx",
+    "items": [
+      {
+        "key": "app_employer_help-support_page.how_can_we_help",
+        "text": "How can we help?"
+      },
+      {
+        "key": "app_employer_help-support_page.search_our_guides_or_contact_support_we_",
+        "text": "Search our guides or contact support — we respond within 4 hours."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\messages\\messages-content.tsx",
+    "items": [
+      {
+        "key": "app_employer_messages_messages-content.no_conversations_yet",
+        "text": "No conversations yet."
+      },
+      {
+        "key": "app_employer_messages_messages-content.messages",
+        "text": "Messages"
+      },
+      {
+        "key": "app_employer_messages_messages-content.replying_to",
+        "text": "Replying to"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\page.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_page.loading",
+        "text": "Loading…"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\post-job\\page.tsx",
+    "items": [
+      {
+        "key": "app_employer_post-job_page.back",
+        "text": "Back"
+      },
+      {
+        "key": "app_employer_post-job_page.continue",
+        "text": "Continue"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\profile\\page.tsx",
+    "items": [
+      {
+        "key": "app_employer_profile_page.profile_not_found",
+        "text": "Profile not found."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\CompanyStep.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_company_step.tell_us_about_your_company",
+        "text": "Tell us about your company"
+      },
+      {
+        "key": "app_onboarding_components_company_step.this_helps_us_personalise_your_experienc",
+        "text": "This helps us personalise your experience."
+      },
+      {
+        "key": "app_onboarding_components_company_step.company_name",
+        "text": "Company Name"
+      },
+      {
+        "key": "app_onboarding_components_company_step.industry_sector",
+        "text": "Industry / Sector"
+      },
+      {
+        "key": "app_onboarding_components_company_step.country",
+        "text": "Country"
+      },
+      {
+        "key": "app_onboarding_components_company_step.select_your_country",
+        "text": "Select your country"
+      },
+      {
+        "key": "app_onboarding_components_company_step.continue",
+        "text": "Continue"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\FreelancerProfileStep.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.tell_us_about_yourself",
+        "text": "Tell us about yourself"
+      },
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.this_helps_employers_understand_what_you",
+        "text": "This helps employers understand what you do."
+      },
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.professional_title",
+        "text": "Professional Title"
+      },
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.hourly_rate",
+        "text": "Hourly Rate ($)"
+      },
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.years_of_experience",
+        "text": "Years of Experience"
+      },
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.country",
+        "text": "Country"
+      },
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.select_your_country",
+        "text": "Select your country"
+      },
+      {
+        "key": "app_onboarding_components_freelancer_profile_step.continue",
+        "text": "Continue"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\FreelancerSkillsStep.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_freelancer_skills_step.what_are_your_skills",
+        "text": "What are your skills?"
+      },
+      {
+        "key": "app_onboarding_components_freelancer_skills_step.select_all_that_apply_this_powers_your_a",
+        "text": "Select all that apply. This powers your AI job matching."
+      },
+      {
+        "key": "app_onboarding_components_freelancer_skills_step.continue",
+        "text": "Continue"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\HiringCategoriesModal.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_hiring_categories_modal.add_hiring_categories",
+        "text": "Add hiring categories"
+      },
+      {
+        "key": "app_onboarding_components_hiring_categories_modal.selected",
+        "text": "selected"
+      },
+      {
+        "key": "app_onboarding_components_hiring_categories_modal.no_categories_found_for",
+        "text": "No categories found for \""
+      },
+      {
+        "key": "app_onboarding_components_hiring_categories_modal.done",
+        "text": "Done"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\HiringCategoriesStep.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_hiring_categories_step.what_roles_are_you_hiring_for",
+        "text": "What roles are you hiring for?"
+      },
+      {
+        "key": "app_onboarding_components_hiring_categories_step.select_all_that_apply_this_powers_your_a",
+        "text": "Select all that apply. This powers your AI matching."
+      },
+      {
+        "key": "app_onboarding_components_hiring_categories_step.not_listed_add_categories",
+        "text": "Not listed? Add categories"
+      },
+      {
+        "key": "app_onboarding_components_hiring_categories_step.continue",
+        "text": "Continue"
+      },
+      {
+        "key": "app_onboarding_components_hiring_categories_step.skip_for_now",
+        "text": "Skip for now"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\OnboardingStepper.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_onboarding_stepper.step",
+        "text": "Step"
+      },
+      {
+        "key": "app_onboarding_components_onboarding_stepper.of",
+        "text": "of"
+      },
+      {
+        "key": "app_onboarding_components_onboarding_stepper.back",
+        "text": "Back"
+      },
+      {
+        "key": "app_onboarding_components_onboarding_stepper.back",
+        "text": "Back"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\OnboardingSuccessStep.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_onboarding_success_step.your_account_is_ready",
+        "text": "Your account is ready!"
+      },
+      {
+        "key": "app_onboarding_components_onboarding_success_step.welcome",
+        "text": "Welcome,"
+      },
+      {
+        "key": "app_onboarding_components_onboarding_success_step.go_to_dashboard",
+        "text": "Go to Dashboard →"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\onboarding\\components\\RoleStep.tsx",
+    "items": [
+      {
+        "key": "app_onboarding_components_role_step.i_am_joining_as_a",
+        "text": "I am joining as a..."
+      },
+      {
+        "key": "app_onboarding_components_role_step.choose_the_role_that_best_describes_you",
+        "text": "Choose the role that best describes you."
+      },
+      {
+        "key": "app_onboarding_components_role_step.employer_hirer",
+        "text": "Employer / Hirer"
+      },
+      {
+        "key": "app_onboarding_components_role_step.i_want_to_hire_verified_african_talent_f",
+        "text": "I want to hire Verified African Talent for my project and contracts."
+      },
+      {
+        "key": "app_onboarding_components_role_step.freelancer_professional",
+        "text": "Freelancer / Professional"
+      },
+      {
+        "key": "app_onboarding_components_role_step.i_want_to_find_work_get_verified_and_gro",
+        "text": "I want to find work, get verified, and grow my career across Africa."
+      },
+      {
+        "key": "app_onboarding_components_role_step.continue",
+        "text": "Continue"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\analytics\\components\\AiInsight.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_analytics_components_ai_insight.ai_insight",
+        "text": "AI Insight"
+      },
+      {
+        "key": "app_freelancer_analytics_components_ai_insight.update_profile",
+        "text": "Update Profile"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\analytics\\components\\RateVsMarket.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_analytics_components_rate_vs_market.your_rate_vs_market",
+        "text": "Your Rate vs. Market"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\analytics\\components\\SkillsGapIndicator.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_analytics_components_skills_gap_indicator.skills_gap_indicator",
+        "text": "Skills Gap Indicator"
+      },
+      {
+        "key": "app_freelancer_analytics_components_skills_gap_indicator.most_in_demand_skills_across_open_jobs_r",
+        "text": "Most in-demand skills across open jobs right now"
+      },
+      {
+        "key": "app_freelancer_analytics_components_skills_gap_indicator.not_enough_open_jobs_yet_to_show_demand_",
+        "text": "Not enough open jobs yet to show demand trends."
+      },
+      {
+        "key": "app_freelancer_analytics_components_skills_gap_indicator.of_open_jobs_requiring_this_skill",
+        "text": "% of open jobs requiring this skill"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\analytics\\components\\TopActions.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_analytics_components_top_actions.top_actions_to_improve",
+        "text": "Top Actions to Improve"
+      },
+      {
+        "key": "app_freelancer_analytics_components_top_actions.ranked_by_impact",
+        "text": "Ranked by impact"
+      },
+      {
+        "key": "app_freelancer_analytics_components_top_actions.your_profile_is_in_great_shape_nothing_u",
+        "text": "Your profile is in great shape — nothing urgent to fix right now."
+      },
+      {
+        "key": "app_freelancer_analytics_components_top_actions.pts",
+        "text": "pts"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\find-jobs\\[id]\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_find-jobs_id_page.this_job_couldn_t_be_found",
+        "text": "This job couldn't be found."
+      },
+      {
+        "key": "app_freelancer_find-jobs_id_page.back_to_find_jobs",
+        "text": "Back to Find Jobs"
+      },
+      {
+        "key": "app_freelancer_find-jobs_id_page.apply_by",
+        "text": "Apply by"
+      },
+      {
+        "key": "app_freelancer_find-jobs_id_page.job_description",
+        "text": "Job Description"
+      },
+      {
+        "key": "app_freelancer_find-jobs_id_page.proposal",
+        "text": "proposal"
+      },
+      {
+        "key": "app_freelancer_find-jobs_id_page.so_far",
+        "text": "so far"
+      },
+      {
+        "key": "app_freelancer_find-jobs_id_page.you_ve_applied_to_this_job",
+        "text": "You've applied to this job"
+      },
+      {
+        "key": "app_freelancer_find-jobs_id_page.this_job_is_no_longer_accepting_applicat",
+        "text": "This job is no longer accepting applications"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\help-support\\components\\FaqAccordion.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_help-support_components_faq_accordion.frequently_asked_questions",
+        "text": "Frequently Asked Questions"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\help-support\\components\\SupportTicketForm.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.ticket_submitted",
+        "text": "Ticket submitted"
+      },
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.we_ll_follow_up_by_email_within_4_hours",
+        "text": "We'll follow up by email within 4 hours."
+      },
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.submit_another_ticket",
+        "text": "Submit another ticket"
+      },
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.submit_a_support_ticket",
+        "text": "Submit a Support Ticket"
+      },
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.for_complex_issues_we_ll_follow_up_by_em",
+        "text": "For complex issues we'll follow up by email within 4 hours."
+      },
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.category",
+        "text": "Category"
+      },
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.subject",
+        "text": "Subject"
+      },
+      {
+        "key": "app_freelancer_help-support_components_support_ticket_form.message",
+        "text": "Message"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\ConnectPayoutAccount.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_connect_payout_account.connect_a_bank_account",
+        "text": "Connect a bank account"
+      },
+      {
+        "key": "app_freelancer_payments_components_connect_payout_account.nigerian_bank_accounts_only_for_now",
+        "text": "Nigerian bank accounts only, for now"
+      },
+      {
+        "key": "app_freelancer_payments_components_connect_payout_account.bank",
+        "text": "Bank"
+      },
+      {
+        "key": "app_freelancer_payments_components_connect_payout_account.select_your_bank",
+        "text": "Select your bank"
+      },
+      {
+        "key": "app_freelancer_payments_components_connect_payout_account.account_number",
+        "text": "Account number"
+      },
+      {
+        "key": "app_freelancer_payments_components_connect_payout_account.verifying",
+        "text": "Verifying..."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\EscrowTimeline.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_escrow_timeline.escrow_release_timeline",
+        "text": "Escrow Release Timeline"
+      },
+      {
+        "key": "app_freelancer_payments_components_escrow_timeline.mark_as_delivered",
+        "text": "Mark as Delivered"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\PaymentHistory.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_payment_history.all_fees_shown_at_the_10_talentq_service",
+        "text": "All fees shown at the 10% TalentQ service rate. Withdrawal transactions carry no additional fee."
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.couldn_t_load_your_payment_history_right",
+        "text": "Couldn't load your payment history right now. Try refreshing the page."
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.no_transactions_yet",
+        "text": "No transactions yet."
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.transaction",
+        "text": "Transaction"
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.from_to",
+        "text": "From / To"
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.gross",
+        "text": "Gross"
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.platform_fee_10",
+        "text": "Platform Fee (10%)"
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.received",
+        "text": "Received"
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.date",
+        "text": "Date"
+      },
+      {
+        "key": "app_freelancer_payments_components_payment_history.status",
+        "text": "Status"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\PaymentsEmptyState.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_payments_empty_state.verify_your_identity_to_unlock_payments_",
+        "text": "Verify your identity to unlock payments — this keeps every transaction on TalentQ safe for both sides."
+      },
+      {
+        "key": "app_freelancer_payments_components_payments_empty_state.verify_identity",
+        "text": "Verify identity"
+      },
+      {
+        "key": "app_freelancer_payments_components_payments_empty_state.no_payment_method_connected_yet",
+        "text": "No payment method connected yet"
+      },
+      {
+        "key": "app_freelancer_payments_components_payments_empty_state.once_you_re_verified_connect_a_bank_acco",
+        "text": "Once you're verified, connect a bank account or card to receive milestone payments and withdraw your earnings."
+      },
+      {
+        "key": "app_freelancer_payments_components_payments_empty_state.connect_bank",
+        "text": "Connect bank"
+      },
+      {
+        "key": "app_freelancer_payments_components_payments_empty_state.add_card",
+        "text": "Add card"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\PaymentsOverview.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_payments_overview.couldn_t_load_your_payments_right_now_tr",
+        "text": "Couldn't load your payments right now. Try refreshing the page."
+      },
+      {
+        "key": "app_freelancer_payments_components_payments_overview.no_active_escrow_contracts_yet",
+        "text": "No active escrow contracts yet."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\RecentTransactions.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_recent_transactions.recent_transactions",
+        "text": "Recent Transactions"
+      },
+      {
+        "key": "app_freelancer_payments_components_recent_transactions.view_all",
+        "text": "View all"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\Withdraw.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_withdraw.withdrawal",
+        "text": "Withdrawal"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.available_balance",
+        "text": "Available balance"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.payout_account",
+        "text": "Payout Account"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.where_should_talentq_send_your_earnings",
+        "text": "Where should TalentQ send your earnings?"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.no_bank_account_connected",
+        "text": "No bank account connected"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.connect_your_local_bank_account_to_recei",
+        "text": "Connect your local bank account to receive your TalentQ earnings."
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.connect_bank_account",
+        "text": "Connect Bank Account"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.default",
+        "text": "Default"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.add_another_bank_account",
+        "text": "Add another bank account"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.withdrawal_amount",
+        "text": "Withdrawal Amount"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.withdraw_maximum",
+        "text": "Withdraw maximum"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.continue_to_confirm",
+        "text": "Continue to confirm"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.withdrawal_summary",
+        "text": "Withdrawal Summary"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.available",
+        "text": "Available"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.amount",
+        "text": "Amount"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.withdrawal_fee_10",
+        "text": "Withdrawal fee (10%)"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.bank",
+        "text": "Bank"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.you_ll_receive",
+        "text": "You'll receive"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw.talentq_s_10_service_fee_was_already_app",
+        "text": "TalentQ's 10% service fee was already applied when the payment was released from escrow. A separate 10% fee applies when withdrawing to your bank."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\components\\WithdrawConfirm.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.confirm_withdrawal",
+        "text": "Confirm Withdrawal"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.review_your_withdrawal_details_below",
+        "text": "Review your withdrawal details below"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.amount",
+        "text": "Amount"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.withdrawal_fee_10",
+        "text": "Withdrawal fee (10%)"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.you_receive",
+        "text": "You receive"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.method",
+        "text": "Method"
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.talentq_s_10_service_fee_was_already_app",
+        "text": "TalentQ's 10% service fee was already applied when this payment was released from escrow. A separate 10% fee applies when withdrawing to your bank, covering payout processing costs."
+      },
+      {
+        "key": "app_freelancer_payments_components_withdraw_confirm.back",
+        "text": "Back"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\payments\\payout-account\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_payments_payout-account_page.back_to_payments",
+        "text": "Back to Payments"
+      },
+      {
+        "key": "app_freelancer_payments_payout-account_page.connect_a_bank_account",
+        "text": "Connect a bank account"
+      },
+      {
+        "key": "app_freelancer_payments_payout-account_page.add_where_talentq_should_send_your_withd",
+        "text": "Add where TalentQ should send your withdrawals."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\components\\HistoryList.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_components_history_list.no_reviews_yet",
+        "text": "No reviews yet."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\components\\PortfolioGrid.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_components_portfolio_grid.add_project",
+        "text": "Add Project"
+      },
+      {
+        "key": "app_freelancer_profile_components_portfolio_grid.no_portfolio_items_yet_add_your_first_pr",
+        "text": "No portfolio items yet — add your first project above."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\components\\PortfolioUploadModal.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_components_portfolio_upload_modal.add_portfolio_item",
+        "text": "Add Portfolio Item"
+      },
+      {
+        "key": "app_freelancer_profile_components_portfolio_upload_modal.title",
+        "text": "Title"
+      },
+      {
+        "key": "app_freelancer_profile_components_portfolio_upload_modal.tags",
+        "text": "Tags"
+      },
+      {
+        "key": "app_freelancer_profile_components_portfolio_upload_modal.cancel",
+        "text": "Cancel"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\components\\ProfileHeader.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_components_profile_header.available",
+        "text": "Available"
+      },
+      {
+        "key": "app_freelancer_profile_components_profile_header.edit_profile",
+        "text": "Edit Profile"
+      },
+      {
+        "key": "app_freelancer_profile_components_profile_header.id_verified",
+        "text": "ID Verified"
+      },
+      {
+        "key": "app_freelancer_profile_components_profile_header.hourly_rate",
+        "text": "Hourly Rate"
+      },
+      {
+        "key": "app_freelancer_profile_components_profile_header.years_experience",
+        "text": "Years Experience"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\components\\ProfileSetupPrompt.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_components_profile_setup_prompt.set_up_your_profile",
+        "text": "Set up your profile"
+      },
+      {
+        "key": "app_freelancer_profile_components_profile_setup_prompt.add_your_rate_experience_and_availabilit",
+        "text": "Add your rate, experience, and availability so employers know what you offer."
+      },
+      {
+        "key": "app_freelancer_profile_components_profile_setup_prompt.get_started",
+        "text": "Get Started"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\components\\SkillsList.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_components_skills_list.no_skills_added_yet",
+        "text": "No skills added yet."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\setup\\page.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_setup_page.loading",
+        "text": "Loading..."
+      },
+      {
+        "key": "app_freelancer_profile_setup_page.saving",
+        "text": "Saving..."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\settings\\components\\AvailabilityStatus.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_settings_components_availability_status.availability_status",
+        "text": "Availability Status"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\settings\\components\\DangerZone.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_settings_components_danger_zone.danger_zone",
+        "text": "Danger Zone"
+      },
+      {
+        "key": "app_freelancer_settings_components_danger_zone.these_actions_are_permanent_and_cannot_b",
+        "text": "These actions are permanent and cannot be undone"
+      },
+      {
+        "key": "app_freelancer_settings_components_danger_zone.sign_out",
+        "text": "Sign out"
+      },
+      {
+        "key": "app_freelancer_settings_components_danger_zone.delete_account",
+        "text": "Delete Account"
+      },
+      {
+        "key": "app_freelancer_settings_components_danger_zone.are_you_sure_you_want_to_delete_your_acc",
+        "text": "Are you sure you want to delete your account?"
+      },
+      {
+        "key": "app_freelancer_settings_components_danger_zone.this_will_permanently_remove_your_profil",
+        "text": "This will permanently remove your profile, contracts, and payment history. This cannot be undone."
+      },
+      {
+        "key": "app_freelancer_settings_components_danger_zone.cancel",
+        "text": "Cancel"
+      },
+      {
+        "key": "app_freelancer_settings_components_danger_zone.yes_delete_my_account",
+        "text": "Yes, delete my account"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\settings\\components\\NotificationTab.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_settings_components_notification_tab.in_app_notifications",
+        "text": "In-App Notifications"
+      },
+      {
+        "key": "app_freelancer_settings_components_notification_tab.choose_what_appears_in_your_notification",
+        "text": "Choose what appears in your notification panel"
+      },
+      {
+        "key": "app_freelancer_settings_components_notification_tab.email_notifications",
+        "text": "Email Notifications"
+      },
+      {
+        "key": "app_freelancer_settings_components_notification_tab.sound",
+        "text": "Sound"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\settings\\components\\ProfileInformation.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_settings_components_profile_information.profile_information",
+        "text": "Profile Information"
+      },
+      {
+        "key": "app_freelancer_settings_components_profile_information.jpg_or_png_max_2mb",
+        "text": "JPG or PNG · Max 2MB"
+      },
+      {
+        "key": "app_freelancer_settings_components_profile_information.changes_saved",
+        "text": "Changes saved."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\settings\\components\\SettingsPaymentMethods.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_settings_components_settings_payment_methods.payment_methods",
+        "text": "Payment Methods"
+      },
+      {
+        "key": "app_freelancer_settings_components_settings_payment_methods.where_you_receive_your_earnings",
+        "text": "Where you receive your earnings"
+      },
+      {
+        "key": "app_freelancer_settings_components_settings_payment_methods.active",
+        "text": "Active"
+      },
+      {
+        "key": "app_freelancer_settings_components_settings_payment_methods.connect",
+        "text": "Connect"
+      },
+      {
+        "key": "app_freelancer_settings_components_settings_payment_methods.manage_in_payments",
+        "text": "Manage in Payments →"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\verification\\components\\ConnectPaymentMethod.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.connect_a_payment_method",
+        "text": "Connect a payment method"
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.identity_verification_is_required_before",
+        "text": "Identity verification is required before you can connect a bank account or card and receive payments."
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.connect_a_payment_method",
+        "text": "Connect a payment method"
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.add_a_bank_account_or_card_to_receive_mi",
+        "text": "Add a bank account or card to receive milestone payments and withdraw your earnings."
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.connect_bank",
+        "text": "Connect bank"
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.paystack_flutterwave_or_bank_transfer",
+        "text": "Paystack, Flutterwave, or bank transfer"
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.add_card",
+        "text": "Add card"
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.for_faster_future_withdrawals",
+        "text": "For faster future withdrawals"
+      },
+      {
+        "key": "app_freelancer_verification_components_connect_payment_method.go_to_payments",
+        "text": "Go to Payments →"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\verification\\components\\NextStepBanner.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_verification_components_next_step_banner.you_re_1_step_away_from_full_verificatio",
+        "text": "You're 1 step away from full verification"
+      },
+      {
+        "key": "app_freelancer_verification_components_next_step_banner.complete_your_client_review_badge_to_unl",
+        "text": "Complete your client review badge to unlock Elite status and priority job matching."
+      },
+      {
+        "key": "app_freelancer_verification_components_next_step_banner.find_a_job",
+        "text": "Find a Job"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\verification\\components\\VerificationHero.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_verification_components_verification_hero.you_re_verified",
+        "text": "You’re verified."
+      },
+      {
+        "key": "app_freelancer_verification_components_verification_hero.your_credentials_are_confirmed_clients_s",
+        "text": "Your credentials are confirmed — clients see the badge on your profile."
+      },
+      {
+        "key": "app_freelancer_verification_components_verification_hero.verification_in_review",
+        "text": "Verification in review."
+      },
+      {
+        "key": "app_freelancer_verification_components_verification_hero.we_ll_notify_you_as_soon_as_it_s_confirm",
+        "text": "We’ll notify you as soon as it’s confirmed — usually within 1–2 business days."
+      },
+      {
+        "key": "app_freelancer_verification_components_verification_hero.check_status",
+        "text": "Check Status"
+      },
+      {
+        "key": "app_freelancer_verification_components_verification_hero.step_2_of_2_portfolio_coming_next",
+        "text": "Step 2 of 2 — Portfolio (coming next)"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\about\\components\\AboutContent.tsx",
+    "items": [
+      {
+        "key": "app_landing_about_components_about_content.talent_exists_everywhere_opportunity_doe",
+        "text": "Talent exists everywhere. Opportunity doesn't."
+      },
+      {
+        "key": "app_landing_about_components_about_content.africa_is_home_to_one_of_the_world_s_fas",
+        "text": "Africa is home to one of the world's fastest-growing communities of developers, designers, marketers, writers, researchers, consultants, and digital professionals. Yet many struggle to access global opportunities—not because they lack skills, but because they struggle to gain visibility and earn trust."
+      },
+      {
+        "key": "app_landing_about_components_about_content.talentq_was_created_to_change_that",
+        "text": "TalentQ was created to change that."
+      },
+      {
+        "key": "app_landing_about_components_about_content.instead_of_competing_in_crowded_marketpl",
+        "text": "Instead of competing in crowded marketplaces driven by low prices and unverified profiles, TalentQ gives skilled African professionals a platform where credibility comes first."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\about\\components\\AboutCta.tsx",
+    "items": [
+      {
+        "key": "app_landing_about_components_about_cta.ready_to_build_your_next_opportunity",
+        "text": "Ready to build your next opportunity?"
+      },
+      {
+        "key": "app_landing_about_components_about_cta.whether_you_re_hiring_exceptional_profes",
+        "text": "Whether you're hiring exceptional professionals or looking for your next project, TalentQ helps you connect with confidence."
+      },
+      {
+        "key": "app_landing_about_components_about_cta.join_us",
+        "text": "Join Us"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\about\\components\\AboutHero.tsx",
+    "items": [
+      {
+        "key": "app_landing_about_components_about_hero.about_us",
+        "text": "About Us"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\contact\\components\\ContactForm.tsx",
+    "items": [
+      {
+        "key": "app_landing_contact_components_contact_form.message_sent",
+        "text": "Message sent!"
+      },
+      {
+        "key": "app_landing_contact_components_contact_form.thanks_for_reaching_out_our_team_will_ge",
+        "text": "Thanks for reaching out — our team will get back to you shortly."
+      },
+      {
+        "key": "app_landing_contact_components_contact_form.full_name",
+        "text": "Full Name"
+      },
+      {
+        "key": "app_landing_contact_components_contact_form.company_name",
+        "text": "Company Name"
+      },
+      {
+        "key": "app_landing_contact_components_contact_form.phone_number",
+        "text": "Phone Number"
+      },
+      {
+        "key": "app_landing_contact_components_contact_form.email",
+        "text": "Email"
+      },
+      {
+        "key": "app_landing_contact_components_contact_form.leave_a_message",
+        "text": "Leave a message"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(landing)\\contact\\components\\ContactHero.tsx",
+    "items": [
+      {
+        "key": "app_landing_contact_components_contact_hero.contact_us",
+        "text": "Contact Us"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(landing)\\contact\\components\\ContactIntro.tsx",
+    "items": [
+      {
+        "key": "app_landing_contact_components_contact_intro.we_d_love_to_hear_from_you",
+        "text": "We'd love to hear from you."
+      },
+      {
+        "key": "app_landing_contact_components_contact_intro.have_a_question_feedback_or_partnership_",
+        "text": "Have a question, feedback, or partnership opportunity? Our team is here to help."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\analytics\\components\\AiInsight.tsx",
+    "items": [
+      {
+        "key": "app_employer_analytics_components_ai_insight.ai_insight",
+        "text": "AI INSIGHT"
+      },
+      {
+        "key": "app_employer_analytics_components_ai_insight.employers_who_post_briefs_with_their_job",
+        "text": "Employers who post briefs with their jobs see a 2.3x increase in qualified applicants within 30 days."
+      },
+      {
+        "key": "app_employer_analytics_components_ai_insight.post_a_job_brief",
+        "text": "Post a job brief"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\analytics\\components\\HireConversion.tsx",
+    "items": [
+      {
+        "key": "app_employer_analytics_components_hire_conversion.hire_conversion",
+        "text": "Hire Conversion"
+      },
+      {
+        "key": "app_employer_analytics_components_hire_conversion.40_rate",
+        "text": "+40% rate"
+      },
+      {
+        "key": "app_employer_analytics_components_hire_conversion.job_posts_vs_hires_over_5_months",
+        "text": "Job posts vs. hires over 5 months"
+      },
+      {
+        "key": "app_employer_analytics_components_hire_conversion.posted",
+        "text": "Posted"
+      },
+      {
+        "key": "app_employer_analytics_components_hire_conversion.hired",
+        "text": "Hired"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\analytics\\components\\HiringIntelligenceScore.tsx",
+    "items": [
+      {
+        "key": "app_employer_analytics_components_hiring_intelligence_score.hiring_intelligence_score",
+        "text": "Hiring Intelligence Score"
+      },
+      {
+        "key": "app_employer_analytics_components_hiring_intelligence_score.verified_employer",
+        "text": "Verified Employer"
+      },
+      {
+        "key": "app_employer_analytics_components_hiring_intelligence_score.good_standing",
+        "text": "Good Standing"
+      },
+      {
+        "key": "app_employer_analytics_components_hiring_intelligence_score.points_to_elite_tier",
+        "text": "points to Elite tier"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\analytics\\components\\RateBenchmarks.tsx",
+    "items": [
+      {
+        "key": "app_employer_analytics_components_rate_benchmarks.rate_benchmarks",
+        "text": "Rate Benchmarks"
+      },
+      {
+        "key": "app_employer_analytics_components_rate_benchmarks.you_pay_7_hr_more_than_avg_attracting_to",
+        "text": "You pay $7/hr more than avg — attracting top verified talent. Paying off."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\analytics\\components\\ScoreImprovement.tsx",
+    "items": [
+      {
+        "key": "app_employer_analytics_components_score_improvement.score_improvement",
+        "text": "Score Improvement"
+      },
+      {
+        "key": "app_employer_analytics_components_score_improvement.pts",
+        "text": "pts"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\analytics\\components\\SkillsGapIndicator.tsx",
+    "items": [
+      {
+        "key": "app_employer_analytics_components_skills_gap_indicator.skills_gap_indicator",
+        "text": "Skills Gap Indicator"
+      },
+      {
+        "key": "app_employer_analytics_components_skills_gap_indicator.your_proficiency_vs_what_top_paying_job_",
+        "text": "Your proficiency vs. what top-paying job demand"
+      },
+      {
+        "key": "app_employer_analytics_components_skills_gap_indicator.pts",
+        "text": "pts"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\components\\CandidateRow.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_components_candidate_row.applied_to",
+        "text": "· Applied to"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\components\\CandidatesTable.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_components_candidates_table.no_candidates_in_this_stage_yet",
+        "text": "No candidates in this stage yet."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\find-talent\\[freelancerId]\\page.tsx",
+    "items": [
+      {
+        "key": "app_employer_find-talent_freelancer_id_page.profile_not_found",
+        "text": "Profile not found."
+      },
+      {
+        "key": "app_employer_find-talent_freelancer_id_page.back_to_search",
+        "text": "Back to Search"
+      },
+      {
+        "key": "app_employer_find-talent_freelancer_id_page.identity_and_skills_verified",
+        "text": "Identity and skills verified"
+      },
+      {
+        "key": "app_employer_find-talent_freelancer_id_page.send_message",
+        "text": "Send message"
+      },
+      {
+        "key": "app_employer_find-talent_freelancer_id_page.skills",
+        "text": "Skills"
+      },
+      {
+        "key": "app_employer_find-talent_freelancer_id_page.portfolio",
+        "text": "Portfolio"
+      },
+      {
+        "key": "app_employer_find-talent_freelancer_id_page.reviews",
+        "text": "Reviews"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\find-talent\\components\\AlertBanner.tsx",
+    "items": [
+      {
+        "key": "app_employer_find-talent_components_alert_banner.get_notified_when_new_talents_match_your",
+        "text": "Get Notified when new Talents match your requirements"
+      },
+      {
+        "key": "app_employer_find-talent_components_alert_banner.create_alert",
+        "text": "Create Alert"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\find-talent\\components\\FirstHireBanner.tsx",
+    "items": [
+      {
+        "key": "app_employer_find-talent_components_first_hire_banner.first_hire_opportunities",
+        "text": "First-hire opportunities"
+      },
+      {
+        "key": "app_employer_find-talent_components_first_hire_banner.no_previous_hires_required_quick_to_onbo",
+        "text": "No previous hires required · Quick to onboard"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\find-talent\\components\\TalentCard.tsx",
+    "items": [
+      {
+        "key": "app_employer_find-talent_components_talent_card.proposal",
+        "text": "proposal"
+      },
+      {
+        "key": "app_employer_find-talent_components_talent_card.sent",
+        "text": "sent"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\find-talent\\components\\TalentList.tsx",
+    "items": [
+      {
+        "key": "app_employer_find-talent_components_talent_list.no_talent_found",
+        "text": "No talent found."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\help-support\\components\\FaqAccordion.tsx",
+    "items": [
+      {
+        "key": "app_employer_help-support_components_faq_accordion.frequently_asked_questions",
+        "text": "Frequently Asked Questions"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\help-support\\components\\SupportTicketForm.tsx",
+    "items": [
+      {
+        "key": "app_employer_help-support_components_support_ticket_form.submit_a_support_ticket",
+        "text": "Submit a Support Ticket"
+      },
+      {
+        "key": "app_employer_help-support_components_support_ticket_form.for_complex_issues_we_ll_follow_up_by_em",
+        "text": "For complex issues we'll follow up by email within 4 hours."
+      },
+      {
+        "key": "app_employer_help-support_components_support_ticket_form.category",
+        "text": "Category"
+      },
+      {
+        "key": "app_employer_help-support_components_support_ticket_form.subject",
+        "text": "Subject"
+      },
+      {
+        "key": "app_employer_help-support_components_support_ticket_form.message",
+        "text": "Message"
+      },
+      {
+        "key": "app_employer_help-support_components_support_ticket_form.submit_ticket",
+        "text": "Submit Ticket"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\components\\ActiveEscrowMilestones.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_components_active_escrow_milestones.active_escrow_milestones",
+        "text": "Active Escrow Milestones"
+      },
+      {
+        "key": "app_employer_payments_components_active_escrow_milestones.no_milestones_in_escrow_yet",
+        "text": "No milestones in escrow yet."
+      },
+      {
+        "key": "app_employer_payments_components_active_escrow_milestones.active_escrow_milestones",
+        "text": "Active Escrow Milestones"
+      },
+      {
+        "key": "app_employer_payments_components_active_escrow_milestones.from",
+        "text": "From"
+      },
+      {
+        "key": "app_employer_payments_components_active_escrow_milestones.on_hold",
+        "text": "On hold"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\components\\EmployerPaymentHistory.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_components_employer_payment_history.all_fees_shown_at_the_10_talentq_service",
+        "text": "All fees shown at the 10% TalentQ service rate."
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.no_payments_yet",
+        "text": "No payments yet."
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.transaction",
+        "text": "Transaction"
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.to",
+        "text": "To"
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.gross",
+        "text": "Gross"
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.platform_fee",
+        "text": "Platform Fee"
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.net",
+        "text": "Net"
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.date",
+        "text": "Date"
+      },
+      {
+        "key": "app_employer_payments_components_employer_payment_history.status",
+        "text": "Status"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\components\\EmployerPaymentsOverview.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_components_employer_payments_overview.all_fees_shown_at_the_10_talentq_service",
+        "text": "All fees shown at the 10% TalentQ service rate. Withdrawal transactions carry no additional fee."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\components\\FundMilestone.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_components_fund_milestone.no_unfunded_milestones_right_now",
+        "text": "No unfunded milestones right now."
+      },
+      {
+        "key": "app_employer_payments_components_fund_milestone.fund_a_milestone",
+        "text": "Fund a Milestone"
+      },
+      {
+        "key": "app_employer_payments_components_fund_milestone.pick_a_milestone_below_to_fund_it_via_pa",
+        "text": "Pick a milestone below to fund it via Paystack."
+      },
+      {
+        "key": "app_employer_payments_components_fund_milestone.fund",
+        "text": "Fund"
+      },
+      {
+        "key": "app_employer_payments_components_fund_milestone.milestone_not_found",
+        "text": "Milestone not found."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\components\\PaymentPartners.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_components_payment_partners.payment_partners",
+        "text": "Payment Partners"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\components\\SetupEscrow.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_components_setup_escrow.no_candidate_selected",
+        "text": "No candidate selected."
+      },
+      {
+        "key": "app_employer_payments_components_setup_escrow.set_up_escrow",
+        "text": "Set Up Escrow"
+      },
+      {
+        "key": "app_employer_payments_components_setup_escrow.add_another_milestone",
+        "text": "Add another milestone"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\payments\\fund-callback\\page.tsx",
+    "items": [
+      {
+        "key": "app_employer_payments_fund-callback_page.confirming_your_payment",
+        "text": "Confirming your payment…"
+      },
+      {
+        "key": "app_employer_payments_fund-callback_page.milestone_funded_successfully",
+        "text": "Milestone funded successfully."
+      },
+      {
+        "key": "app_employer_payments_fund-callback_page.back_to_payments",
+        "text": "Back to Payments"
+      },
+      {
+        "key": "app_employer_payments_fund-callback_page.we_couldn_t_confirm_this_payment",
+        "text": "We couldn't confirm this payment."
+      },
+      {
+        "key": "app_employer_payments_fund-callback_page.back_to_payments",
+        "text": "Back to Payments"
+      },
+      {
+        "key": "app_employer_payments_fund-callback_page.loading",
+        "text": "Loading…"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\post-job\\components\\CompensationStep.tsx",
+    "items": [
+      {
+        "key": "app_employer_post-job_components_compensation_step.compensation_timeline",
+        "text": "Compensation & Timeline"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.currency",
+        "text": "Currency"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.min_budget",
+        "text": "Min Budget"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.max_budget",
+        "text": "Max Budget"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.payment_type",
+        "text": "Payment Type"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.project_duration",
+        "text": "Project Duration"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.experience_level",
+        "text": "Experience Level"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.application_deadline",
+        "text": "Application Deadline"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.escrow_protection",
+        "text": "Escrow Protection:"
+      },
+      {
+        "key": "app_employer_post-job_components_compensation_step.talentq_holds_funds_securely_via_paystac",
+        "text": "TalentQ holds funds securely via Paystack & Flutterwave. Release only on your milestone approval."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\post-job\\components\\JobDetailsStep.tsx",
+    "items": [
+      {
+        "key": "app_employer_post-job_components_job_details_step.job_details",
+        "text": "Job Details"
+      },
+      {
+        "key": "app_employer_post-job_components_job_details_step.job_title",
+        "text": "Job Title"
+      },
+      {
+        "key": "app_employer_post-job_components_job_details_step.job_type",
+        "text": "Job Type"
+      },
+      {
+        "key": "app_employer_post-job_components_job_details_step.work_arrangement",
+        "text": "Work Arrangement"
+      },
+      {
+        "key": "app_employer_post-job_components_job_details_step.department_team",
+        "text": "Department / Team"
+      },
+      {
+        "key": "app_employer_post-job_components_job_details_step.job_description",
+        "text": "Job Description"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\post-job\\components\\PostJobSuccess.tsx",
+    "items": [
+      {
+        "key": "app_employer_post-job_components_post_job_success.job_posted_successfully",
+        "text": "Job Posted Successfully!"
+      },
+      {
+        "key": "app_employer_post-job_components_post_job_success.your_job_is_live_our_ai_is_already_match",
+        "text": "Your job is live. Our AI is already matching verified African professionals to your role."
+      },
+      {
+        "key": "app_employer_post-job_components_post_job_success.post_another",
+        "text": "Post Another"
+      },
+      {
+        "key": "app_employer_post-job_components_post_job_success.view_matching_talent",
+        "text": "View Matching Talent"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\post-job\\components\\PreviewStep.tsx",
+    "items": [
+      {
+        "key": "app_employer_post-job_components_preview_step.preview_post",
+        "text": "Preview & Post"
+      },
+      {
+        "key": "app_employer_post-job_components_preview_step.ai_matching_on",
+        "text": "AI Matching On"
+      },
+      {
+        "key": "app_employer_post-job_components_preview_step.mo",
+        "text": "/mo"
+      },
+      {
+        "key": "app_employer_post-job_components_preview_step.ai_matching_begins_immediately_expect_fi",
+        "text": "AI matching begins immediately — expect first recommendation within 24 hours."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\post-job\\components\\RequirementsStep.tsx",
+    "items": [
+      {
+        "key": "app_employer_post-job_components_requirements_step.requirements",
+        "text": "Requirements"
+      },
+      {
+        "key": "app_employer_post-job_components_requirements_step.experience_level",
+        "text": "Experience Level"
+      },
+      {
+        "key": "app_employer_post-job_components_requirements_step.years_of_experience",
+        "text": "Years of Experience"
+      },
+      {
+        "key": "app_employer_post-job_components_requirements_step.required_skills",
+        "text": "Required Skills"
+      },
+      {
+        "key": "app_employer_post-job_components_requirements_step.preferred_qualifications",
+        "text": "Preferred Qualifications"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\profile\\components\\EditProfileModal.tsx",
+    "items": [
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.edit_profile",
+        "text": "Edit Profile"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.logo",
+        "text": "Logo"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.full_name",
+        "text": "Full name"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.company_details",
+        "text": "Company details"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.company_name",
+        "text": "Company name"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.industry",
+        "text": "Industry"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.country",
+        "text": "Country"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.company_size",
+        "text": "Company size"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.budget_range",
+        "text": "Budget range"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.hiring_categories",
+        "text": "Hiring categories"
+      },
+      {
+        "key": "app_employer_profile_components_edit_profile_modal.cancel",
+        "text": "Cancel"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\profile\\components\\HistoryList.tsx",
+    "items": [
+      {
+        "key": "app_employer_profile_components_history_list.no_reviews_yet",
+        "text": "No reviews yet."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\profile\\components\\InviteTeamMemberModal.tsx",
+    "items": [
+      {
+        "key": "app_employer_profile_components_invite_team_member_modal.invite_team_member",
+        "text": "Invite Team Member"
+      },
+      {
+        "key": "app_employer_profile_components_invite_team_member_modal.email",
+        "text": "Email"
+      },
+      {
+        "key": "app_employer_profile_components_invite_team_member_modal.role",
+        "text": "Role"
+      },
+      {
+        "key": "app_employer_profile_components_invite_team_member_modal.cancel",
+        "text": "Cancel"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\profile\\components\\ProfileHeader.tsx",
+    "items": [
+      {
+        "key": "app_employer_profile_components_profile_header.edit_profile",
+        "text": "Edit Profile"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\profile\\components\\TeamList.tsx",
+    "items": [
+      {
+        "key": "app_employer_profile_components_team_list.team_members",
+        "text": "Team Members"
+      },
+      {
+        "key": "app_employer_profile_components_team_list.invite_member",
+        "text": "Invite Member"
+      },
+      {
+        "key": "app_employer_profile_components_team_list.no_team_members_yet",
+        "text": "No team members yet."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\settings\\components\\AvailabilityStatus.tsx",
+    "items": [
+      {
+        "key": "app_employer_settings_components_availability_status.availability_status",
+        "text": "Availability Status"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\settings\\components\\DangerZone.tsx",
+    "items": [
+      {
+        "key": "app_employer_settings_components_danger_zone.danger_zone",
+        "text": "Danger Zone"
+      },
+      {
+        "key": "app_employer_settings_components_danger_zone.these_actions_are_permanent_and_cannot_b",
+        "text": "These actions are permanent and cannot be undone"
+      },
+      {
+        "key": "app_employer_settings_components_danger_zone.sign_out",
+        "text": "Sign out"
+      },
+      {
+        "key": "app_employer_settings_components_danger_zone.delete_account",
+        "text": "Delete Account"
+      },
+      {
+        "key": "app_employer_settings_components_danger_zone.are_you_sure_you_want_to_delete_your_acc",
+        "text": "Are you sure you want to delete your account?"
+      },
+      {
+        "key": "app_employer_settings_components_danger_zone.this_will_permanently_remove_your_compan",
+        "text": "This will permanently remove your company profile, job postings, and payment history. This cannot be undone."
+      },
+      {
+        "key": "app_employer_settings_components_danger_zone.cancel",
+        "text": "Cancel"
+      },
+      {
+        "key": "app_employer_settings_components_danger_zone.yes_delete_my_account",
+        "text": "Yes, delete my account"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\settings\\components\\NotificationTab.tsx",
+    "items": [
+      {
+        "key": "app_employer_settings_components_notification_tab.in_app_notifications",
+        "text": "In-App Notifications"
+      },
+      {
+        "key": "app_employer_settings_components_notification_tab.choose_what_appears_in_your_notification",
+        "text": "Choose what appears in your notification panel"
+      },
+      {
+        "key": "app_employer_settings_components_notification_tab.email_notifications",
+        "text": "Email Notifications"
+      },
+      {
+        "key": "app_employer_settings_components_notification_tab.sound",
+        "text": "Sound"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\settings\\components\\PaymentMethodsSettings.tsx",
+    "items": [
+      {
+        "key": "app_employer_settings_components_payment_methods_settings.payment_methods",
+        "text": "Payment Methods"
+      },
+      {
+        "key": "app_employer_settings_components_payment_methods_settings.where_you_fund_escrow_and_pay_talent",
+        "text": "Where you fund escrow and pay talent."
+      },
+      {
+        "key": "app_employer_settings_components_payment_methods_settings.active",
+        "text": "Active"
+      },
+      {
+        "key": "app_employer_settings_components_payment_methods_settings.connect",
+        "text": "Connect"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\settings\\components\\ProfileInformation.tsx",
+    "items": [
+      {
+        "key": "app_employer_settings_components_profile_information.profile_information",
+        "text": "Profile Information"
+      },
+      {
+        "key": "app_employer_settings_components_profile_information.change_photo",
+        "text": "Change Photo"
+      },
+      {
+        "key": "app_employer_settings_components_profile_information.coming_soon",
+        "text": "Coming soon"
+      },
+      {
+        "key": "app_employer_settings_components_profile_information.changes_saved",
+        "text": "Changes saved."
+      },
+      {
+        "key": "app_employer_settings_components_profile_information.email",
+        "text": "Email"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\verification\\components\\TrustBadgesEarned.tsx",
+    "items": [
+      {
+        "key": "app_employer_verification_components_trust_badges_earned.trust_badges_earned",
+        "text": "Trust Badges Earned"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\verification\\components\\VerificationHero.tsx",
+    "items": [
+      {
+        "key": "app_employer_verification_components_verification_hero.talent_q_trust_system",
+        "text": "Talent Q Trust System"
+      },
+      {
+        "key": "app_employer_verification_components_verification_hero.your_credentials_finally_respected",
+        "text": "Your credentials, finally respected."
+      },
+      {
+        "key": "app_employer_verification_components_verification_hero.verified_employers_attract_3x_more_quali",
+        "text": "Verified employers attract 3x more qualified applicants on TalentQ. Our trust layer does the hard work permanently — so top African talent can trust you before the first message."
+      },
+      {
+        "key": "app_employer_verification_components_verification_hero.start_verification",
+        "text": "Start Verification"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\verification\\components\\VerificationSteps.tsx",
+    "items": [
+      {
+        "key": "app_employer_verification_components_verification_steps.verification_steps",
+        "text": "Verification Steps"
+      },
+      {
+        "key": "app_employer_verification_components_verification_steps.complete_each_step_independently_order_d",
+        "text": "Complete each step independently — order doesn't matter."
+      },
+      {
+        "key": "app_employer_verification_components_verification_steps.completed",
+        "text": "Completed"
+      },
+      {
+        "key": "app_employer_verification_components_verification_steps.in_review",
+        "text": "In Review"
+      },
+      {
+        "key": "app_employer_verification_components_verification_steps.not_started",
+        "text": "Not started"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\setup\\components\\BasicInfoStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_setup_components_basic_info_step.basic_info",
+        "text": "Basic Info"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_basic_info_step.this_is_how_employers_will_see_you",
+        "text": "This is how employers will see you."
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_basic_info_step.full_name",
+        "text": "Full Name"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_basic_info_step.professional_title",
+        "text": "Professional Title"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_basic_info_step.continue",
+        "text": "Continue"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\setup\\components\\LocationAvailabilityStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_setup_components_location_availability_step.location_availability",
+        "text": "Location & Availability"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_location_availability_step.almost_done_one_last_thing",
+        "text": "Almost done — one last thing."
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_location_availability_step.country",
+        "text": "Country"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_location_availability_step.select_your_country",
+        "text": "Select your country"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_location_availability_step.availability",
+        "text": "Availability"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_location_availability_step.save_profile",
+        "text": "Save Profile"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\setup\\components\\RateExperienceStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_setup_components_rate_experience_step.rate_experience",
+        "text": "Rate & Experience"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_rate_experience_step.set_your_rate_you_can_change_this_anytim",
+        "text": "Set your rate — you can change this anytime."
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_rate_experience_step.hourly_rate",
+        "text": "Hourly Rate ($)"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_rate_experience_step.years_of_experience",
+        "text": "Years of Experience"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_rate_experience_step.continue",
+        "text": "Continue"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\setup\\components\\SetupStepper.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_setup_components_setup_stepper.step",
+        "text": "Step"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_setup_stepper.of",
+        "text": "of"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_setup_stepper.back",
+        "text": "Back"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\profile\\setup\\components\\SetupSuccessStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_profile_setup_components_setup_success_step.profile_updated",
+        "text": "Profile updated!"
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_setup_success_step.your_profile_is_looking_good_employers_c",
+        "text": "Your profile is looking good. Employers can now see your full details."
+      },
+      {
+        "key": "app_freelancer_profile_setup_components_setup_success_step.back_to_profile",
+        "text": "Back to Profile"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\verification\\components\\steps\\DiditVerifyStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.starting_verification",
+        "text": "Starting verification"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.redirecting_you_to_a_secure_page_to_scan",
+        "text": "Redirecting you to a secure page to scan your ID and take a quick selfie."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.identity_verified",
+        "text": "Identity verified"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.your_id_and_liveness_check_both_passed_y",
+        "text": "Your ID and liveness check both passed. Your Identity Verified badge is now active."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.continue_to_portfolio",
+        "text": "Continue to Portfolio"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.sent_for_review",
+        "text": "Sent for review"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.we_re_confirming_your_id_this_is_usually",
+        "text": "We're confirming your ID. This is usually automatic and takes under a minute — occasionally it needs a manual check, which can take up to 24 hours."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.continue_to_portfolio",
+        "text": "Continue to Portfolio"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.verification_wasn_t_approved",
+        "text": "Verification wasn't approved"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.something_didn_t_match_on_our_end_you_ca",
+        "text": "Something didn't match on our end. You can try again with a clearer photo, or contact support if this keeps happening."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.try_again",
+        "text": "Try Again"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.couldn_t_start_verification",
+        "text": "Couldn't start verification"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.something_went_wrong_on_our_end_please_t",
+        "text": "Something went wrong on our end. Please try again in a moment."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.try_again",
+        "text": "Try Again"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.step_1_of",
+        "text": "Step 1 of"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.verify_with_didit",
+        "text": "Verify with Didit"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.scan_a_government_id_and_take_a_quick_se",
+        "text": "Scan a government ID and take a quick selfie. Most people are verified in under a minute."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.what_you_ll_need",
+        "text": "What you'll need:"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.start_didit_verification",
+        "text": "Start Didit Verification"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_didit_verify_step.your_id_is_encrypted_and_processed_secur",
+        "text": "Your ID is encrypted and processed securely by Didit — TalentQ never stores a copy of your document."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\(freelancer)\\verification\\components\\steps\\IdentityStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.step_1_of",
+        "text": "Step 1 of"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.confirm_your_identity",
+        "text": "Confirm your identity"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.we_ask_for_this_so_employers_know_you_re",
+        "text": "We ask for this so employers know you're really you. Your details are encrypted and never shown publicly."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.continue_with_verified_linkedin",
+        "text": "Continue with verified LinkedIn"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.only_accepted_if_your_profile_passes_our",
+        "text": "Only accepted if your profile passes our verification check"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.continue_with_didit",
+        "text": "Continue with Didit"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.fastest_way_to_verify_id_scan_face_match",
+        "text": "Fastest way to verify — ID scan + face match"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_identity_step.continue",
+        "text": "Continue"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\verification\\components\\steps\\IntroStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_verification_components_steps_intro_step.verify_your_skills",
+        "text": "Verify your Skills!"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_intro_step.the_badge_that_actually_means_something_",
+        "text": "The badge that actually means something, because we show our work. Get verified once, get trusted everywhere on TalentQ."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_intro_step.identity",
+        "text": "Identity"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_intro_step.portfolio",
+        "text": "Portfolio"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_intro_step.skills",
+        "text": "Skills"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_intro_step.start_verification",
+        "text": "Start Verification"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\(freelancer)\\verification\\components\\steps\\LinkedInConnectStep.tsx",
+    "items": [
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.connecting_to_linkedin",
+        "text": "Connecting to LinkedIn"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.redirecting_you_to_linkedin_to_approve_a",
+        "text": "Redirecting you to LinkedIn to approve access."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.couldn_t_connect_to_linkedin",
+        "text": "Couldn't connect to LinkedIn"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.something_went_wrong_starting_the_connec",
+        "text": "Something went wrong starting the connection. Please try again."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.try_again",
+        "text": "Try Again"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.profile_submitted_for_review",
+        "text": "Profile submitted for review"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.your_linkedin_profile_has_been_sent_to_o",
+        "text": "Your LinkedIn profile has been sent to our team. We typically review identity submissions within 24 hours — you'll see your status update here once it's done."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.continue_to_portfolio",
+        "text": "Continue to Portfolio"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.step_1_of",
+        "text": "Step 1 of"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.connect_your_linkedin",
+        "text": "Connect your LinkedIn"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.we_ll_send_your_profile_to_our_team_to_c",
+        "text": "We'll send your profile to our team to confirm it's real before marking your identity as verified."
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.talentq_will_access",
+        "text": "TalentQ will access:"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.continue_with_linkedin",
+        "text": "Continue with LinkedIn"
+      },
+      {
+        "key": "app_freelancer_verification_components_steps_linked_in_connect_step.if_your_profile_doesn_t_meet_our_verific",
+        "text": "If your profile doesn't meet our verification criteria, you'll be asked to verify with Didit instead."
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\[applicationId]\\components\\CandidateActions.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_application_id_components_candidate_actions.send_message",
+        "text": "Send message"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_candidate_actions.reject",
+        "text": "Reject"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_candidate_actions.set_up_escrow",
+        "text": "Set Up Escrow"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\[applicationId]\\components\\CandidateHeader.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_application_id_components_candidate_header.identity_and_skills_verified",
+        "text": "Identity and skills verified"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_candidate_header.ai_score",
+        "text": "AI Score"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\[applicationId]\\components\\OverviewTab.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.skills",
+        "text": "Skills"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.no_skills_listed_yet",
+        "text": "No skills listed yet."
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.certifications",
+        "text": "Certifications"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.certifications_aren_t_tracked_yet",
+        "text": "Certifications aren't tracked yet."
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.quick_stats",
+        "text": "Quick Stats"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.ai_match_score",
+        "text": "AI Match Score"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.reviews",
+        "text": "Reviews"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.review",
+        "text": "review"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.overall_rating",
+        "text": "Overall Rating"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.ready_to_hire",
+        "text": "Ready to hire?"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.set_up_a_milestone_based_escrow_contract",
+        "text": "Set up a milestone based escrow contract via Paystack or Flutterwave"
+      },
+      {
+        "key": "app_employer_candidates_application_id_components_overview_tab.set_up_escrow",
+        "text": "Set up Escrow →"
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\[applicationId]\\components\\PortfolioTab.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_application_id_components_portfolio_tab.no_portfolio_items_yet",
+        "text": "No portfolio items yet."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\[applicationId]\\components\\ReviewTab.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_application_id_components_review_tab.no_reviews_yet",
+        "text": "No reviews yet."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\candidates\\[applicationId]\\components\\WorkHistoryTab.tsx",
+    "items": [
+      {
+        "key": "app_employer_candidates_application_id_components_work_history_tab.work_history_isn_t_tracked_yet",
+        "text": "Work history isn't tracked yet."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  },
+  {
+    "file": "src\\app\\employer\\verification\\components\\steps\\CompanyRegistrationStep.tsx",
+    "items": [
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.document_submitted_for_review",
+        "text": "Document submitted for review"
+      },
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.our_team_will_review_your_business_regis",
+        "text": "Our team will review your business registration document, usually within 1-2 business days."
+      },
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.continue",
+        "text": "Continue"
+      },
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.step_1_of",
+        "text": "Step 1 of"
+      },
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.company_registration",
+        "text": "Company Registration"
+      },
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.upload_your_business_certificate_or_regi",
+        "text": "Upload your business certificate or registration document."
+      },
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.upload_failed_please_try_again",
+        "text": "Upload failed. Please try again."
+      },
+      {
+        "key": "app_employer_verification_components_steps_company_registration_step.submit_document",
+        "text": "Submit Document"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\verification\\components\\steps\\LinkedlnStep.tsx",
+    "items": [
+      {
+        "key": "app_employer_verification_components_steps_linkedln_step.connecting_to_linkedin",
+        "text": "Connecting to LinkedIn"
+      },
+      {
+        "key": "app_employer_verification_components_steps_linkedln_step.redirecting_you_to_approve_access",
+        "text": "Redirecting you to approve access."
+      },
+      {
+        "key": "app_employer_verification_components_steps_linkedln_step.step_2_of",
+        "text": "Step 2 of"
+      },
+      {
+        "key": "app_employer_verification_components_steps_linkedln_step.connect_your_company_linkedin",
+        "text": "Connect your company LinkedIn"
+      },
+      {
+        "key": "app_employer_verification_components_steps_linkedln_step.we_ll_confirm_your_company_page_to_verif",
+        "text": "We'll confirm your company page to verify legitimacy."
+      },
+      {
+        "key": "app_employer_verification_components_steps_linkedln_step.couldn_t_connect_please_try_again",
+        "text": "Couldn't connect. Please try again."
+      },
+      {
+        "key": "app_employer_verification_components_steps_linkedln_step.continue_with_linkedin",
+        "text": "Continue with LinkedIn"
+      }
+    ]
+  },
+  {
+    "file": "src\\app\\employer\\verification\\components\\steps\\PaymentMethodStep.tsx",
+    "items": [
+      {
+        "key": "app_employer_verification_components_steps_payment_method_step.payment_method",
+        "text": "Payment Method"
+      },
+      {
+        "key": "app_employer_verification_components_steps_payment_method_step.connecting_paystack_or_flutterwave_is_co",
+        "text": "Connecting Paystack or Flutterwave is coming soon. We'll notify you once escrow funding is available."
+      }
+    ],
+    "skippedWholeFile": "Server Component (no \"use client\" directive) — useLanguage() cannot be called here. Add \"use client\" by hand if this component has no server-only work, then re-run."
+  }
+]

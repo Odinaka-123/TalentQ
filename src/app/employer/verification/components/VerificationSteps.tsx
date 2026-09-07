@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -17,6 +18,7 @@ export default function VerificationSteps({
   refreshKey,
   onOpenStep,
 }: VerificationStepsProps) {
+    const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [companyStatus, setCompanyStatus] = useState<StepState>("locked");
   const [linkedInStatus, setLinkedInStatus] = useState<StepState>("locked");
@@ -94,11 +96,9 @@ export default function VerificationSteps({
   return (
     <div className="rounded-2xl border border-[#E8A47E] bg-white px-6 py-6 mb-6">
       <h3 className="text-base font-semibold text-[#1F2A22]">
-        Verification Steps
-      </h3>
+        {t("app_employer_verification_components_verification_steps.verification_steps")}</h3>
       <p className="text-xs text-[#8A8A7E] mb-5">
-        Complete each step independently — order doesn&apos;t matter.
-      </p>
+        {t("app_employer_verification_components_verification_steps.complete_each_step_independently_order_d")}</p>
 
       <div className="flex flex-col divide-y divide-[#EFEBE2]">
         {steps.map((step) => {
@@ -143,18 +143,15 @@ export default function VerificationSteps({
 
               {step.state === "completed" && (
                 <span className="rounded-full bg-[#DDEEE2] px-3 py-1 text-xs text-[#3E8E5A] shrink-0">
-                  Completed
-                </span>
+                  {t("app_employer_verification_components_verification_steps.completed")}</span>
               )}
               {step.state === "pending" && (
                 <span className="rounded-full bg-[#FBEADB] px-3 py-1 text-xs text-[#DE814A] shrink-0">
-                  In Review
-                </span>
+                  {t("app_employer_verification_components_verification_steps.in_review")}</span>
               )}
               {step.state === "locked" && (
                 <span className="rounded-full bg-[#F2DFC8] px-3 py-1 text-xs text-[#DE814A] shrink-0">
-                  Not started
-                </span>
+                  {t("app_employer_verification_components_verification_steps.not_started")}</span>
               )}
             </Wrapper>
           );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { ArrowLeft, CheckCircle2, Clock, Loader2 } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
@@ -25,6 +26,7 @@ export default function LinkedInConnectStep({
   onBack,
   onContinue,
 }: LinkedInConnectStepProps) {
+    const { t } = useLanguage();
   const [status, setStatus] = useState<Status>("idle");
 
   const handleConnect = async () => {
@@ -56,11 +58,9 @@ export default function LinkedInConnectStep({
       <div className="flex flex-col items-center text-center py-6">
         <Loader2 size={32} className="text-[#DE814A] animate-spin mb-5" />
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Connecting to LinkedIn
-        </h2>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.connecting_to_linkedin")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs">
-          Redirecting you to LinkedIn to approve access.
-        </p>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.redirecting_you_to_linkedin_to_approve_a")}</p>
       </div>
     );
   }
@@ -72,18 +72,15 @@ export default function LinkedInConnectStep({
           <Clock size={26} className="text-[#C6543A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Couldn&apos;t connect to LinkedIn
-        </h2>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.couldn_t_connect_to_linkedin")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          Something went wrong starting the connection. Please try again.
-        </p>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.something_went_wrong_starting_the_connec")}</p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
-          Try Again
-        </button>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.try_again")}</button>
       </div>
     );
   }
@@ -95,20 +92,15 @@ export default function LinkedInConnectStep({
           <Clock size={26} className="text-[#DE814A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Profile submitted for review
-        </h2>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.profile_submitted_for_review")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          Your LinkedIn profile has been sent to our team. We typically review
-          identity submissions within 24 hours — you&apos;ll see your status
-          update here once it&apos;s done.
-        </p>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.your_linkedin_profile_has_been_sent_to_o")}</p>
         <button
           type="button"
           onClick={onContinue}
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
-          Continue to Portfolio
-        </button>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.continue_to_portfolio")}</button>
       </div>
     );
   }
@@ -128,7 +120,7 @@ export default function LinkedInConnectStep({
           <ProgressBar step={1} totalSteps={totalSteps} />
         </div>
         <span className="text-xs text-[#8A8A7E] shrink-0">
-          Step 1 of {totalSteps}
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.step_1_of")}{totalSteps}
         </span>
       </div>
 
@@ -137,17 +129,13 @@ export default function LinkedInConnectStep({
       </div>
 
       <h2 className="text-xl font-bold text-[#1F2A22] text-center mb-2">
-        Connect your LinkedIn
-      </h2>
+        {t("app_freelancer_verification_components_steps_linked_in_connect_step.connect_your_linkedin")}</h2>
       <p className="text-sm text-[#8A8A7E] text-center max-w-xs mx-auto mb-6">
-        We&apos;ll send your profile to our team to confirm it&apos;s real
-        before marking your identity as verified.
-      </p>
+        {t("app_freelancer_verification_components_steps_linked_in_connect_step.we_ll_send_your_profile_to_our_team_to_c")}</p>
 
       <div className="rounded-xl border border-[#E5E0D6] px-4 py-4 mb-6">
         <p className="text-xs font-medium text-[#1F2A22] mb-3">
-          TalentQ will access:
-        </p>
+          {t("app_freelancer_verification_components_steps_linked_in_connect_step.talentq_will_access")}</p>
         <div className="flex flex-col gap-2">
           {permissions.map((permission) => (
             <div key={permission} className="flex items-start gap-2">
@@ -167,13 +155,10 @@ export default function LinkedInConnectStep({
         className="w-full flex items-center justify-center gap-2 rounded-full bg-[#0A66C2] py-3 text-sm font-medium text-white hover:bg-[#095196] transition-colors"
       >
         <FaLinkedin size={16} />
-        Continue with LinkedIn
-      </button>
+        {t("app_freelancer_verification_components_steps_linked_in_connect_step.continue_with_linkedin")}</button>
 
       <p className="text-xs text-[#8A8A7E] text-center mt-3">
-        If your profile doesn&apos;t meet our verification criteria, you&apos;ll
-        be asked to verify with Didit instead.
-      </p>
+        {t("app_freelancer_verification_components_steps_linked_in_connect_step.if_your_profile_doesn_t_meet_our_verific")}</p>
     </div>
   );
 }

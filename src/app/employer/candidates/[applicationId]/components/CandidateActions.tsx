@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, Loader2, ArrowRight, X } from "lucide-react";
@@ -31,6 +32,7 @@ export default function CandidateActions({
   candidate,
   onStatusChange,
 }: CandidateActionsProps) {
+    const { t } = useLanguage();
   const router = useRouter();
   const [inviting, setInviting] = useState(false);
   const [messaging, setMessaging] = useState(false);
@@ -168,8 +170,7 @@ export default function CandidateActions({
             className="flex items-center gap-2 rounded-full border border-[#DE814A] px-4 py-2 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors disabled:opacity-60"
           >
             {messaging && <Loader2 size={14} className="animate-spin" />}
-            Send message
-          </button>
+            {t("app_employer_candidates_application_id_components_candidate_actions.send_message")}</button>
 
           {!isHired && (
             <button
@@ -183,8 +184,7 @@ export default function CandidateActions({
               ) : (
                 <X size={14} />
               )}
-              Reject
-            </button>
+              {t("app_employer_candidates_application_id_components_candidate_actions.reject")}</button>
           )}
         </div>
 
@@ -198,8 +198,7 @@ export default function CandidateActions({
           className="flex items-center gap-1.5 rounded-full bg-[#A8531E] px-4 py-2 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
           <Lock size={14} />
-          Set Up Escrow
-        </button>
+          {t("app_employer_candidates_application_id_components_candidate_actions.set_up_escrow")}</button>
       </div>
       {error && <p className="text-xs text-[#C6543A] mt-2">{error}</p>}
     </div>

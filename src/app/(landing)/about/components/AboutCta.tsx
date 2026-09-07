@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion, type Variants } from "framer-motion";
 
 const container: Variants = {
@@ -33,6 +34,7 @@ const button: Variants = {
 };
 
 export default function AboutCta() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pb-16">
       <motion.div
@@ -52,15 +54,12 @@ export default function AboutCta() {
             variants={item}
             className="text-xl sm:text-2xl font-bold text-[#DE814A] mb-3"
           >
-            Ready to build your next opportunity?
-          </motion.h2>
+            {t("app_landing_about_components_about_cta.ready_to_build_your_next_opportunity")}</motion.h2>
           <motion.p
             variants={item}
             className="text-sm sm:text-base text-white/90 mb-8 max-w-xl mx-auto"
           >
-            Whether you&apos;re hiring exceptional professionals or looking
-            for your next project, TalentQ helps you connect with confidence.
-          </motion.p>
+            {t("app_landing_about_components_about_cta.whether_you_re_hiring_exceptional_profes")}</motion.p>
           <motion.button
             type="button"
             variants={button}
@@ -69,8 +68,7 @@ export default function AboutCta() {
             transition={{ duration: 0.15 }}
             className="rounded-full bg-[#A8531E] px-8 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
           >
-            Join Us
-          </motion.button>
+            {t("app_landing_about_components_about_cta.join_us")}</motion.button>
         </motion.div>
       </motion.div>
     </section>

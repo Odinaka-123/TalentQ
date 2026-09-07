@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,6 +10,7 @@ import OtpInput from "../components/OtpInput";
 import { createClient } from "@/lib/supabase/client";
 
 function VerifyOtpForm() {
+    const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const searchParams = useSearchParams();
@@ -71,8 +73,7 @@ function VerifyOtpForm() {
         className="inline-flex items-center gap-1.5 text-sm text-[#6B7A73] hover:text-[#1B3A2F] -mt-2 mb-4"
       >
         <ArrowLeft size={15} />
-        Back
-      </Link>
+        {t("app_auth_verify-otp_page.back")}</Link>
 
       {error && (
         <p className="text-sm text-[#C6543A] bg-[#FBEBE9] rounded-lg px-3.5 py-2.5 mb-4">
@@ -92,7 +93,7 @@ function VerifyOtpForm() {
       </form>
 
       <p className="text-sm text-[#6B7A73] text-center mt-6">
-        Didn&apos;t get a code?{" "}
+        {t("app_auth_verify-otp_page.didn_t_get_a_code")}{" "}
         <button
           type="button"
           onClick={handleResend}

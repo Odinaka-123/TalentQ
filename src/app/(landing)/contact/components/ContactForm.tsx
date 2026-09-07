@@ -1,8 +1,10 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 
 export default function ContactForm() {
+    const { t } = useLanguage();
   const [form, setForm] = useState({
     fullName: "",
     companyName: "",
@@ -34,11 +36,9 @@ export default function ContactForm() {
       <section className="w-full flex justify-center px-4 pb-16">
         <div className="w-full max-w-3xl rounded-3xl border border-[#DE814A] bg-white px-6 py-10 text-center">
           <p className="text-base font-semibold text-[#1F2A22] mb-1">
-            Message sent!
-          </p>
+            {t("app_landing_contact_components_contact_form.message_sent")}</p>
           <p className="text-sm text-[#8A8A7E]">
-            Thanks for reaching out — our team will get back to you shortly.
-          </p>
+            {t("app_landing_contact_components_contact_form.thanks_for_reaching_out_our_team_will_ge")}</p>
         </div>
       </section>
     );
@@ -53,8 +53,7 @@ export default function ContactForm() {
         <div className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Full Name
-            </label>
+              {t("app_landing_contact_components_contact_form.full_name")}</label>
             <input
               type="text"
               required
@@ -66,8 +65,7 @@ export default function ContactForm() {
 
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Company Name
-            </label>
+              {t("app_landing_contact_components_contact_form.company_name")}</label>
             <input
               type="text"
               value={form.companyName}
@@ -78,8 +76,7 @@ export default function ContactForm() {
 
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Phone Number
-            </label>
+              {t("app_landing_contact_components_contact_form.phone_number")}</label>
             <input
               type="tel"
               value={form.phoneNumber}
@@ -90,8 +87,7 @@ export default function ContactForm() {
 
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Email
-            </label>
+              {t("app_landing_contact_components_contact_form.email")}</label>
             <input
               type="email"
               required
@@ -105,8 +101,7 @@ export default function ContactForm() {
         <div className="flex flex-col gap-4">
           <div className="flex-1 flex flex-col">
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Leave a message
-            </label>
+              {t("app_landing_contact_components_contact_form.leave_a_message")}</label>
             <textarea
               required
               value={form.message}

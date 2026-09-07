@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { submitSupportTicket } from "@/lib/queries/supportTickets";
@@ -13,6 +14,7 @@ const categories = [
 ];
 
 export default function SupportTicketForm() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [category, setCategory] = useState("General");
   const [subject, setSubject] = useState("");
@@ -54,18 +56,15 @@ export default function SupportTicketForm() {
     return (
       <div className="rounded-2xl border border-[#DDEEE2] bg-[#F3FAF5] px-6 py-10 text-center">
         <p className="text-sm font-semibold text-[#2E6B44] mb-1">
-          Ticket submitted
-        </p>
+          {t("app_freelancer_help-support_components_support_ticket_form.ticket_submitted")}</p>
         <p className="text-xs text-[#5C8A6B] mb-4">
-          We&apos;ll follow up by email within 4 hours.
-        </p>
+          {t("app_freelancer_help-support_components_support_ticket_form.we_ll_follow_up_by_email_within_4_hours")}</p>
         <button
           type="button"
           onClick={() => setSubmitted(false)}
           className="text-xs font-medium text-[#2E6B44] hover:underline"
         >
-          Submit another ticket
-        </button>
+          {t("app_freelancer_help-support_components_support_ticket_form.submit_another_ticket")}</button>
       </div>
     );
   }
@@ -76,14 +75,12 @@ export default function SupportTicketForm() {
       className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6"
     >
       <h3 className="text-base font-semibold text-[#1F2A22] mb-1">
-        Submit a Support Ticket
-      </h3>
+        {t("app_freelancer_help-support_components_support_ticket_form.submit_a_support_ticket")}</h3>
       <p className="text-xs text-[#8A8A7E] mb-6">
-        For complex issues we&apos;ll follow up by email within 4 hours.
-      </p>
+        {t("app_freelancer_help-support_components_support_ticket_form.for_complex_issues_we_ll_follow_up_by_em")}</p>
 
       <div className="mb-5">
-        <p className="text-sm font-medium text-[#1F2A22] mb-2">Category</p>
+        <p className="text-sm font-medium text-[#1F2A22] mb-2">{t("app_freelancer_help-support_components_support_ticket_form.category")}</p>
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => {
             const isActive = category === cat;
@@ -110,8 +107,7 @@ export default function SupportTicketForm() {
           htmlFor="subject"
           className="block text-sm font-medium text-[#1F2A22] mb-2"
         >
-          Subject
-        </label>
+          {t("app_freelancer_help-support_components_support_ticket_form.subject")}</label>
         <input
           id="subject"
           type="text"
@@ -127,8 +123,7 @@ export default function SupportTicketForm() {
           htmlFor="message"
           className="block text-sm font-medium text-[#1F2A22] mb-2"
         >
-          Message
-        </label>
+          {t("app_freelancer_help-support_components_support_ticket_form.message")}</label>
         <textarea
           id="message"
           value={message}

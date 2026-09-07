@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { ArrowDownLeft, CheckCircle2, Clock, XCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -23,6 +24,7 @@ const statusStyles: Record<EmployerTransaction["status"], StatusStyle> = {
 };
 
 export default function EmployerPaymentHistory() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const { formatCurrency } = useCurrency();
   const [loading, setLoading] = useState(true);
@@ -52,25 +54,23 @@ export default function EmployerPaymentHistory() {
     <div className="flex flex-col gap-4">
       <div className="rounded-2xl border border-[#E8A47E] bg-[#FBF0E4] px-5 py-4">
         <p className="text-sm text-[#1F2A22]">
-          All fees shown at the 10% TalentQ service rate.
-        </p>
+          {t("app_employer_payments_components_employer_payment_history.all_fees_shown_at_the_10_talentq_service")}</p>
       </div>
 
       {transactions.length === 0 ?
         <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
-          No payments yet.
-        </div>
+          {t("app_employer_payments_components_employer_payment_history.no_payments_yet")}</div>
       : <div className="rounded-2xl border border-[#E5E0D6] bg-white overflow-x-auto">
           <table className="w-full min-w-160 text-sm">
             <thead>
               <tr className="border-b border-[#EFEBE2] text-left text-xs text-[#8A8A7E]">
-                <th className="px-5 sm:px-6 py-4 font-medium">Transaction</th>
-                <th className="px-4 py-4 font-medium">To</th>
-                <th className="px-4 py-4 font-medium">Gross</th>
-                <th className="px-4 py-4 font-medium">Platform Fee</th>
-                <th className="px-4 py-4 font-medium">Net</th>
-                <th className="px-4 py-4 font-medium">Date</th>
-                <th className="px-5 sm:px-6 py-4 font-medium">Status</th>
+                <th className="px-5 sm:px-6 py-4 font-medium">{t("app_employer_payments_components_employer_payment_history.transaction")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_employer_payments_components_employer_payment_history.to")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_employer_payments_components_employer_payment_history.gross")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_employer_payments_components_employer_payment_history.platform_fee")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_employer_payments_components_employer_payment_history.net")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_employer_payments_components_employer_payment_history.date")}</th>
+                <th className="px-5 sm:px-6 py-4 font-medium">{t("app_employer_payments_components_employer_payment_history.status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#EFEBE2]">

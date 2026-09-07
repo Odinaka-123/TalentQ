@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import OnboardingStepper from "./components/OnboardingStepper";
@@ -16,6 +17,7 @@ type Role = "employer" | "freelancer";
 const TOTAL_STEPS = 4;
 
 export default function OnboardingPage() {
+    const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const [step, setStep] = useState(1);
@@ -236,7 +238,7 @@ export default function OnboardingPage() {
       )}
 
       {saving && (
-        <p className="text-xs text-[#8A8A7E] text-center mt-3">Saving...</p>
+        <p className="text-xs text-[#8A8A7E] text-center mt-3">{t("app_onboarding_page.saving")}</p>
       )}
     </div>
   );

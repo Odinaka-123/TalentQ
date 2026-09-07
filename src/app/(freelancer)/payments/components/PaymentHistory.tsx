@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
@@ -24,6 +25,7 @@ const statusStyles: Record<PaymentHistoryRow["status"], StatusStyle> = {
 };
 
 export default function PaymentHistory() {
+    const { t } = useLanguage();
   const { formatCurrency } = useCurrency();
   const [transactions, setTransactions] = useState<PaymentHistoryRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,9 +73,7 @@ export default function PaymentHistory() {
     <div className="flex flex-col gap-6">
       <div className="rounded-2xl border border-[#E8A47E] bg-[#FBF0E4] px-5 py-4">
         <p className="text-sm text-[#1F2A22]">
-          All fees shown at the 10% TalentQ service rate. Withdrawal
-          transactions carry no additional fee.
-        </p>
+          {t("app_freelancer_payments_components_payment_history.all_fees_shown_at_the_10_talentq_service")}</p>
       </div>
 
       <div className="rounded-2xl border border-[#E5E0D6] bg-white overflow-x-auto">
@@ -88,23 +88,20 @@ export default function PaymentHistory() {
           </div>
         : error ?
           <div className="p-6 text-center text-sm text-[#8A8A7E]">
-            Couldn&apos;t load your payment history right now. Try refreshing
-            the page.
-          </div>
+            {t("app_freelancer_payments_components_payment_history.couldn_t_load_your_payment_history_right")}</div>
         : transactions.length === 0 ?
           <div className="p-6 text-center text-sm text-[#8A8A7E]">
-            No transactions yet.
-          </div>
+            {t("app_freelancer_payments_components_payment_history.no_transactions_yet")}</div>
         : <table className="w-full min-w-160 text-sm">
             <thead>
               <tr className="border-b border-[#EFEBE2] text-left text-xs text-[#8A8A7E]">
-                <th className="px-5 sm:px-6 py-4 font-medium">Transaction</th>
-                <th className="px-4 py-4 font-medium">From / To</th>
-                <th className="px-4 py-4 font-medium">Gross</th>
-                <th className="px-4 py-4 font-medium">Platform Fee (10%)</th>
-                <th className="px-4 py-4 font-medium">Received</th>
-                <th className="px-4 py-4 font-medium">Date</th>
-                <th className="px-5 sm:px-6 py-4 font-medium">Status</th>
+                <th className="px-5 sm:px-6 py-4 font-medium">{t("app_freelancer_payments_components_payment_history.transaction")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_freelancer_payments_components_payment_history.from_to")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_freelancer_payments_components_payment_history.gross")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_freelancer_payments_components_payment_history.platform_fee_10")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_freelancer_payments_components_payment_history.received")}</th>
+                <th className="px-4 py-4 font-medium">{t("app_freelancer_payments_components_payment_history.date")}</th>
+                <th className="px-5 sm:px-6 py-4 font-medium">{t("app_freelancer_payments_components_payment_history.status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#EFEBE2]">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SetupStepper from "./components/SetupStepper";
@@ -12,6 +13,7 @@ import { createClient } from "@/lib/supabase/client";
 const TOTAL_STEPS = 3;
 
 export default function ProfileSetupPage() {
+    const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const [step, setStep] = useState(1);
@@ -133,8 +135,7 @@ export default function ProfileSetupPage() {
   if (loading) {
     return (
       <div className="w-full max-w-md mx-auto rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
-        Loading...
-      </div>
+        {t("app_freelancer_profile_setup_page.loading")}</div>
     );
   }
 
@@ -176,7 +177,7 @@ export default function ProfileSetupPage() {
       )}
 
       {saving && (
-        <p className="text-xs text-[#8A8A7E] text-center mt-3">Saving...</p>
+        <p className="text-xs text-[#8A8A7E] text-center mt-3">{t("app_freelancer_profile_setup_page.saving")}</p>
       )}
     </div>
   );

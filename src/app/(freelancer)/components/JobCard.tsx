@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Building2, MapPin, Clock, Users } from "lucide-react";
 
 export type JobLevel = "Beginner" | "Intermediate" | "Expert";
@@ -30,6 +31,7 @@ interface JobCardProps {
 }
 
 export default function JobCard({ job, onClick }: JobCardProps) {
+    const { t } = useLanguage();
   return (
     <button
       type="button"
@@ -82,8 +84,7 @@ export default function JobCard({ job, onClick }: JobCardProps) {
         </span>
         <span className="flex items-center gap-1.5">
           <Users size={13} />
-          {job.proposals} Proposals
-        </span>
+          {job.proposals} {t("app_freelancer_components_job_card.proposals")}</span>
       </div>
 
       <div className="flex flex-wrap gap-2">

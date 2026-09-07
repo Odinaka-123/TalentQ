@@ -1,8 +1,10 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion } from "framer-motion";
 
 export default function AboutHero() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pt-8 sm:pt-12 pb-4">
       <motion.div
@@ -17,8 +19,7 @@ export default function AboutHero() {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="text-2xl sm:text-3xl font-bold text-[#C6543A] text-center"
         >
-          About Us
-        </motion.h1>
+          {t("app_landing_about_components_about_hero.about_us")}</motion.h1>
       </motion.div>
     </section>
   );

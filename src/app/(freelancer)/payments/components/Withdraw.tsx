@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { Building2, Plus } from "lucide-react";
 import WithdrawConfirm from "./WithdrawConfirm";
@@ -18,6 +19,7 @@ type PayoutAccount = {
 type WithdrawState = "loading" | "ready" | "confirm";
 
 export default function Withdraw() {
+    const { t } = useLanguage();
   const [amount, setAmount] = useState("");
   const [payoutAccounts, setPayoutAccounts] = useState<PayoutAccount[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState("");
@@ -121,10 +123,9 @@ export default function Withdraw() {
     <div>
       <div className="mb-6">
         <h2 className="text-base font-semibold text-[#1F2A22] mb-2">
-          Withdrawal
-        </h2>
+          {t("app_freelancer_payments_components_withdraw.withdrawal")}</h2>
 
-        <p className="text-xs text-[#8A8A7E]">Available balance</p>
+        <p className="text-xs text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw.available_balance")}</p>
 
         <p className="text-2xl font-bold text-[#C6543A] mt-1">
           ${availableBalance.toFixed(2)}
@@ -142,12 +143,10 @@ export default function Withdraw() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-sm font-semibold text-[#1F2A22]">
-                Payout Account
-              </h3>
+                {t("app_freelancer_payments_components_withdraw.payout_account")}</h3>
 
               <p className="text-xs text-[#8A8A7E] mt-1">
-                Where should TalentQ send your earnings?
-              </p>
+                {t("app_freelancer_payments_components_withdraw.where_should_talentq_send_your_earnings")}</p>
             </div>
 
             <Building2 size={20} className="text-[#A8531E]" />
@@ -160,21 +159,17 @@ export default function Withdraw() {
               </div>
 
               <h4 className="text-sm font-semibold text-[#1F2A22]">
-                No bank account connected
-              </h4>
+                {t("app_freelancer_payments_components_withdraw.no_bank_account_connected")}</h4>
 
               <p className="text-xs text-[#8A8A7E] mt-1 max-w-sm mx-auto">
-                Connect your local bank account to receive your TalentQ
-                earnings.
-              </p>
+                {t("app_freelancer_payments_components_withdraw.connect_your_local_bank_account_to_recei")}</p>
 
               <a
                 href="/payments/payout-account"
                 className="inline-flex items-center gap-2 mt-5 rounded-full bg-[#A8531E] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
               >
                 <Plus size={15} />
-                Connect Bank Account
-              </a>
+                {t("app_freelancer_payments_components_withdraw.connect_bank_account")}</a>
             </div>
           : <>
               <div className="flex flex-col gap-3">
@@ -218,8 +213,7 @@ export default function Withdraw() {
 
                       {account.is_default && (
                         <span className="text-[10px] font-medium text-[#A8531E] bg-[#FBF0E4] rounded-full px-2 py-1">
-                          Default
-                        </span>
+                          {t("app_freelancer_payments_components_withdraw.default")}</span>
                       )}
                     </button>
                   );
@@ -231,15 +225,13 @@ export default function Withdraw() {
                 className="inline-flex items-center gap-1.5 mt-4 text-xs font-medium text-[#C6543A] hover:underline"
               >
                 <Plus size={14} />
-                Add another bank account
-              </a>
+                {t("app_freelancer_payments_components_withdraw.add_another_bank_account")}</a>
             </>
           }
 
           <div className="mt-6">
             <h3 className="text-sm font-semibold text-[#1F2A22] mb-3">
-              Withdrawal Amount
-            </h3>
+              {t("app_freelancer_payments_components_withdraw.withdrawal_amount")}</h3>
 
             <div className="relative max-w-xs">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#8A8A7E]">
@@ -267,8 +259,7 @@ export default function Withdraw() {
               disabled={availableBalance <= 0}
               className="mt-2 text-xs text-[#C6543A] font-medium hover:underline disabled:opacity-50"
             >
-              Withdraw maximum
-            </button>
+              {t("app_freelancer_payments_components_withdraw.withdraw_maximum")}</button>
           </div>
 
           <button
@@ -282,39 +273,37 @@ export default function Withdraw() {
             onClick={handleContinue}
             className="w-full mt-6 rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Continue to confirm
-          </button>
+            {t("app_freelancer_payments_components_withdraw.continue_to_confirm")}</button>
         </div>
 
         <div className="w-full lg:max-w-sm rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
           <h3 className="text-sm font-semibold text-[#1F2A22] mb-4">
-            Withdrawal Summary
-          </h3>
+            {t("app_freelancer_payments_components_withdraw.withdrawal_summary")}</h3>
 
           <div className="flex flex-col gap-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-[#8A8A7E]">Available</span>
+              <span className="text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw.available")}</span>
               <span className="text-[#1F2A22] font-medium">
                 ${availableBalance.toFixed(2)}
               </span>
             </div>
 
             <div className="flex justify-between">
-              <span className="text-[#8A8A7E]">Amount</span>
+              <span className="text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw.amount")}</span>
               <span className="text-[#1F2A22] font-medium">
                 ${numericAmount.toFixed(2)}
               </span>
             </div>
 
             <div className="flex justify-between">
-              <span className="text-[#8A8A7E]">Withdrawal fee (10%)</span>
+              <span className="text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw.withdrawal_fee_10")}</span>
               <span className="text-[#C6543A] font-medium">
                 -${fee.toFixed(2)}
               </span>
             </div>
 
             <div className="flex justify-between">
-              <span className="text-[#8A8A7E]">Bank</span>
+              <span className="text-[#8A8A7E]">{t("app_freelancer_payments_components_withdraw.bank")}</span>
               <span className="text-[#1F2A22] font-medium">
                 {selectedAccount?.bank_name ?? "—"}
               </span>
@@ -324,8 +313,7 @@ export default function Withdraw() {
 
             <div className="flex justify-between">
               <span className="text-[#1F2A22] font-semibold">
-                You&apos;ll receive
-              </span>
+                {t("app_freelancer_payments_components_withdraw.you_ll_receive")}</span>
 
               <span className="text-[#C6543A] font-semibold">
                 ${netReceived.toFixed(2)}
@@ -334,10 +322,7 @@ export default function Withdraw() {
           </div>
 
           <p className="text-xs text-[#8A8A7E] mt-4">
-            TalentQ&apos;s 10% service fee was already applied when the payment
-            was released from escrow. A separate 10% fee applies when
-            withdrawing to your bank.
-          </p>
+            {t("app_freelancer_payments_components_withdraw.talentq_s_10_service_fee_was_already_app")}</p>
         </div>
       </div>
     </div>

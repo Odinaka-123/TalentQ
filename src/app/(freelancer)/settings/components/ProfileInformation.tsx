@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useRef, useState } from "react";
 import { HelpCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -29,6 +30,7 @@ const emptyFields: Fields = {
 };
 
 export default function ProfileInformation() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -160,8 +162,7 @@ export default function ProfileInformation() {
   return (
     <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
       <h3 className="text-base font-semibold text-[#1F2A22] mb-5">
-        Profile Information
-      </h3>
+        {t("app_freelancer_settings_components_profile_information.profile_information")}</h3>
 
       <div className="flex items-center gap-4 mb-6">
         <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-[#3E5C50]">
@@ -176,7 +177,7 @@ export default function ProfileInformation() {
           >
             {uploadingAvatar ? "Uploading..." : "Change Photo"}
           </button>
-          <p className="text-xs text-[#8A8A7E] mt-0.5">JPG or PNG · Max 2MB</p>
+          <p className="text-xs text-[#8A8A7E] mt-0.5">{t("app_freelancer_settings_components_profile_information.jpg_or_png_max_2mb")}</p>
           <input
             ref={fileInputRef}
             type="file"
@@ -226,7 +227,7 @@ export default function ProfileInformation() {
 
       {saveError && <p className="text-xs text-[#FF363A] mb-3">{saveError}</p>}
       {saved && !saveError && (
-        <p className="text-xs text-[#3E8E5A] mb-3">Changes saved.</p>
+        <p className="text-xs text-[#3E8E5A] mb-3">{t("app_freelancer_settings_components_profile_information.changes_saved")}</p>
       )}
 
       <button

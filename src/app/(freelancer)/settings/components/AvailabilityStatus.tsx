@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -16,6 +17,7 @@ const options: { key: Status; label: string; dotColor: string }[] = [
 ];
 
 export default function AvailabilityStatus() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [userId, setUserId] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("available");
@@ -74,8 +76,7 @@ export default function AvailabilityStatus() {
   return (
     <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6 mt-6">
       <h3 className="text-base font-semibold text-[#1F2A22] mb-4">
-        Availability Status
-      </h3>
+        {t("app_freelancer_settings_components_availability_status.availability_status")}</h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {options.map((option) => {

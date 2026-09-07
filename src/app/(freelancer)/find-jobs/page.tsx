@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Award, Check } from "lucide-react";
@@ -11,6 +12,7 @@ import {
 } from "@/lib/queries/findJobs";
 
 export default function FindJobsPage() {
+    const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const [firstGigsOnly, setFirstGigsOnly] = useState(false);
@@ -88,8 +90,7 @@ export default function FindJobsPage() {
           <Award size={20} className="text-[#C6543A] shrink-0 mt-0.5" />
           <div className="min-w-0">
             <p className="text-sm font-semibold text-[#1B3A2F]">
-              First Gig Opportunities
-            </p>
+              {t("app_freelancer_find-jobs_page.first_gig_opportunities")}</p>
             <p className="text-xs text-[#6B7A73] mt-0.5">
               {firstGigsOnly ?
                 "No reviews required — lower competition, beginner-friendly."
@@ -111,22 +112,19 @@ export default function FindJobsPage() {
             onClick={() => setFirstGigsOnly(true)}
             className="shrink-0 border border-[#C6543A] text-[#C6543A] text-sm font-medium px-4 py-2 rounded-full hover:bg-[#C6543A] hover:text-white transition-colors"
           >
-            View First Gigs
-          </button>
+            {t("app_freelancer_find-jobs_page.view_first_gigs")}</button>
         }
       </div>
 
       <p className="text-sm mb-3">
         <span className="font-semibold text-[#1B3A2F]">
-          {visibleJobs.length} jobs
-        </span>{" "}
-        <span className="text-[#6B7A73]">match your profile</span>
+          {visibleJobs.length} {t("app_freelancer_find-jobs_page.jobs")}</span>{" "}
+        <span className="text-[#6B7A73]">{t("app_freelancer_find-jobs_page.match_your_profile")}</span>
       </p>
 
       {visibleJobs.length === 0 ?
         <div className="bg-white rounded-2xl p-6 text-center text-sm text-[#6B7A73]">
-          No jobs to show right now.
-        </div>
+          {t("app_freelancer_find-jobs_page.no_jobs_to_show_right_now")}</div>
       : <div className="flex flex-col gap-3 sm:gap-4">
           {visibleJobs.map((job) => (
             <JobCard

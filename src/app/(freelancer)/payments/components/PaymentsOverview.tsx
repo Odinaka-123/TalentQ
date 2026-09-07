@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { Wallet, Lock, Clock, TrendingUp } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -13,6 +14,7 @@ import StatCard from "./StatCard";
 import RecentTransactions from "./RecentTransactions";
 
 export default function PaymentsOverview() {
+    const { t } = useLanguage();
   const { formatCurrency } = useCurrency();
   const [data, setData] = useState<PaymentsOverviewData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -90,8 +92,7 @@ export default function PaymentsOverview() {
   if (error || !data) {
     return (
       <div className="bg-white rounded-2xl p-6 text-center text-sm text-[#6B7A73]">
-        Couldn&apos;t load your payments right now. Try refreshing the page.
-      </div>
+        {t("app_freelancer_payments_components_payments_overview.couldn_t_load_your_payments_right_now_tr")}</div>
     );
   }
 
@@ -154,8 +155,7 @@ export default function PaymentsOverview() {
         <div className="lg:col-span-2 flex flex-col gap-4">
           {escrowGroups.length === 0 ?
             <div className="bg-white rounded-2xl p-6 text-center text-sm text-[#6B7A73]">
-              No active escrow contracts yet.
-            </div>
+              {t("app_freelancer_payments_components_payments_overview.no_active_escrow_contracts_yet")}</div>
           : <EscrowTimeline
               groups={escrowGroups.map((group) => ({
                 client: group.client,

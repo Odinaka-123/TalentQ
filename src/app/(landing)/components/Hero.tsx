@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion, type Variants } from "framer-motion";
 import { Search } from "lucide-react";
 import TypingText from "./TypingText";
@@ -25,6 +26,7 @@ const item: Variants = {
 };
 
 export default function Hero() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pt-8 sm:pt-15 pb-8">
       <motion.div
@@ -69,18 +71,14 @@ export default function Hero() {
             variants={item}
             className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight max-w-2xl"
           >
-            Find work you can trust.
-            <br />
-            Hire talent you can verify.
-          </motion.h1>
+            {t("app_landing_components_hero.find_work_you_can_trust")}<br />
+            {t("app_landing_components_hero.hire_talent_you_can_verify")}</motion.h1>
 
           <motion.p
             variants={item}
             className="mt-4 sm:mt-6 text-[#8CABA1] text-sm sm:text-base md:text-lg max-w-xl"
           >
-            No fake listings. No pay-to-win visibility. Your money stays
-            protected until the work is done.
-          </motion.p>
+            {t("app_landing_components_hero.no_fake_listings_no_pay_to_win_visibilit")}</motion.p>
 
           <motion.form
             variants={item}

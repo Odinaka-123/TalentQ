@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +10,7 @@ import GoogleButton from "../components/GoogleButton";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignupPage() {
+    const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
@@ -75,8 +77,7 @@ export default function SignupPage() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
           <label htmlFor="name" className="text-sm font-medium text-[#1B3A2F]">
-            Full name
-          </label>
+            {t("app_auth_signup_page.full_name")}</label>
           <input
             id="name"
             name="name"
@@ -91,8 +92,7 @@ export default function SignupPage() {
 
         <div>
           <label htmlFor="email" className="text-sm font-medium text-[#1B3A2F]">
-            Email
-          </label>
+            {t("app_auth_signup_page.email")}</label>
           <input
             id="email"
             name="email"
@@ -110,8 +110,7 @@ export default function SignupPage() {
             htmlFor="password"
             className="text-sm font-medium text-[#1B3A2F]"
           >
-            Password
-          </label>
+            {t("app_auth_signup_page.password")}</label>
           <div className="relative mt-1.5">
             <input
               id="password"
@@ -136,8 +135,7 @@ export default function SignupPage() {
             </button>
           </div>
           <p className="text-xs text-[#9AA79F] mt-1.5">
-            Must be at least 8 characters.
-          </p>
+            {t("app_auth_signup_page.must_be_at_least_8_characters")}</p>
         </div>
 
         <button
@@ -151,20 +149,19 @@ export default function SignupPage() {
 
       <div className="flex items-center gap-3 my-6">
         <div className="flex-1 h-px bg-black/10" />
-        <span className="text-xs text-[#9AA79F]">OR</span>
+        <span className="text-xs text-[#9AA79F]">{t("app_auth_signup_page.or")}</span>
         <div className="flex-1 h-px bg-black/10" />
       </div>
 
       <GoogleButton label="Sign up with Google" onClick={handleGoogleSignup} />
 
       <p className="text-sm text-[#6B7A73] text-center mt-6">
-        Already have an account?{" "}
+        {t("app_auth_signup_page.already_have_an_account")}{" "}
         <Link
           href="/login"
           className="text-[#C6543A] font-medium hover:underline"
         >
-          Log in
-        </Link>
+          {t("app_auth_signup_page.log_in")}</Link>
       </p>
     </AuthShell>
   );

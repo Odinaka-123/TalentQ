@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion, type Variants } from "framer-motion";
 
 const items = [
@@ -50,6 +51,7 @@ const heading: Variants = {
 };
 
 export default function TrustSafety() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pb-16 sm:pb-20">
       <motion.div
@@ -66,8 +68,7 @@ export default function TrustSafety() {
           variants={heading}
           className="text-xs sm:text-sm font-semibold tracking-wide text-[#C6543A] uppercase mb-3"
         >
-          Trust & safety
-        </motion.p>
+          {t("app_landing_components_trust_safety.trust_safety")}</motion.p>
         <motion.h2
           initial="hidden"
           whileInView="show"
@@ -76,8 +77,7 @@ export default function TrustSafety() {
           transition={{ delay: 0.05 }}
           className="text-2xl sm:text-3xl font-bold text-[#1F2A22] mb-10"
         >
-          Built to stop the two things that ruin marketplaces
-        </motion.h2>
+          {t("app_landing_components_trust_safety.built_to_stop_the_two_things_that_ruin_m")}</motion.h2>
 
         <motion.div
           initial="hidden"

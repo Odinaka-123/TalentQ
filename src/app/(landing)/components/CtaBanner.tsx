@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 
@@ -36,6 +37,7 @@ const button: Variants = {
 };
 
 export default function CtaBanner() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pb-16 sm:pb-20">
       <motion.div
@@ -56,16 +58,13 @@ export default function CtaBanner() {
             variants={item}
             className="text-xl sm:text-2xl md:text-3xl font-bold text-white max-w-2xl"
           >
-            Start free — no card required to browse or post.
-          </motion.h2>
+            {t("app_landing_components_cta_banner.start_free_no_card_required_to_browse_or")}</motion.h2>
 
           <motion.p
             variants={item}
             className="mt-4 text-sm sm:text-base text-[#8CABA1] max-w-lg"
           >
-            No paid placements. No boosted listings. What you see is who&apos;s
-            actually delivering.
-          </motion.p>
+            {t("app_landing_components_cta_banner.no_paid_placements_no_boosted_listings_w")}</motion.p>
 
           <motion.div variants={button}>
             <MotionLink
@@ -75,8 +74,7 @@ export default function CtaBanner() {
               transition={{ duration: 0.15 }}
               className="mt-8 inline-block rounded-sm bg-[#A8531E] px-10 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
             >
-              Join us
-            </MotionLink>
+              {t("app_landing_components_cta_banner.join_us")}</MotionLink>
           </motion.div>
         </motion.div>
       </motion.div>

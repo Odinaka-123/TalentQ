@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -60,6 +61,7 @@ const inAppItems: { key: ToggleKey; title: string; description: string }[] = [
 ];
 
 export default function NotificationTab() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [userId, setUserId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
@@ -118,11 +120,9 @@ export default function NotificationTab() {
     <div className="flex flex-col gap-6">
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
         <h3 className="text-base font-semibold text-[#1F2A22]">
-          In-App Notifications
-        </h3>
+          {t("app_employer_settings_components_notification_tab.in_app_notifications")}</h3>
         <p className="text-xs text-[#8A8A7E] mb-2">
-          Choose what appears in your notification panel
-        </p>
+          {t("app_employer_settings_components_notification_tab.choose_what_appears_in_your_notification")}</p>
 
         <div className="flex flex-col divide-y divide-[#EFEBE2]">
           {inAppItems.map((item) => (
@@ -139,8 +139,7 @@ export default function NotificationTab() {
 
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
         <h3 className="text-base font-semibold text-[#1F2A22]">
-          Email Notifications
-        </h3>
+          {t("app_employer_settings_components_notification_tab.email_notifications")}</h3>
         <p className="text-xs text-[#8A8A7E] mb-2">
           {email ? `Sent to ${email}` : "Loading…"}
         </p>
@@ -162,7 +161,7 @@ export default function NotificationTab() {
       </div>
 
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
-        <h3 className="text-base font-semibold text-[#1F2A22] mb-2">Sound</h3>
+        <h3 className="text-base font-semibold text-[#1F2A22] mb-2">{t("app_employer_settings_components_notification_tab.sound")}</h3>
 
         <ToggleRow
           title="Notification sounds"

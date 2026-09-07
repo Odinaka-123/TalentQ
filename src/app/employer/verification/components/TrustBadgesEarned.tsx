@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { ShieldCheck, Wallet, Star } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
@@ -7,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import { getEmployerVerificationStatus } from "@/lib/queries/employerVerification";
 
 export default function TrustBadgesEarned({ refreshKey }: { refreshKey: number }) {
+    const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [linkedInEarned, setLinkedInEarned] = useState(false);
   const [companyEarned, setCompanyEarned] = useState(false);
@@ -68,8 +70,7 @@ export default function TrustBadgesEarned({ refreshKey }: { refreshKey: number }
   return (
     <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
       <h3 className="text-sm font-semibold text-[#1F2A22] mb-4">
-        Trust Badges Earned
-      </h3>
+        {t("app_employer_verification_components_trust_badges_earned.trust_badges_earned")}</h3>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {badges.map((badge) => (

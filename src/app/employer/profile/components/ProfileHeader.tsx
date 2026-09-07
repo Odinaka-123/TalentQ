@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { MapPin, ShieldCheck, Star } from "lucide-react";
@@ -34,6 +35,7 @@ export default function ProfileHeader({
   details,
   onEdit,
 }: ProfileHeaderProps) {
+    const { t } = useLanguage();
   const isIdVerified = profile.identity_verification_status === "verified";
 
   const [loadingVerification, setLoadingVerification] = useState(true);
@@ -124,8 +126,7 @@ export default function ProfileHeader({
           onClick={onEdit}
           className="rounded-full border border-[#E5E0D6] px-4 py-2 text-sm font-medium text-[#1F2A22] hover:bg-[#F5F1E9] transition-colors"
         >
-          Edit Profile
-        </button>
+          {t("app_employer_profile_components_profile_header.edit_profile")}</button>
       </div>
 
       {!loadingVerification && badges.length > 0 && (

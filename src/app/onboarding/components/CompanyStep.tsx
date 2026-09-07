@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
 type CompanyData = {
   companyName: string;
   industry: string;
@@ -29,6 +31,7 @@ export default function CompanyStep({
   onChange,
   onContinue,
 }: CompanyStepProps) {
+    const { t } = useLanguage();
   const update = (key: keyof CompanyData, value: string) => {
     onChange({ ...data, [key]: value });
   };
@@ -38,17 +41,14 @@ export default function CompanyStep({
   return (
     <div>
       <h1 className="text-xl font-bold text-[#1F2A22] mb-1">
-        Tell us about your company
-      </h1>
+        {t("app_onboarding_components_company_step.tell_us_about_your_company")}</h1>
       <p className="text-sm text-[#8A8A7E] mb-5">
-        This helps us personalise your experience.
-      </p>
+        {t("app_onboarding_components_company_step.this_helps_us_personalise_your_experienc")}</p>
 
       <div className="flex flex-col gap-4 mb-6">
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Company Name
-          </label>
+            {t("app_onboarding_components_company_step.company_name")}</label>
           <input
             type="text"
             value={data.companyName}
@@ -60,8 +60,7 @@ export default function CompanyStep({
 
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Industry / Sector
-          </label>
+            {t("app_onboarding_components_company_step.industry_sector")}</label>
           <input
             type="text"
             value={data.industry}
@@ -73,16 +72,14 @@ export default function CompanyStep({
 
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Country
-          </label>
+            {t("app_onboarding_components_company_step.country")}</label>
           <select
             value={data.country}
             onChange={(e) => update("country", e.target.value)}
             className="w-full bg-[#F5F1E9] rounded-lg px-3.5 py-2.5 text-sm text-[#1B3A2F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
           >
             <option value="" disabled>
-              Select your country
-            </option>
+              {t("app_onboarding_components_company_step.select_your_country")}</option>
             {countries.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -98,8 +95,7 @@ export default function CompanyStep({
         onClick={onContinue}
         className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Continue
-      </button>
+        {t("app_onboarding_components_company_step.continue")}</button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
@@ -18,6 +19,7 @@ type PortfolioGridProps = {
 };
 
 export default function PortfolioGrid({ items, onAdd }: PortfolioGridProps) {
+    const { t } = useLanguage();
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleSubmit = async (draft: PortfolioDraft) => {
@@ -36,7 +38,7 @@ export default function PortfolioGrid({ items, onAdd }: PortfolioGridProps) {
           <span className="flex items-center justify-center w-9 h-9 rounded-full bg-[#FBEADB]">
             <Plus size={16} className="text-[#DE814A]" />
           </span>
-          <span className="text-sm font-medium">Add Project</span>
+          <span className="text-sm font-medium">{t("app_freelancer_profile_components_portfolio_grid.add_project")}</span>
         </button>
 
         {items.map((item) => (
@@ -71,8 +73,7 @@ export default function PortfolioGrid({ items, onAdd }: PortfolioGridProps) {
 
       {items.length === 0 && (
         <p className="text-xs text-[#8A8A7E] text-center mt-4">
-          No portfolio items yet — add your first project above.
-        </p>
+          {t("app_freelancer_profile_components_portfolio_grid.no_portfolio_items_yet_add_your_first_pr")}</p>
       )}
 
       {modalOpen && (

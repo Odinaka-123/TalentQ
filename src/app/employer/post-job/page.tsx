@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
@@ -37,6 +38,7 @@ type CompensationData = {
 };
 
 export default function PostJobPage() {
+    const { t } = useLanguage();
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [posting, setPosting] = useState(false);
@@ -142,8 +144,7 @@ export default function PostJobPage() {
           className="flex items-center gap-2 rounded-full border border-[#DE814A] px-5 py-2.5 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <ArrowLeft size={14} />
-          Back
-        </button>
+          {t("app_employer_post-job_page.back")}</button>
 
         {step < 4 ?
           <button
@@ -156,8 +157,7 @@ export default function PostJobPage() {
             }
             className="flex items-center gap-2 rounded-full bg-[#A8531E] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            Continue
-            <ArrowRight size={14} />
+            {t("app_employer_post-job_page.continue")}<ArrowRight size={14} />
           </button>
         : <button
             type="button"

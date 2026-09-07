@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
 type FreelancerProfileData = {
   headline: string;
   hourlyRate: string;
@@ -30,6 +32,7 @@ export default function FreelancerProfileStep({
   onChange,
   onContinue,
 }: FreelancerProfileStepProps) {
+    const { t } = useLanguage();
   const update = (key: keyof FreelancerProfileData, value: string) => {
     onChange({ ...data, [key]: value });
   };
@@ -39,17 +42,14 @@ export default function FreelancerProfileStep({
   return (
     <div>
       <h1 className="text-xl font-bold text-[#1F2A22] mb-1">
-        Tell us about yourself
-      </h1>
+        {t("app_onboarding_components_freelancer_profile_step.tell_us_about_yourself")}</h1>
       <p className="text-sm text-[#8A8A7E] mb-5">
-        This helps employers understand what you do.
-      </p>
+        {t("app_onboarding_components_freelancer_profile_step.this_helps_employers_understand_what_you")}</p>
 
       <div className="flex flex-col gap-4 mb-6">
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Professional Title
-          </label>
+            {t("app_onboarding_components_freelancer_profile_step.professional_title")}</label>
           <input
             type="text"
             value={data.headline}
@@ -62,8 +62,7 @@ export default function FreelancerProfileStep({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-              Hourly Rate ($)
-            </label>
+              {t("app_onboarding_components_freelancer_profile_step.hourly_rate")}</label>
             <input
               type="number"
               value={data.hourlyRate}
@@ -75,8 +74,7 @@ export default function FreelancerProfileStep({
 
           <div>
             <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-              Years of Experience
-            </label>
+              {t("app_onboarding_components_freelancer_profile_step.years_of_experience")}</label>
             <input
               type="number"
               value={data.yearsExperience}
@@ -89,16 +87,14 @@ export default function FreelancerProfileStep({
 
         <div>
           <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-            Country
-          </label>
+            {t("app_onboarding_components_freelancer_profile_step.country")}</label>
           <select
             value={data.country}
             onChange={(e) => update("country", e.target.value)}
             className="w-full bg-[#F5F1E9] rounded-lg px-3.5 py-2.5 text-sm text-[#1B3A2F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
           >
             <option value="" disabled>
-              Select your country
-            </option>
+              {t("app_onboarding_components_freelancer_profile_step.select_your_country")}</option>
             {countries.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -114,8 +110,7 @@ export default function FreelancerProfileStep({
         onClick={onContinue}
         className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Continue
-      </button>
+        {t("app_onboarding_components_freelancer_profile_step.continue")}</button>
     </div>
   );
 }

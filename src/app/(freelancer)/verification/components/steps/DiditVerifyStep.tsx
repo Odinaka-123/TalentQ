@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import {
   ArrowLeft,
@@ -47,6 +48,7 @@ export default function DiditVerifyStep({
   onBack,
   onContinue,
 }: DiditVerifyStepProps) {
+    const { t } = useLanguage();
   const [status, setStatus] = useState<Status>(
     initialStatus ? initialStatusMap[initialStatus] : "idle",
   );
@@ -71,12 +73,9 @@ export default function DiditVerifyStep({
       <div className="flex flex-col items-center text-center py-6">
         <Loader2 size={32} className="text-[#DE814A] animate-spin mb-5" />
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Starting verification
-        </h2>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.starting_verification")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs">
-          Redirecting you to a secure page to scan your ID and take a quick
-          selfie.
-        </p>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.redirecting_you_to_a_secure_page_to_scan")}</p>
       </div>
     );
   }
@@ -88,19 +87,15 @@ export default function DiditVerifyStep({
           <CheckCircle2 size={26} className="text-[#3E8E5A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Identity verified
-        </h2>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.identity_verified")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          Your ID and liveness check both passed. Your Identity Verified badge
-          is now active.
-        </p>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.your_id_and_liveness_check_both_passed_y")}</p>
         <button
           type="button"
           onClick={onContinue}
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
-          Continue to Portfolio
-        </button>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.continue_to_portfolio")}</button>
       </div>
     );
   }
@@ -112,20 +107,15 @@ export default function DiditVerifyStep({
           <Clock size={26} className="text-[#DE814A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Sent for review
-        </h2>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.sent_for_review")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          We&apos;re confirming your ID. This is usually automatic and takes
-          under a minute — occasionally it needs a manual check, which can take
-          up to 24 hours.
-        </p>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.we_re_confirming_your_id_this_is_usually")}</p>
         <button
           type="button"
           onClick={onContinue}
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
-          Continue to Portfolio
-        </button>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.continue_to_portfolio")}</button>
       </div>
     );
   }
@@ -137,19 +127,15 @@ export default function DiditVerifyStep({
           <XCircle size={26} className="text-[#C6543A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Verification wasn&apos;t approved
-        </h2>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.verification_wasn_t_approved")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          Something didn&apos;t match on our end. You can try again with a
-          clearer photo, or contact support if this keeps happening.
-        </p>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.something_didn_t_match_on_our_end_you_ca")}</p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
-          Try Again
-        </button>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.try_again")}</button>
       </div>
     );
   }
@@ -161,18 +147,15 @@ export default function DiditVerifyStep({
           <XCircle size={26} className="text-[#C6543A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Couldn&apos;t start verification
-        </h2>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.couldn_t_start_verification")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          Something went wrong on our end. Please try again in a moment.
-        </p>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.something_went_wrong_on_our_end_please_t")}</p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
-          Try Again
-        </button>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.try_again")}</button>
       </div>
     );
   }
@@ -192,7 +175,7 @@ export default function DiditVerifyStep({
           <ProgressBar step={1} totalSteps={totalSteps} />
         </div>
         <span className="text-xs text-[#8A8A7E] shrink-0">
-          Step 1 of {totalSteps}
+          {t("app_freelancer_verification_components_steps_didit_verify_step.step_1_of")}{totalSteps}
         </span>
       </div>
 
@@ -201,17 +184,13 @@ export default function DiditVerifyStep({
       </div>
 
       <h2 className="text-xl font-bold text-[#1F2A22] text-center mb-2">
-        Verify with Didit
-      </h2>
+        {t("app_freelancer_verification_components_steps_didit_verify_step.verify_with_didit")}</h2>
       <p className="text-sm text-[#8A8A7E] text-center max-w-xs mx-auto mb-6">
-        Scan a government ID and take a quick selfie. Most people are verified
-        in under a minute.
-      </p>
+        {t("app_freelancer_verification_components_steps_didit_verify_step.scan_a_government_id_and_take_a_quick_se")}</p>
 
       <div className="rounded-xl border border-[#E5E0D6] px-4 py-4 mb-6">
         <p className="text-xs font-medium text-[#1F2A22] mb-3">
-          What you&apos;ll need:
-        </p>
+          {t("app_freelancer_verification_components_steps_didit_verify_step.what_you_ll_need")}</p>
         <div className="flex flex-col gap-2">
           {checks.map((check) => (
             <div key={check} className="flex items-start gap-2">
@@ -230,13 +209,10 @@ export default function DiditVerifyStep({
         onClick={handleStart}
         className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
       >
-        Start Didit Verification
-      </button>
+        {t("app_freelancer_verification_components_steps_didit_verify_step.start_didit_verification")}</button>
 
       <p className="text-xs text-[#8A8A7E] text-center mt-3">
-        Your ID is encrypted and processed securely by Didit — TalentQ never
-        stores a copy of your document.
-      </p>
+        {t("app_freelancer_verification_components_steps_didit_verify_step.your_id_is_encrypted_and_processed_secur")}</p>
     </div>
   );
 }

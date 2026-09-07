@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Clock } from "lucide-react";
 
 type CompensationData = {
@@ -30,6 +31,7 @@ export default function CompensationStep({
   data,
   onChange,
 }: CompensationStepProps) {
+    const { t } = useLanguage();
   const update = (key: keyof CompensationData, value: string) => {
     onChange({ ...data, [key]: value });
   };
@@ -37,14 +39,12 @@ export default function CompensationStep({
   return (
     <div className="rounded-2xl bg-white px-6 py-6 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A]">
       <h2 className="text-base font-semibold text-[#1F2A22] mb-5">
-        Compensation & Timeline
-      </h2>
+        {t("app_employer_post-job_components_compensation_step.compensation_timeline")}</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Currency
-          </label>
+            {t("app_employer_post-job_components_compensation_step.currency")}</label>
           <select
             value={data.currency}
             onChange={(e) => update("currency", e.target.value)}
@@ -60,8 +60,7 @@ export default function CompensationStep({
 
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Min Budget
-          </label>
+            {t("app_employer_post-job_components_compensation_step.min_budget")}</label>
           <input
             type="text"
             value={data.minBudget}
@@ -73,8 +72,7 @@ export default function CompensationStep({
 
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Max Budget
-          </label>
+            {t("app_employer_post-job_components_compensation_step.max_budget")}</label>
           <input
             type="text"
             value={data.maxBudget}
@@ -88,8 +86,7 @@ export default function CompensationStep({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Payment Type
-          </label>
+            {t("app_employer_post-job_components_compensation_step.payment_type")}</label>
           <select
             value={data.paymentType}
             onChange={(e) => update("paymentType", e.target.value)}
@@ -105,8 +102,7 @@ export default function CompensationStep({
 
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Project Duration
-          </label>
+            {t("app_employer_post-job_components_compensation_step.project_duration")}</label>
           <input
             type="text"
             value={data.projectDuration}
@@ -120,8 +116,7 @@ export default function CompensationStep({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Experience Level
-          </label>
+            {t("app_employer_post-job_components_compensation_step.experience_level")}</label>
           <select
             value={data.experienceLevel}
             onChange={(e) => update("experienceLevel", e.target.value)}
@@ -137,8 +132,7 @@ export default function CompensationStep({
 
         <div>
           <label className="block text-xs font-semibold tracking-wide text-[#1F2A22] uppercase mb-2">
-            Application Deadline
-          </label>
+            {t("app_employer_post-job_components_compensation_step.application_deadline")}</label>
           <input
             type="date"
             value={data.applicationDeadline}
@@ -151,10 +145,7 @@ export default function CompensationStep({
       <div className="rounded-xl bg-[#DDEEE2] px-4 py-3 flex items-start gap-2">
         <Clock size={16} className="text-[#3E8E5A] shrink-0 mt-0.5" />
         <p className="text-xs text-[#2E6B44]">
-          <span className="font-semibold">Escrow Protection:</span> TalentQ
-          holds funds securely via Paystack &amp; Flutterwave. Release only on
-          your milestone approval.
-        </p>
+          <span className="font-semibold">{t("app_employer_post-job_components_compensation_step.escrow_protection")}</span> {t("app_employer_post-job_components_compensation_step.talentq_holds_funds_securely_via_paystac")}</p>
       </div>
     </div>
   );

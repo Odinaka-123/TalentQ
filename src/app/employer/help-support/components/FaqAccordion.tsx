@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -37,13 +38,13 @@ const faqs = [
 ];
 
 export default function FaqAccordion() {
+    const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="rounded-2xl border border-[#E5E0D6] bg-white px-5 sm:px-6 py-6">
       <h3 className="text-sm font-semibold text-[#1F2A22] mb-4">
-        Frequently Asked Questions
-      </h3>
+        {t("app_employer_help-support_components_faq_accordion.frequently_asked_questions")}</h3>
 
       <div className="flex flex-col divide-y divide-[#EFEBE2]">
         {faqs.map((faq, i) => {

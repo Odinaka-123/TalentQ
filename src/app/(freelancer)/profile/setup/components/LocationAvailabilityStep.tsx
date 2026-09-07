@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
 type LocationAvailabilityData = {
   country: string;
   availability: string;
@@ -35,6 +37,7 @@ export default function LocationAvailabilityStep({
   onChange,
   onContinue,
 }: LocationAvailabilityStepProps) {
+    const { t } = useLanguage();
   const update = (key: keyof LocationAvailabilityData, value: string) => {
     onChange({ ...data, [key]: value });
   };
@@ -44,24 +47,20 @@ export default function LocationAvailabilityStep({
   return (
     <div>
       <h1 className="text-xl font-bold text-[#1F2A22] mb-1">
-        Location & Availability
-      </h1>
+        {t("app_freelancer_profile_setup_components_location_availability_step.location_availability")}</h1>
       <p className="text-sm text-[#8A8A7E] mb-5">
-        Almost done — one last thing.
-      </p>
+        {t("app_freelancer_profile_setup_components_location_availability_step.almost_done_one_last_thing")}</p>
 
       <div className="mb-5">
         <label className="block text-sm font-medium text-[#1B3A2F] mb-1.5">
-          Country
-        </label>
+          {t("app_freelancer_profile_setup_components_location_availability_step.country")}</label>
         <select
           value={data.country}
           onChange={(e) => update("country", e.target.value)}
           className="w-full bg-[#F5F1E9] rounded-lg px-3.5 py-2.5 text-sm text-[#1B3A2F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
         >
           <option value="" disabled>
-            Select your country
-          </option>
+            {t("app_freelancer_profile_setup_components_location_availability_step.select_your_country")}</option>
           {countries.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -72,8 +71,7 @@ export default function LocationAvailabilityStep({
 
       <div className="mb-6">
         <label className="block text-sm font-medium text-[#1B3A2F] mb-2">
-          Availability
-        </label>
+          {t("app_freelancer_profile_setup_components_location_availability_step.availability")}</label>
         <div className="flex flex-col gap-2">
           {availabilityOptions.map((option) => {
             const isActive = data.availability === option.key;
@@ -105,8 +103,7 @@ export default function LocationAvailabilityStep({
         onClick={onContinue}
         className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Save Profile
-      </button>
+        {t("app_freelancer_profile_setup_components_location_availability_step.save_profile")}</button>
     </div>
   );
 }

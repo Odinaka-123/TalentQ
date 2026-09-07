@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import ProfileHeader from "./components/ProfileHeader";
@@ -141,6 +142,7 @@ async function getEmployerProfile(
 }
 
 export default function ProfilePage() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [userId, setUserId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("team");
@@ -180,8 +182,7 @@ export default function ProfilePage() {
   if (!data?.profile || !userId) {
     return (
       <div className="text-center py-16 text-sm text-[#8A8A7E]">
-        Profile not found.
-      </div>
+        {t("app_employer_profile_page.profile_not_found")}</div>
     );
   }
 

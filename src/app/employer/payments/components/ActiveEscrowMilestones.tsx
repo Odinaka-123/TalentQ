@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Lock } from "lucide-react";
 import type { ActiveMilestone } from "@/lib/queries/employer-payments";
 import { useCurrency } from "@/lib/currency/CurrencyContext";
@@ -14,15 +15,15 @@ export default function ActiveEscrowMilestones({
 }: {
   milestones: ActiveMilestone[];
 }) {
+    const { t } = useLanguage();
   const { formatCurrency } = useCurrency();
 
   if (milestones.length === 0) {
     return (
       <div className="rounded-2xl bg-white px-6 py-6 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A] mb-6">
         <h3 className="text-sm font-semibold text-[#1F2A22] mb-2">
-          Active Escrow Milestones
-        </h3>
-        <p className="text-sm text-[#8A8A7E]">No milestones in escrow yet.</p>
+          {t("app_employer_payments_components_active_escrow_milestones.active_escrow_milestones")}</h3>
+        <p className="text-sm text-[#8A8A7E]">{t("app_employer_payments_components_active_escrow_milestones.no_milestones_in_escrow_yet")}</p>
       </div>
     );
   }
@@ -30,8 +31,7 @@ export default function ActiveEscrowMilestones({
   return (
     <div className="rounded-2xl bg-white px-6 py-6 shadow-[0px_4px_4px_-3px_#DE814A,inset_0px_4px_4px_-2px_#DE814A] mb-6">
       <h3 className="text-sm font-semibold text-[#1F2A22] mb-4">
-        Active Escrow Milestones
-      </h3>
+        {t("app_employer_payments_components_active_escrow_milestones.active_escrow_milestones")}</h3>
 
       <div className="flex flex-col divide-y divide-[#EFEBE2]">
         {milestones.map((m) => (
@@ -48,7 +48,7 @@ export default function ActiveEscrowMilestones({
                   {m.title}
                 </p>
                 <p className="text-xs text-[#8A8A7E] truncate">
-                  From {m.freelancerName}
+                  {t("app_employer_payments_components_active_escrow_milestones.from")}{m.freelancerName}
                   {m.dueDate &&
                     ` · Due ${new Date(m.dueDate).toLocaleDateString("en-US", {
                       month: "short",
@@ -67,7 +67,7 @@ export default function ActiveEscrowMilestones({
               <p className="text-sm font-semibold text-[#1F2A22]">
                 {formatCurrency(m.amount)}
               </p>
-              <p className="text-xs text-[#8A8A7E]">On hold</p>
+              <p className="text-xs text-[#8A8A7E]">{t("app_employer_payments_components_active_escrow_milestones.on_hold")}</p>
             </div>
           </div>
         ))}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ import AuthShell from "../components/AuthShell";
 import { createClient } from "@/lib/supabase/client";
 
 export default function ForgotPasswordPage() {
+    const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const [email, setEmail] = useState("");
@@ -43,8 +45,7 @@ export default function ForgotPasswordPage() {
         className="inline-flex items-center gap-1.5 text-sm text-[#6B7A73] hover:text-[#1B3A2F] -mt-2 mb-4"
       >
         <ArrowLeft size={15} />
-        Back to log in
-      </Link>
+        {t("app_auth_forgot-password_page.back_to_log_in")}</Link>
 
       {error && (
         <p className="text-sm text-[#C6543A] bg-[#FBEBE9] rounded-lg px-3.5 py-2.5 mb-4">
@@ -55,8 +56,7 @@ export default function ForgotPasswordPage() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
           <label htmlFor="email" className="text-sm font-medium text-[#1B3A2F]">
-            Email
-          </label>
+            {t("app_auth_forgot-password_page.email")}</label>
           <input
             id="email"
             name="email"
@@ -79,13 +79,12 @@ export default function ForgotPasswordPage() {
       </form>
 
       <p className="text-sm text-[#6B7A73] text-center mt-6">
-        Remember your password?{" "}
+        {t("app_auth_forgot-password_page.remember_your_password")}{" "}
         <Link
           href="/login"
           className="text-[#C6543A] font-medium hover:underline"
         >
-          Log in
-        </Link>
+          {t("app_auth_forgot-password_page.log_in")}</Link>
       </p>
     </AuthShell>
   );

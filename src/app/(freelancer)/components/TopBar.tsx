@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, Search, Bell, Briefcase, Mail } from "lucide-react";
@@ -34,6 +35,7 @@ const ROUTE_TITLES: Record<string, string> = {
 };
 
 export default function Topbar({ onMenuClick }: TopbarProps) {
+    const { t } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
@@ -130,11 +132,10 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
             </h1>
           : <div className="min-w-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
-                Hello {greetingName}
+                {t("app_freelancer_components_top_bar.hello")}{greetingName}
               </h1>
               <p className="text-sm text-[#6B7A73] mt-0.5">
-                What are we locking in today?
-              </p>
+                {t("app_freelancer_components_top_bar.what_are_we_locking_in_today")}</p>
             </div>
           }
         </div>
@@ -189,7 +190,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
             }`}
           >
             <Briefcase size={15} />
-            <span className="hidden xs:inline sm:inline">Find a job</span>
+            <span className="hidden xs:inline sm:inline">{t("app_freelancer_components_top_bar.find_a_job")}</span>
           </button>
         </div>
       </div>

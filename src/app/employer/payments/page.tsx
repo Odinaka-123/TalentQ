@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PaymentsTabs from "./components/PaymentsTabs";
@@ -46,8 +47,9 @@ function EmployerPaymentsContent() {
 }
 
 export default function EmployerPaymentsPage() {
+    const { t } = useLanguage();
   return (
-    <Suspense fallback={<div>Loading…</div>}>
+    <Suspense fallback={<div>{t("app_employer_payments_page.loading")}</div>}>
       <EmployerPaymentsContent />
     </Suspense>
   );

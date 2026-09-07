@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useRouter } from "next/navigation";
 import { Bell } from "lucide-react";
 import type { Notification } from "@/lib/queries/notifications";
@@ -30,6 +31,7 @@ export default function NotificationsPanel({
   onMarkAllRead,
   onSelect,
 }: NotificationsPanelProps) {
+    const { t } = useLanguage();
   const router = useRouter();
   const hasUnread = notifications.some((n) => !n.read);
 
@@ -52,14 +54,13 @@ export default function NotificationsPanel({
 
       <div className="absolute right-0 top-full mt-2 z-50 w-80 max-w-[90vw] bg-white rounded-2xl shadow-lg border border-[#F0ECE3] overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-[#F0ECE3]">
-          <p className="text-sm font-semibold text-[#1B3A2F]">Notifications</p>
+          <p className="text-sm font-semibold text-[#1B3A2F]">{t("app_freelancer_components_notifications_panel.notifications")}</p>
           {hasUnread && (
             <button
               onClick={onMarkAllRead}
               className="text-xs font-medium text-[#C6543A] hover:underline"
             >
-              Mark all read
-            </button>
+              {t("app_freelancer_components_notifications_panel.mark_all_read")}</button>
           )}
         </div>
 
@@ -76,7 +77,7 @@ export default function NotificationsPanel({
           : notifications.length === 0 ?
             <div className="flex flex-col items-center text-center py-10 px-4">
               <Bell size={22} className="text-[#B9B4A6] mb-2" />
-              <p className="text-sm text-[#6B7A73]">No notifications yet.</p>
+              <p className="text-sm text-[#6B7A73]">{t("app_freelancer_components_notifications_panel.no_notifications_yet")}</p>
             </div>
           : <ul className="flex flex-col divide-y divide-[#F5F1E9]">
               {notifications.map((n) => (

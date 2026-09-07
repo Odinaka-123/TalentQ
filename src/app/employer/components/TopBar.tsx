@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { Menu, Search, Bell, Mail, Plus } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
@@ -20,6 +21,7 @@ interface TopBarProps {
 }
 
 export default function TopBar({ onMenuClick }: TopBarProps) {
+    const { t } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
@@ -105,11 +107,10 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           </button>
           <div className="min-w-0">
             <h1 className="text-xl sm:text-3xl font-bold text-[#000000] truncate">
-              Hello {greetingName}
+              {t("app_employer_components_top_bar.hello")}{greetingName}
             </h1>
             <p className="text-sm text-[#6B7A73] mt-0.5">
-              What are we doing today?
-            </p>
+              {t("app_employer_components_top_bar.what_are_we_doing_today")}</p>
           </div>
         </div>
 
@@ -157,7 +158,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
             }`}
           >
             <Plus size={15} />
-            <span className="hidden xs:inline sm:inline">Post a job</span>
+            <span className="hidden xs:inline sm:inline">{t("app_employer_components_top_bar.post_a_job")}</span>
           </button>
         </div>
       </div>

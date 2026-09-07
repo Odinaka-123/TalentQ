@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 
@@ -66,6 +67,7 @@ const heading: Variants = {
 };
 
 export default function Testimonials() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pb-16 sm:pb-20">
       <div className="w-full max-w-5xl">
@@ -76,8 +78,7 @@ export default function Testimonials() {
           variants={heading}
           className="text-xs sm:text-sm font-semibold tracking-wide text-[#C6543A] uppercase mb-3"
         >
-          From people using it
-        </motion.p>
+          {t("app_landing_components_testimonials.from_people_using_it")}</motion.p>
         <motion.h2
           initial="hidden"
           whileInView="show"
@@ -86,8 +87,7 @@ export default function Testimonials() {
           transition={{ delay: 0.05 }}
           className="text-2xl sm:text-3xl font-bold text-[#1F2A22] mb-12 sm:mb-14"
         >
-          Real outcomes, not slogans
-        </motion.h2>
+          {t("app_landing_components_testimonials.real_outcomes_not_slogans")}</motion.h2>
 
         <motion.div
           initial="hidden"

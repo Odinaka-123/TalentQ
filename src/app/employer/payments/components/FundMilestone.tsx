@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -15,6 +16,7 @@ type MilestoneInfo = {
 };
 
 export default function FundMilestone() {
+    const { t } = useLanguage();
   const router = useRouter();
   const params = useSearchParams();
   const milestoneId = params.get("milestone");
@@ -97,19 +99,16 @@ export default function FundMilestone() {
     if (unfunded.length === 0) {
       return (
         <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
-          No unfunded milestones right now.
-        </div>
+          {t("app_employer_payments_components_fund_milestone.no_unfunded_milestones_right_now")}</div>
       );
     }
 
     return (
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-6">
         <h3 className="text-sm font-semibold text-[#1F2A22] mb-1">
-          Fund a Milestone
-        </h3>
+          {t("app_employer_payments_components_fund_milestone.fund_a_milestone")}</h3>
         <p className="text-xs text-[#8A8A7E] mb-5">
-          Pick a milestone below to fund it via Paystack.
-        </p>
+          {t("app_employer_payments_components_fund_milestone.pick_a_milestone_below_to_fund_it_via_pa")}</p>
 
         <div className="flex flex-col divide-y divide-[#EFEBE2]">
           {unfunded.map((m) => (
@@ -138,8 +137,7 @@ export default function FundMilestone() {
                   }
                   className="rounded-full bg-[#A8531E] px-4 py-2 text-xs font-medium text-white hover:bg-[#94481A] transition-colors"
                 >
-                  Fund
-                </button>
+                  {t("app_employer_payments_components_fund_milestone.fund")}</button>
               </div>
             </div>
           ))}
@@ -151,8 +149,7 @@ export default function FundMilestone() {
   if (!milestone) {
     return (
       <div className="rounded-2xl border border-[#E5E0D6] bg-white px-6 py-16 text-center text-sm text-[#8A8A7E]">
-        Milestone not found.
-      </div>
+        {t("app_employer_payments_components_fund_milestone.milestone_not_found")}</div>
     );
   }
 

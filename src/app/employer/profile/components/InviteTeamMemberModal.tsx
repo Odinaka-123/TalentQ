@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
 
@@ -19,6 +20,7 @@ export default function InviteTeamMemberModal({
   onClose,
   onSubmit,
 }: InviteTeamMemberModalProps) {
+    const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [role, setRole] = useState(roles[0]);
   const [submitting, setSubmitting] = useState(false);
@@ -54,8 +56,7 @@ export default function InviteTeamMemberModal({
       >
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-semibold text-[#1F2A22]">
-            Invite Team Member
-          </h2>
+            {t("app_employer_profile_components_invite_team_member_modal.invite_team_member")}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -68,7 +69,7 @@ export default function InviteTeamMemberModal({
 
         <div className="flex flex-col gap-3 mb-4">
           <div>
-            <label className="text-xs text-[#8A8A7E] block mb-1">Email</label>
+            <label className="text-xs text-[#8A8A7E] block mb-1">{t("app_employer_profile_components_invite_team_member_modal.email")}</label>
             <input
               type="email"
               value={email}
@@ -79,7 +80,7 @@ export default function InviteTeamMemberModal({
           </div>
 
           <div>
-            <label className="text-xs text-[#8A8A7E] block mb-1">Role</label>
+            <label className="text-xs text-[#8A8A7E] block mb-1">{t("app_employer_profile_components_invite_team_member_modal.role")}</label>
             <div className="flex gap-2">
               {roles.map((r) => (
                 <button
@@ -108,8 +109,7 @@ export default function InviteTeamMemberModal({
             disabled={submitting}
             className="flex-1 rounded-full border border-[#DE814A] py-2.5 text-sm font-medium text-[#C6543A] hover:bg-[#FBF0E4] transition-colors disabled:opacity-50"
           >
-            Cancel
-          </button>
+            {t("app_employer_profile_components_invite_team_member_modal.cancel")}</button>
           <button
             type="button"
             onClick={handleSubmit}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import {
   ArrowLeft,
@@ -26,6 +27,7 @@ export default function CompanyRegistrationStep({
   onBack,
   onContinue,
 }: CompanyRegistrationStepProps) {
+    const { t } = useLanguage();
   const [status, setStatus] = useState<Status>("idle");
   const [file, setFile] = useState<File | null>(null);
 
@@ -51,19 +53,15 @@ export default function CompanyRegistrationStep({
           <Clock size={26} className="text-[#DE814A]" />
         </div>
         <h2 className="text-lg font-semibold text-[#1F2A22] mb-1">
-          Document submitted for review
-        </h2>
+          {t("app_employer_verification_components_steps_company_registration_step.document_submitted_for_review")}</h2>
         <p className="text-sm text-[#8A8A7E] max-w-xs mb-6">
-          Our team will review your business registration document, usually
-          within 1-2 business days.
-        </p>
+          {t("app_employer_verification_components_steps_company_registration_step.our_team_will_review_your_business_regis")}</p>
         <button
           type="button"
           onClick={onContinue}
           className="w-full rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors"
         >
-          Continue
-        </button>
+          {t("app_employer_verification_components_steps_company_registration_step.continue")}</button>
       </div>
     );
   }
@@ -83,7 +81,7 @@ export default function CompanyRegistrationStep({
           <ProgressBar step={1} totalSteps={totalSteps} />
         </div>
         <span className="text-xs text-[#8A8A7E] shrink-0">
-          Step 1 of {totalSteps}
+          {t("app_employer_verification_components_steps_company_registration_step.step_1_of")}{totalSteps}
         </span>
       </div>
 
@@ -92,11 +90,9 @@ export default function CompanyRegistrationStep({
       </div>
 
       <h2 className="text-xl font-bold text-[#1F2A22] text-center mb-2">
-        Company Registration
-      </h2>
+        {t("app_employer_verification_components_steps_company_registration_step.company_registration")}</h2>
       <p className="text-sm text-[#8A8A7E] text-center max-w-xs mx-auto mb-6">
-        Upload your business certificate or registration document.
-      </p>
+        {t("app_employer_verification_components_steps_company_registration_step.upload_your_business_certificate_or_regi")}</p>
 
       <label className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#E5E0D6] px-4 py-8 mb-6 cursor-pointer hover:border-[#DE814A] transition-colors">
         <Upload size={22} className="text-[#8A8A7E]" />
@@ -113,8 +109,7 @@ export default function CompanyRegistrationStep({
 
       {status === "error" && (
         <p className="text-sm text-[#C6543A] text-center mb-4">
-          Upload failed. Please try again.
-        </p>
+          {t("app_employer_verification_components_steps_company_registration_step.upload_failed_please_try_again")}</p>
       )}
 
       <button
@@ -127,8 +122,7 @@ export default function CompanyRegistrationStep({
           "Uploading..."
         : <>
             <CheckCircle2 size={16} />
-            Submit Document
-          </>
+            {t("app_employer_verification_components_steps_company_registration_step.submit_document")}</>
         }
       </button>
     </div>

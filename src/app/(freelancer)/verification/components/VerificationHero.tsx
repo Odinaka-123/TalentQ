@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ShieldCheck, CheckCircle2, Clock, XCircle } from "lucide-react";
@@ -27,6 +28,7 @@ type IdentityMethod = "linkedin" | "didit" | null;
 const TOTAL_STEPS = 2;
 
 export default function VerificationHero() {
+    const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -124,12 +126,9 @@ export default function VerificationHero() {
           <CheckCircle2 size={18} className="text-[#2F8C4D] shrink-0" />
           <div>
             <p className="text-sm font-semibold text-[#1F2A22]">
-              You&rsquo;re verified.
-            </p>
+              {t("app_freelancer_verification_components_verification_hero.you_re_verified")}</p>
             <p className="text-xs text-[#5B6B60] mt-0.5">
-              Your credentials are confirmed — clients see the badge on your
-              profile.
-            </p>
+              {t("app_freelancer_verification_components_verification_hero.your_credentials_are_confirmed_clients_s")}</p>
           </div>
         </div>
       : status === "pending" ?
@@ -138,12 +137,9 @@ export default function VerificationHero() {
             <Clock size={18} className="text-[#B08900] shrink-0" />
             <div>
               <p className="text-sm font-semibold text-[#1F2A22]">
-                Verification in review.
-              </p>
+                {t("app_freelancer_verification_components_verification_hero.verification_in_review")}</p>
               <p className="text-xs text-[#5B6B60] mt-0.5">
-                We&rsquo;ll notify you as soon as it&rsquo;s confirmed — usually
-                within 1–2 business days.
-              </p>
+                {t("app_freelancer_verification_components_verification_hero.we_ll_notify_you_as_soon_as_it_s_confirm")}</p>
             </div>
           </div>
           <button
@@ -155,8 +151,7 @@ export default function VerificationHero() {
             }}
             className="shrink-0 rounded-full border border-[#E8D9A7] px-4 py-2 text-xs font-medium text-[#B08900] hover:bg-[#F7EFD3] transition-colors"
           >
-            Check Status
-          </button>
+            {t("app_freelancer_verification_components_verification_hero.check_status")}</button>
         </div>
       : <div className="rounded-2xl border border-[#E8A47E] bg-[#FBF0E4] px-5 sm:px-6 py-5 flex items-center justify-between flex-wrap gap-4 mb-6">
           <div className="flex items-start gap-3">
@@ -223,8 +218,7 @@ export default function VerificationHero() {
         )}
         {step === "portfolio" && (
           <div className="text-center text-sm text-[#8A8A7E] py-10">
-            Step 2 of 2 — Portfolio (coming next)
-          </div>
+            {t("app_freelancer_verification_components_verification_hero.step_2_of_2_portfolio_coming_next")}</div>
         )}
       </VerificationModal>
     </>

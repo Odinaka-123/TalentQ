@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState, useRef } from "react";
 import { X, Loader2, ImagePlus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -36,6 +37,7 @@ export default function EditProfileModal({
   onClose,
   onSaved,
 }: EditProfileModalProps) {
+    const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [fullName, setFullName] = useState(profile.full_name ?? "");
@@ -155,7 +157,7 @@ export default function EditProfileModal({
 
       <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-white px-6 py-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-[#1F2A22]">Edit Profile</h2>
+          <h2 className="text-lg font-semibold text-[#1F2A22]">{t("app_employer_profile_components_edit_profile_modal.edit_profile")}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -176,8 +178,7 @@ export default function EditProfileModal({
         <div className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Logo
-            </label>
+              {t("app_employer_profile_components_edit_profile_modal.logo")}</label>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
@@ -224,8 +225,7 @@ export default function EditProfileModal({
 
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Full name
-            </label>
+              {t("app_employer_profile_components_edit_profile_modal.full_name")}</label>
             <input
               type="text"
               value={fullName}
@@ -236,14 +236,12 @@ export default function EditProfileModal({
 
           <div className="border-t border-[#F0ECE3] pt-4">
             <p className="text-xs font-semibold text-[#8A8A7E] uppercase tracking-wide mb-3">
-              Company details
-            </p>
+              {t("app_employer_profile_components_edit_profile_modal.company_details")}</p>
           </div>
 
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Company name
-            </label>
+              {t("app_employer_profile_components_edit_profile_modal.company_name")}</label>
             <input
               type="text"
               value={companyName}
@@ -255,8 +253,7 @@ export default function EditProfileModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-                Industry
-              </label>
+                {t("app_employer_profile_components_edit_profile_modal.industry")}</label>
               <input
                 type="text"
                 value={industry}
@@ -266,8 +263,7 @@ export default function EditProfileModal({
             </div>
             <div>
               <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-                Country
-              </label>
+                {t("app_employer_profile_components_edit_profile_modal.country")}</label>
               <input
                 type="text"
                 value={country}
@@ -280,8 +276,7 @@ export default function EditProfileModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-                Company size
-              </label>
+                {t("app_employer_profile_components_edit_profile_modal.company_size")}</label>
               <input
                 type="text"
                 value={companySize}
@@ -292,8 +287,7 @@ export default function EditProfileModal({
             </div>
             <div>
               <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-                Budget range
-              </label>
+                {t("app_employer_profile_components_edit_profile_modal.budget_range")}</label>
               <input
                 type="text"
                 value={budgetRange}
@@ -306,8 +300,7 @@ export default function EditProfileModal({
 
           <div>
             <label className="block text-xs font-medium text-[#1F2A22] mb-1.5">
-              Hiring categories
-            </label>
+              {t("app_employer_profile_components_edit_profile_modal.hiring_categories")}</label>
             <TagInput
               tags={categories}
               onChange={setCategories}
@@ -323,8 +316,7 @@ export default function EditProfileModal({
             disabled={saving}
             className="flex-1 rounded-full border border-[#E5E0D6] py-2.5 text-sm font-medium text-[#1F2A22] hover:bg-[#F5F1E9] transition-colors disabled:opacity-50"
           >
-            Cancel
-          </button>
+            {t("app_employer_profile_components_edit_profile_modal.cancel")}</button>
           <button
             type="button"
             onClick={handleSave}

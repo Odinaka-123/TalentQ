@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion, type Variants } from "framer-motion";
 
 const tiers = [
@@ -53,6 +54,7 @@ const heading: Variants = {
 };
 
 export default function FreelancerTiers() {
+    const { t } = useLanguage();
   return (
     <section className="w-full flex justify-center px-4 pb-16 sm:pb-20">
       <motion.div
@@ -69,8 +71,7 @@ export default function FreelancerTiers() {
           variants={heading}
           className="text-xs sm:text-sm font-semibold tracking-wide text-[#C6543A] uppercase mb-3"
         >
-          For freelancers
-        </motion.p>
+          {t("app_landing_components_freelancer_tiers.for_freelancers")}</motion.p>
         <motion.h2
           initial="hidden"
           whileInView="show"
@@ -79,8 +80,7 @@ export default function FreelancerTiers() {
           transition={{ delay: 0.05 }}
           className="text-2xl sm:text-3xl font-bold text-[#1F2A22] mb-10 max-w-sm"
         >
-          There&apos;s a lane for wherever you are
-        </motion.h2>
+          {t("app_landing_components_freelancer_tiers.there_s_a_lane_for_wherever_you_are")}</motion.h2>
 
         <motion.div
           initial="hidden"

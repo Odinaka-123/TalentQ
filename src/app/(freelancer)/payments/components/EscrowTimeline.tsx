@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { Check, Clock, Circle, Send, Loader2 } from "lucide-react";
 
@@ -30,6 +31,7 @@ export default function EscrowTimeline({
   groups: ClientGroup[];
   onDelivered?: (milestoneId: string) => void;
 }) {
+    const { t } = useLanguage();
   const [deliveringId, setDeliveringId] = useState<string | null>(null);
 
   const handleDeliver = async (milestoneId: string) => {
@@ -52,8 +54,7 @@ export default function EscrowTimeline({
   return (
     <div className="rounded-2xl border border-[#E5E0D6] bg-white px-5 sm:px-6 py-6">
       <h3 className="text-sm font-semibold text-[#1F2A22] mb-6">
-        Escrow Release Timeline
-      </h3>
+        {t("app_freelancer_payments_components_escrow_timeline.escrow_release_timeline")}</h3>
 
       <div className="flex flex-col gap-8">
         {groups.map((group) => (
@@ -94,8 +95,7 @@ export default function EscrowTimeline({
                         {isDelivering && (
                           <Loader2 size={11} className="animate-spin" />
                         )}
-                        Mark as Delivered
-                      </button>
+                        {t("app_freelancer_payments_components_escrow_timeline.mark_as_delivered")}</button>
                     )}
                   </div>
                 );

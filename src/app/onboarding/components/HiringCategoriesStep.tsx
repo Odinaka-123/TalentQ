@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import { ArrowRight, Plus, X } from "lucide-react";
 import HiringCategoriesModal from "./HiringCategoriesModal";
@@ -29,6 +30,7 @@ export default function HiringCategoriesStep({
   onContinue,
   onSkip,
 }: HiringCategoriesStepProps) {
+    const { t } = useLanguage();
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleCore = (category: string) => {
@@ -48,11 +50,9 @@ export default function HiringCategoriesStep({
   return (
     <div>
       <h1 className="text-xl font-bold text-[#1F2A22] text-center mb-1">
-        What roles are you hiring for?
-      </h1>
+        {t("app_onboarding_components_hiring_categories_step.what_roles_are_you_hiring_for")}</h1>
       <p className="text-sm text-[#8A8A7E] text-center mb-6">
-        Select all that apply. This powers your AI matching.
-      </p>
+        {t("app_onboarding_components_hiring_categories_step.select_all_that_apply_this_powers_your_a")}</p>
 
       <div className="flex flex-wrap justify-center gap-2 mb-3">
         {coreCategories.map((category) => {
@@ -102,8 +102,7 @@ export default function HiringCategoriesStep({
           className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-[#E5E0D6] px-3.5 py-1.5 text-sm text-[#5C5347] hover:border-[#DE814A] hover:text-[#C6543A] transition-colors"
         >
           <Plus size={14} />
-          Not listed? Add categories
-        </button>
+          {t("app_onboarding_components_hiring_categories_step.not_listed_add_categories")}</button>
       </div>
 
       <button
@@ -112,8 +111,7 @@ export default function HiringCategoriesStep({
         disabled={selected.length === 0}
         className="w-full flex items-center justify-center gap-2 rounded-full bg-[#A8531E] py-3 text-sm font-medium text-white hover:bg-[#94481A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Continue
-        <ArrowRight size={14} />
+        {t("app_onboarding_components_hiring_categories_step.continue")}<ArrowRight size={14} />
       </button>
 
       <button
@@ -121,8 +119,7 @@ export default function HiringCategoriesStep({
         onClick={onSkip}
         className="w-full text-sm text-[#C6543A] font-medium mt-3 hover:underline"
       >
-        Skip for now
-      </button>
+        {t("app_onboarding_components_hiring_categories_step.skip_for_now")}</button>
 
       <HiringCategoriesModal
         open={modalOpen}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useRef, useState } from "react";
 import { Send, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -66,6 +67,7 @@ function applyReactionChange(
 }
 
 export default function MessagesPage() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -233,8 +235,7 @@ export default function MessagesPage() {
   if (conversations.length === 0) {
     return (
       <div className="text-center py-16 text-sm text-[#6B7A73]">
-        No conversations yet.
-      </div>
+        {t("app_freelancer_messages_page.no_conversations_yet")}</div>
     );
   }
 
@@ -242,7 +243,7 @@ export default function MessagesPage() {
     <div className="flex h-[calc(100vh-140px)] min-h-130 bg-white rounded-2xl border border-black/5 overflow-hidden">
       <div className="w-full sm:w-72 shrink-0 border-r border-black/5 flex flex-col">
         <div className="px-4 py-4 border-b border-black/5">
-          <h2 className="text-2xl font-bold text-[#1B3A2F]">Messages</h2>
+          <h2 className="text-2xl font-bold text-[#1B3A2F]">{t("app_freelancer_messages_page.messages")}</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto">
@@ -327,8 +328,7 @@ export default function MessagesPage() {
               <div className="flex items-center justify-between gap-2 px-4 py-2 border-t border-black/5 bg-[#F5F1E9]">
                 <div className="min-w-0 flex-1">
                   <p className="text-[11px] font-medium text-[#A8531E]">
-                    Replying to
-                  </p>
+                    {t("app_freelancer_messages_page.replying_to")}</p>
                   <p className="text-xs text-[#6B7A73] truncate">
                     {replyingTo.content}
                   </p>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +10,7 @@ import GoogleButton from "../components/GoogleButton";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
+    const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
@@ -73,8 +75,7 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
           <label htmlFor="email" className="text-sm font-medium text-[#1B3A2F]">
-            Email
-          </label>
+            {t("app_auth_login_page.email")}</label>
           <input
             id="email"
             name="email"
@@ -93,14 +94,12 @@ export default function LoginPage() {
               htmlFor="password"
               className="text-sm font-medium text-[#1B3A2F]"
             >
-              Password
-            </label>
+              {t("app_auth_login_page.password")}</label>
             <Link
               href="/forgot-password"
               className="text-xs text-[#C6543A] font-medium hover:underline"
             >
-              Forgot password?
-            </Link>
+              {t("app_auth_login_page.forgot_password")}</Link>
           </div>
           <div className="relative mt-1.5">
             <input
@@ -137,20 +136,19 @@ export default function LoginPage() {
 
       <div className="flex items-center gap-3 my-6">
         <div className="flex-1 h-px bg-black/10" />
-        <span className="text-xs text-[#9AA79F]">OR</span>
+        <span className="text-xs text-[#9AA79F]">{t("app_auth_login_page.or")}</span>
         <div className="flex-1 h-px bg-black/10" />
       </div>
 
       <GoogleButton label="Continue with Google" onClick={handleGoogleLogin} />
 
       <p className="text-sm text-[#6B7A73] text-center mt-6">
-        Don&apos;t have an account?{" "}
+        {t("app_auth_login_page.don_t_have_an_account")}{" "}
         <Link
           href="/signup"
           className="text-[#C6543A] font-medium hover:underline"
         >
-          Sign up
-        </Link>
+          {t("app_auth_login_page.sign_up")}</Link>
       </p>
     </AuthShell>
   );

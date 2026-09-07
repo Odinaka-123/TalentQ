@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileSetupPrompt from "./components/ProfileSetupPrompt";
@@ -17,6 +18,7 @@ type Tab = "portfolio" | "skills" | "history";
 type ProfileData = Awaited<ReturnType<typeof getFreelancerProfile>>;
 
 export default function ProfilePage() {
+    const { t } = useLanguage();
   const supabase = createClient();
   const [activeTab, setActiveTab] = useState<Tab>("portfolio");
   const [loading, setLoading] = useState(true);
@@ -109,8 +111,7 @@ export default function ProfilePage() {
   if (!data?.profile) {
     return (
       <div className="text-center py-16 text-sm text-[#8A8A7E]">
-        Profile not found.
-      </div>
+        {t("app_freelancer_profile_page.profile_not_found")}</div>
     );
   }
 
