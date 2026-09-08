@@ -3,8 +3,8 @@
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { getTimeOfDay } from "@/lib/utils/greeting";
 import { useEffect, useState } from "react";
-import { Menu, Search, Bell, Mail, Plus } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
+import { Menu, Search, Bell, Briefcase, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import {
   getNotifications,
@@ -17,11 +17,25 @@ import { getNotificationPreferences } from "@/lib/queries/notification-preferenc
 import { playNotificationSound } from "@/lib/utils/notification-sound";
 import NotificationsPanel from "./NotificationsPanel";
 
-interface TopBarProps {
+interface TopbarProps {
   onMenuClick: () => void;
 }
 
-export default function TopBar({ onMenuClick }: TopBarProps) {
+// Routes whose own page header already covers the greeting/search — Topbar
+// still renders on these (so the icons/hamburger/Find-a-job button stay
+// consistent everywhere), it just shows a plain page title instead of the
+// dashboard greeting + search bar.
+const ROUTE_TITLES: Record<string, string> = {
+  "/messages": "Messages",
+  "/analytics": "Analytics",
+  "/settings": "Settings",
+  "/payments": "Payments",
+  "/verification": "Verification",
+  "/help-support": "Help & Support",
+  "/profile": "Profile",
+};
+
+export default function Topbar({ onMenuClick }: TopbarProps) {
     const { t } = useLanguage();
   const timeOfDay = getTimeOfDay();
   const router = useRouter();
@@ -30,13 +44,21 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
   const [greetingName, setGreetingName] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const isPostJobActive = pathname.startsWith("/employer/post-job");
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [notifLoading, setNotifLoading] = useState(true);
   const [panelOpen, setPanelOpen] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
+
+  const isFindJobsActive = pathname.startsWith("/find-jobs");
+  const isMessagesActive = pathname.startsWith("/messages");
+
+  const pageTitleEntry = Object.entries(ROUTE_TITLES).find(([route]) =>
+    pathname.startsWith(route),
+  );
+  const pageTitle = pageTitleEntry?.[1] ?? null;
+  const hideGreeting = pageTitle !== null;
 
   useEffect(() => {
     const loadUser = async () => {
@@ -106,16 +128,34 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           >
             <Menu size={22} />
           </button>
-          <div className="min-w-0">
-            <h1 className="text-xl sm:text-3xl font-bold text-[#000000] truncate">
-              {t(`app_employer_components_top_bar.good_${timeOfDay}`)}, {greetingName}
+          {pageTitle ?
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1B3A2F]">
+              {pageTitle}
             </h1>
-            <p className="text-sm text-[#6B7A73] mt-0.5">
-              {t("app_employer_components_top_bar.what_are_we_doing_today")}</p>
-          </div>
+          : <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
+                {t(`app_freelancer_components_top_bar.good_${timeOfDay}`)} {greetingName}
+              </h1>
+              <p className="text-sm text-[#6B7A73] mt-0.5">
+                {t("app_freelancer_components_top_bar.what_are_we_locking_in_today")}</p>
+            </div>
+          }
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => router.push("/messages")}
+            aria-label="Messages"
+            aria-current={isMessagesActive ? "page" : undefined}
+            className={`hidden sm:flex w-9 h-9 items-center justify-center rounded-full transition-colors ${
+              isMessagesActive ?
+                "bg-[#A8531E] text-white"
+              : "bg-white text-[#1B3A2F] hover:bg-black/5"
+            }`}
+          >
+            <Mail size={17} />
+          </button>
+
           <div className="relative hidden sm:block">
             <button
               onClick={() => setPanelOpen((open) => !open)}
@@ -143,38 +183,33 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           </div>
 
           <button
-            onClick={() => router.push("/employer/messages")}
-            aria-label="Messages"
-            className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5"
-          >
-            <Mail size={17} />
-          </button>
-          <button
-            onClick={() => router.push("/employer/post-job")}
-            aria-current={isPostJobActive ? "page" : undefined}
+            onClick={() => router.push("/find-jobs")}
+            aria-current={isFindJobsActive ? "page" : undefined}
             className={`flex items-center gap-2 text-white text-sm font-medium px-3.5 sm:px-4 py-2 rounded-md transition-colors ${
-              isPostJobActive ? "bg-[#732700]" : (
+              isFindJobsActive ? "bg-[#732700]" : (
                 "bg-[#A8531E] hover:bg-[#732700]"
               )
             }`}
           >
-            <Plus size={15} />
-            <span className="hidden xs:inline sm:inline">{t("app_employer_components_top_bar.post_a_job")}</span>
+            <Briefcase size={15} />
+            <span className="hidden xs:inline sm:inline">{t("app_freelancer_components_top_bar.find_a_job")}</span>
           </button>
         </div>
       </div>
 
-      <div className="relative mt-4 max-w-xl">
-        <Search
-          size={16}
-          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9AA79F]"
-        />
-        <input
-          type="text"
-          placeholder="Search talent by skill, role, or name..."
-          className="w-full bg-white rounded-full pl-10 pr-4 py-2.5 text-sm text-[#1B3A2F] placeholder:text-[#9AA79F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
-        />
-      </div>
+      {!hideGreeting && (
+        <div className="relative mt-4 max-w-xl">
+          <Search
+            size={16}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9AA79F]"
+          />
+          <input
+            type="text"
+            placeholder="Search jobs, skills, or clients..."
+            className="w-full bg-white rounded-full pl-10 pr-4 py-2.5 text-sm text-[#1B3A2F] placeholder:text-[#9AA79F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
+          />
+        </div>
+      )}
     </header>
   );
 }
