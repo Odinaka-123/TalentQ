@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Sidebar from "./Sidebar";
-import Topbar from "./TopBar";
+import Topbar from "./Topbar";
 
 export default function DashboardShell({
   children,

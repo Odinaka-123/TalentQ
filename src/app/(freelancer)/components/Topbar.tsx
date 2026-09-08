@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { getTimeOfDay } from "@/lib/utils/greeting";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, Search, Bell, Briefcase, Mail } from "lucide-react";
@@ -36,6 +37,7 @@ const ROUTE_TITLES: Record<string, string> = {
 
 export default function Topbar({ onMenuClick }: TopbarProps) {
     const { t } = useLanguage();
+  const timeOfDay = getTimeOfDay();
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
@@ -132,7 +134,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
             </h1>
           : <div className="min-w-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
-                {t("app_freelancer_components_top_bar.hello")}{greetingName}
+                {t(`app_freelancer_components_top_bar.good_${timeOfDay}`)} {greetingName}
               </h1>
               <p className="text-sm text-[#6B7A73] mt-0.5">
                 {t("app_freelancer_components_top_bar.what_are_we_locking_in_today")}</p>

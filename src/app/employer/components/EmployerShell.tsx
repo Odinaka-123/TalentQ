@@ -2,21 +2,10 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import PageHeader from "./PageHeader";
-
-const PAGE_TITLES: Record<string, string> = {
-  "/employer/post-job": "Post a Job",
-  "/employer/find-talent": "Find Talent",
-  "/employer/candidates": "Candidates",
-  "/employer/profile": "Profile",
-  "/employer/analytics": "Analytics",
-  "/employer/payments": "Payments",
-  "/employer/verification": "Verification",
-  "/employer/settings": "Settings",
-  "/employer/help-support": "Help & Support",
-};
 
 const DASHBOARD_ROUTE = "/employer/dashboard";
 const MESSAGES_ROUTE = "/employer/messages";
@@ -28,6 +17,20 @@ export default function EmployerShell({
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const pathname = usePathname();
+  const { t } = useLanguage();
+
+  const PAGE_TITLES: Record<string, string> = {
+    "/employer/post-job": t("app_employer_components_employer_shell.post_a_job"),
+    "/employer/find-talent": t("app_employer_components_employer_shell.find_talent"),
+    "/employer/candidates": t("app_employer_components_employer_shell.candidates"),
+    "/employer/profile": t("app_employer_components_employer_shell.profile"),
+    "/employer/analytics": t("app_employer_components_employer_shell.analytics"),
+    "/employer/payments": t("app_employer_components_employer_shell.payments"),
+    "/employer/verification": t("app_employer_components_employer_shell.verification"),
+    "/employer/settings": t("app_employer_components_employer_shell.settings"),
+    "/employer/help-support": t("app_employer_components_employer_shell.help_support"),
+  };
+
   const isDashboard = pathname === DASHBOARD_ROUTE;
   const isMessages = pathname === MESSAGES_ROUTE;
   const pageTitle = PAGE_TITLES[pathname];
@@ -40,7 +43,10 @@ export default function EmployerShell({
         {isDashboard ?
           <TopBar onMenuClick={() => setMobileNavOpen(true)} />
         : isMessages ?
-          <PageHeader title="Messages" statusLabel="Active" />
+          <PageHeader
+            title={t("app_employer_components_employer_shell.messages")}
+            statusLabel={t("app_employer_components_employer_shell.active")}
+          />
         : <PageHeader title={pageTitle ?? ""} verified />}
         <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>

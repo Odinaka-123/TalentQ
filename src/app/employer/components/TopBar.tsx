@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { getTimeOfDay } from "@/lib/utils/greeting";
 import { useEffect, useState } from "react";
 import { Menu, Search, Bell, Mail, Plus } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
@@ -22,6 +23,7 @@ interface TopBarProps {
 
 export default function TopBar({ onMenuClick }: TopBarProps) {
     const { t } = useLanguage();
+  const timeOfDay = getTimeOfDay();
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
@@ -77,7 +79,6 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
     return () => {
       unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, soundEnabled]);
 
   const handleMarkAllRead = async () => {
@@ -107,7 +108,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           </button>
           <div className="min-w-0">
             <h1 className="text-xl sm:text-3xl font-bold text-[#000000] truncate">
-              {t("app_employer_components_top_bar.hello")}{greetingName}
+              {t(`app_employer_components_top_bar.good_${timeOfDay}`)}, {greetingName}
             </h1>
             <p className="text-sm text-[#6B7A73] mt-0.5">
               {t("app_employer_components_top_bar.what_are_we_doing_today")}</p>
