@@ -134,7 +134,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
             </h1>
           : <div className="min-w-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
-                {t(`app_freelancer_components_top_bar.good_${timeOfDay}`)} {greetingName}
+                {t(`app_freelancer_components_top_bar.good_${timeOfDay}`)}, {greetingName}
               </h1>
               <p className="text-sm text-[#6B7A73] mt-0.5">
                 {t("app_freelancer_components_top_bar.what_are_we_locking_in_today")}</p>
