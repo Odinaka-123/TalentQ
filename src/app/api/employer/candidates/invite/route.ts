@@ -15,6 +15,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { data: effectiveEmployerId } = await admin.rpc(
+    "get_effective_employer_id",
+    { uid: user.id },
+  );
+
+  if (!effectiveEmployerId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const { applicationId } = await req.json();
 
   if (!applicationId) {
@@ -41,7 +50,7 @@ export async function POST(req: NextRequest) {
     ? application.jobs[0]
     : application.jobs;
 
-  if (!job || job.employer_id !== user.id) {
+  if (!job || job.employer_id !== effectiveEmployerId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -66,7 +75,11 @@ export async function POST(req: NextRequest) {
 
   const [{ data: employerProfile }, { data: freelancerProfile }] =
     await Promise.all([
-      admin.from("profiles").select("full_name").eq("id", user.id).single(),
+      admin
+        .from("profiles")
+        .select("full_name")
+        .eq("id", effectiveEmployerId)
+        .single(),
       admin
         .from("profiles")
         .select("full_name")
@@ -83,7 +96,7 @@ export async function POST(req: NextRequest) {
   });
 
   await createNotification(admin, {
-    userId: user.id,
+    userId: effectiveEmployerId,
     type: "invited",
     title: `You invited ${freelancerProfile?.full_name ?? "the candidate"} to interview`,
     body: job.title ? `For ${job.title}` : undefined,

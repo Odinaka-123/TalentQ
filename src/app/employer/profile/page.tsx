@@ -113,7 +113,7 @@ async function getEmployerProfile(
   const { data: teamData } = await supabase
     .from("team_members")
     .select(
-      "id, employer_id, user_id, email, role, status, invited_at, joined_at, profiles ( full_name )",
+      "id, employer_id, user_id, email, role, status, invited_at, joined_at, profiles!team_members_user_id_fkey ( full_name )",
     )
     .eq("employer_id", employerId)
     .order("invited_at", { ascending: false });

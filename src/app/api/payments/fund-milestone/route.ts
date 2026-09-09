@@ -16,6 +16,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { data: effectiveEmployerId } = await admin.rpc(
+    "get_effective_employer_id",
+    { uid: user.id },
+  );
+
+  if (!effectiveEmployerId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const { milestoneId } = await req.json();
 
   const { data: milestone, error: milestoneError } = await admin
@@ -33,7 +42,7 @@ export async function POST(req: NextRequest) {
       milestone.contracts[0]
     : milestone.contracts;
 
-  if (!contract || contract.employer_id !== user.id) {
+  if (!contract || contract.employer_id !== effectiveEmployerId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -53,7 +62,7 @@ export async function POST(req: NextRequest) {
       amount: Math.round(Number(milestone.amount) * 100),
       reference,
       callbackUrl: `${appUrl}/employer/payments/fund-callback`,
-      metadata: { milestoneId: milestone.id, employerId: user.id },
+      metadata: { milestoneId: milestone.id, employerId: effectiveEmployerId },
     });
 
     await admin.from("transactions").insert({

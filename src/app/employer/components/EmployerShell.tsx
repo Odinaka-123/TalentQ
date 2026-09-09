@@ -42,12 +42,17 @@ export default function EmployerShell({
       <div className="flex-1 min-w-0 flex flex-col">
         {isDashboard ?
           <TopBar onMenuClick={() => setMobileNavOpen(true)} />
-        : isMessages ?
-          <PageHeader
-            title={t("app_employer_components_employer_shell.messages")}
-            statusLabel={t("app_employer_components_employer_shell.active")}
-          />
-        : <PageHeader title={pageTitle ?? ""} verified />}
+          : isMessages ?
+            <PageHeader
+              title={t("app_employer_components_employer_shell.messages")}
+              statusLabel={t("app_employer_components_employer_shell.active")}
+              onMenuClick={() => setMobileNavOpen(true)}
+            />
+            : <PageHeader
+              title={pageTitle ?? ""}
+              verified
+              onMenuClick={() => setMobileNavOpen(true)}
+            />}
         <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>

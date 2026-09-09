@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n/LanguageContext";
-import { Bell, Mail } from "lucide-react";
+import { Bell, Mail, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type PageHeaderProps = {
@@ -9,6 +9,7 @@ type PageHeaderProps = {
   verified?: boolean;
   statusLabel?: string;
   statusColor?: string;
+  onMenuClick?: () => void;
 };
 
 export default function PageHeader({
@@ -16,14 +17,24 @@ export default function PageHeader({
   verified = false,
   statusLabel,
   statusColor = "#3E8E5A",
+  onMenuClick,
 }: PageHeaderProps) {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   const router = useRouter();
 
   return (
     <header className="bg-[#F5F1E9] px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 pb-4">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
+          {onMenuClick && (
+            <button
+              onClick={onMenuClick}
+              aria-label="Open menu"
+              className="md:hidden flex w-9 h-9 items-center justify-center rounded-full bg-white text-[#1B3A2F] hover:bg-black/5 shrink-0"
+            >
+              <Menu size={18} />
+            </button>
+          )}
           <h1 className="text-xl sm:text-2xl font-bold text-[#000000] truncate">
             {title}
           </h1>

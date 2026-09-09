@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   ArrowRight,
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { getEffectiveEmployerId } from "@/lib/queries/effectiveEmployer";
 import {
   getEmployerDashboard,
   type EmployerDashboardData,
@@ -18,29 +18,26 @@ import {
 import { useCurrency } from "@/lib/currency/CurrencyContext";
 
 export default function EmployerDashboardPage() {
-  const supabase = createClient();
   const { formatCurrency } = useCurrency();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<EmployerDashboardData | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      const effectiveEmployerId = await getEffectiveEmployerId();
 
-      if (!user) {
+      if (!effectiveEmployerId) {
         setLoading(false);
         return;
       }
 
-      const result = await getEmployerDashboard(user.id);
+      const result = await getEmployerDashboard(effectiveEmployerId);
       setData(result);
       setLoading(false);
     };
 
     load();
-  }, [supabase]);
+  }, []);
 
   if (loading || !data) {
     return (

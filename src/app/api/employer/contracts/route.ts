@@ -21,6 +21,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { data: effectiveEmployerId } = await admin.rpc(
+    "get_effective_employer_id",
+    { uid: user.id },
+  );
+
+  if (!effectiveEmployerId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const { applicationId, milestones } = (await req.json()) as {
     applicationId?: string;
     milestones?: MilestoneInput[];
@@ -59,7 +68,7 @@ export async function POST(req: NextRequest) {
     ? application.jobs[0]
     : application.jobs;
 
-  if (!job || job.employer_id !== user.id) {
+  if (!job || job.employer_id !== effectiveEmployerId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -67,7 +76,7 @@ export async function POST(req: NextRequest) {
     .from("contracts")
     .insert({
       job_id: application.job_id,
-      employer_id: user.id,
+      employer_id: effectiveEmployerId,
       freelancer_id: application.freelancer_id,
       status: "active",
     })
@@ -104,7 +113,7 @@ export async function POST(req: NextRequest) {
   const { data: employerProfile } = await admin
     .from("profiles")
     .select("full_name")
-    .eq("id", user.id)
+    .eq("id", effectiveEmployerId)
     .single();
 
   const { data: freelancerProfile } = await admin
@@ -122,7 +131,7 @@ export async function POST(req: NextRequest) {
   });
 
   await createNotification(admin, {
-    userId: user.id,
+    userId: effectiveEmployerId,
     type: "contract_created",
     title: `Contract created with ${freelancerProfile?.full_name ?? "freelancer"}`,
     body: `${milestones.length} milestone${milestones.length > 1 ? "s" : ""} added`,
