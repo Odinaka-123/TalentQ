@@ -26,6 +26,7 @@ type ProfileHeaderProps = {
   userId: string;
   profile: Profile;
   details: EmployerDetails;
+  isOwner: boolean;
   onEdit: () => void;
 };
 
@@ -33,9 +34,10 @@ export default function ProfileHeader({
   userId,
   profile,
   details,
+  isOwner,
   onEdit,
 }: ProfileHeaderProps) {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   const isIdVerified = profile.identity_verification_status === "verified";
 
   const [loadingVerification, setLoadingVerification] = useState(true);
@@ -121,12 +123,15 @@ export default function ProfileHeader({
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={onEdit}
-          className="rounded-full border border-[#E5E0D6] px-4 py-2 text-sm font-medium text-[#1F2A22] hover:bg-[#F5F1E9] transition-colors"
-        >
-          {t("app_employer_profile_components_profile_header.edit_profile")}</button>
+        {isOwner && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="rounded-full border border-[#E5E0D6] px-4 py-2 text-sm font-medium text-[#1F2A22] hover:bg-[#F5F1E9] transition-colors"
+          >
+            {t("app_employer_profile_components_profile_header.edit_profile")}
+          </button>
+        )}
       </div>
 
       {!loadingVerification && badges.length > 0 && (

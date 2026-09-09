@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import TeamMemberRow from "./TeamMemberRow";
 import InviteTeamMemberModal, { InviteDraft } from "./InviteTeamMemberModal";
 import { createClient } from "@/lib/supabase/client";
-import { inviteTeamMember, removeTeamMember } from "@/lib/mutations/team";
+import { removeTeamMember } from "@/lib/mutations/team";
 import type { TeamMemberRow as TeamMemberRowData } from "../page";
 
 type TeamListProps = {
@@ -41,13 +41,32 @@ export default function TeamList({
   team,
   onTeamChange,
 }: TeamListProps) {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   const supabase = createClient();
   const [modalOpen, setModalOpen] = useState(false);
+  const [inviteError, setInviteError] = useState<string | null>(null);
 
   const handleInvite = async (draft: InviteDraft) => {
-    const newMember = await inviteTeamMember(supabase, employerId, draft);
-    onTeamChange([{ ...newMember, profiles: null }, ...team]);
+    setInviteError(null);
+    const res = await fetch("/api/team/invite", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(draft),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      setInviteError(data.error ?? "Could not send invite");
+      throw new Error(data.error ?? "Could not send invite");
+    }
+
+    if (data.emailSent === false) {
+      setInviteError(
+        "Invite created, but the email couldn't be sent. Ask them to check with you directly.",
+      );
+    }
+
+    onTeamChange([{ ...data, profiles: null }, ...team]);
   };
 
   const handleRemove = async (memberId: string) => {
@@ -68,6 +87,10 @@ export default function TeamList({
             <Plus size={13} />
             {t("app_employer_profile_components_team_list.invite_member")}</button>
         </div>
+
+        {inviteError && (
+          <p className="text-xs text-[#C6543A] pb-3">{inviteError}</p>
+        )}
 
         {team.length === 0 ?
           <p className="text-sm text-[#8A8A7E] text-center py-8">

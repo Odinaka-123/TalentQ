@@ -3,6 +3,7 @@
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { getEffectiveEmployerId } from "@/lib/queries/effectiveEmployer";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileTabs from "./components/ProfileTabs";
 import TeamList from "./components/TeamList";
@@ -44,17 +45,17 @@ export type ReviewRow = {
   comment: string | null;
   created_at: string;
   contracts:
-    | {
-        freelancer_id: string;
-        jobs: { title: string } | { title: string }[] | null;
-        profiles: { full_name: string } | { full_name: string }[] | null;
-      }
-    | {
-        freelancer_id: string;
-        jobs: { title: string } | { title: string }[] | null;
-        profiles: { full_name: string } | { full_name: string }[] | null;
-      }[]
-    | null;
+  | {
+    freelancer_id: string;
+    jobs: { title: string } | { title: string }[] | null;
+    profiles: { full_name: string } | { full_name: string }[] | null;
+  }
+  | {
+    freelancer_id: string;
+    jobs: { title: string } | { title: string }[] | null;
+    profiles: { full_name: string } | { full_name: string }[] | null;
+  }[]
+  | null;
 };
 
 export type EmployerProfileData = {
@@ -69,23 +70,23 @@ type ProfileRow = {
   avatar_url: string | null;
   identity_verification_status: string | null;
   employer_details:
-    | {
-        company_name: string | null;
-        industry: string | null;
-        country: string | null;
-        company_size: string | null;
-        budget_range: string | null;
-        hiring_categories: string[] | null;
-      }
-    | {
-        company_name: string | null;
-        industry: string | null;
-        country: string | null;
-        company_size: string | null;
-        budget_range: string | null;
-        hiring_categories: string[] | null;
-      }[]
-    | null;
+  | {
+    company_name: string | null;
+    industry: string | null;
+    country: string | null;
+    company_size: string | null;
+    budget_range: string | null;
+    hiring_categories: string[] | null;
+  }
+  | {
+    company_name: string | null;
+    industry: string | null;
+    country: string | null;
+    company_size: string | null;
+    budget_range: string | null;
+    hiring_categories: string[] | null;
+  }[]
+  | null;
 };
 
 function firstOrSelf<T>(value: T | T[] | null | undefined): T | null {
@@ -94,7 +95,7 @@ function firstOrSelf<T>(value: T | T[] | null | undefined): T | null {
 }
 
 async function getEmployerProfile(
-  userId: string,
+  employerId: string,
 ): Promise<EmployerProfileData> {
   const supabase = createClient();
 
@@ -103,7 +104,7 @@ async function getEmployerProfile(
     .select(
       "full_name, avatar_url, identity_verification_status, employer_details ( company_name, industry, country, company_size, budget_range, hiring_categories )",
     )
-    .eq("id", userId)
+    .eq("id", employerId)
     .single();
 
   const row = data as ProfileRow | null;
@@ -114,7 +115,7 @@ async function getEmployerProfile(
     .select(
       "id, employer_id, user_id, email, role, status, invited_at, joined_at, profiles ( full_name )",
     )
-    .eq("employer_id", userId)
+    .eq("employer_id", employerId)
     .order("invited_at", { ascending: false });
 
   // TODO: wire up real reviews once the reviews/contracts schema is confirmed.
@@ -128,13 +129,13 @@ async function getEmployerProfile(
     },
     details: details
       ? {
-          company_name: details.company_name,
-          industry: details.industry,
-          country: details.country,
-          company_size: details.company_size,
-          budget_range: details.budget_range,
-          hiring_categories: details.hiring_categories,
-        }
+        company_name: details.company_name,
+        industry: details.industry,
+        country: details.country,
+        company_size: details.company_size,
+        budget_range: details.budget_range,
+        hiring_categories: details.hiring_categories,
+      }
       : null,
     team: (teamData ?? []) as TeamMemberRow[],
     reviews,
@@ -142,9 +143,10 @@ async function getEmployerProfile(
 }
 
 export default function ProfilePage() {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   const supabase = createClient();
-  const [userId, setUserId] = useState<string | null>(null);
+  const [actorId, setActorId] = useState<string | null>(null);
+  const [employerId, setEmployerId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("team");
   const [loading, setLoading] = useState(true);
   const [editOpen, setEditOpen] = useState(false);
@@ -161,14 +163,25 @@ export default function ProfilePage() {
         return;
       }
 
-      setUserId(user.id);
-      const result = await getEmployerProfile(user.id);
+      setActorId(user.id);
+
+      const effectiveId = await getEffectiveEmployerId();
+
+      if (!effectiveId) {
+        setLoading(false);
+        return;
+      }
+
+      setEmployerId(effectiveId);
+      const result = await getEmployerProfile(effectiveId);
       setData(result);
       setLoading(false);
     };
 
     load();
   }, [supabase]);
+
+  const isOwner = actorId !== null && actorId === employerId;
 
   if (loading) {
     return (
@@ -179,19 +192,21 @@ export default function ProfilePage() {
     );
   }
 
-  if (!data?.profile || !userId) {
+  if (!data?.profile || !employerId) {
     return (
       <div className="text-center py-16 text-sm text-[#8A8A7E]">
-        {t("app_employer_profile_page.profile_not_found")}</div>
+        {t("app_employer_profile_page.profile_not_found")}
+      </div>
     );
   }
 
   return (
     <div>
       <ProfileHeader
-        userId={userId}
+        userId={employerId}
         profile={data.profile}
         details={data.details}
+        isOwner={isOwner}
         onEdit={() => setEditOpen(true)}
       />
 
@@ -200,7 +215,7 @@ export default function ProfilePage() {
 
         {activeTab === "team" && (
           <TeamList
-            employerId={userId}
+            employerId={employerId}
             team={data.team}
             onTeamChange={(team) =>
               setData((prev) => (prev ? { ...prev, team } : prev))
@@ -210,9 +225,9 @@ export default function ProfilePage() {
         {activeTab === "history" && <HistoryList reviews={data.reviews} />}
       </div>
 
-      {editOpen && (
+      {editOpen && isOwner && (
         <EditProfileModal
-          userId={userId}
+          userId={employerId}
           profile={data.profile}
           details={data.details}
           onClose={() => setEditOpen(false)}
