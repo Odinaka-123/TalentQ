@@ -45,7 +45,6 @@ export default function NotificationsPanel({
 
   return (
     <>
-      {/* Invisible overlay to catch outside clicks and close the panel */}
       <div
         className="fixed inset-0 z-40"
         onClick={onClose}
