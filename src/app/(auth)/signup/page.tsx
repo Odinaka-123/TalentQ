@@ -4,19 +4,23 @@ import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Check, X } from "lucide-react";
 import AuthShell from "../components/AuthShell";
 import GoogleButton from "../components/GoogleButton";
 import { createClient } from "@/lib/supabase/client";
+import { getPasswordChecks, isPasswordValid } from "@/lib/validation/password";
 
 export default function SignupPage() {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+
+  const passwordChecks = getPasswordChecks(form.password);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -25,21 +29,24 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!isPasswordValid(form.password)) {
+      setError("Password doesn't meet the minimum requirements");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: {
-          data: {
-            full_name: form.name,
-          },
-        },
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
+      const data = await res.json();
 
-      if (error) {
-        setError(error.message);
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
         return;
       }
 
@@ -120,6 +127,7 @@ export default function SignupPage() {
               minLength={8}
               value={form.password}
               onChange={handleChange}
+              onFocus={() => setPasswordFocused(true)}
               placeholder="Create a password"
               className="w-full bg-[#F5F1E9] rounded-lg px-3.5 py-2.5 pr-10 text-sm text-[#1B3A2F] placeholder:text-[#9AA79F] focus:outline-none focus:ring-2 focus:ring-[#C6543A]/40"
             />
@@ -134,8 +142,24 @@ export default function SignupPage() {
               : <Eye size={16} />}
             </button>
           </div>
-          <p className="text-xs text-[#9AA79F] mt-1.5">
-            {t("app_auth_signup_page.must_be_at_least_8_characters")}</p>
+
+          {passwordFocused && (
+            <ul className="mt-2 flex flex-col gap-1">
+              {passwordChecks.map((check) => (
+                <li
+                  key={check.label}
+                  className={`flex items-center gap-1.5 text-xs ${
+                    check.met ? "text-[#3E8E5A]" : "text-[#9AA79F]"
+                  }`}
+                >
+                  {check.met ?
+                    <Check size={12} />
+                  : <X size={12} />}
+                  {check.label}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <button
