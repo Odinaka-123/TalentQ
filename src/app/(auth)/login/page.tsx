@@ -1,22 +1,26 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n/LanguageContext";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Eye, EyeOff, CheckCircle2, Clock } from "lucide-react";
 import AuthShell from "../components/AuthShell";
 import GoogleButton from "../components/GoogleButton";
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
-    const { t } = useLanguage();
+function LoginForm() {
+  const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const passwordReset = searchParams.get("passwordReset") === "1";
+  const sessionExpired = searchParams.get("sessionExpired") === "1";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -27,32 +31,28 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: form.email,
-      password: form.password,
-    });
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
 
-    setLoading(false);
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
 
-    if (error) {
-      setError(error.message);
-      return;
+      if (!data.onboardingCompleted) {
+        router.push("/onboarding");
+        return;
+      }
+
+      router.push(data.role === "employer" ? "/employer/dashboard" : "/dashboard");
+    } finally {
+      setLoading(false);
     }
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role, onboarding_completed")
-      .eq("id", data.user.id)
-      .single();
-
-    if (!profile?.onboarding_completed) {
-      router.push("/onboarding");
-      return;
-    }
-
-    router.push(
-      profile?.role === "employer" ? "/employer/dashboard" : "/dashboard",
-    );
   };
 
   const handleGoogleLogin = async () => {
@@ -66,6 +66,20 @@ export default function LoginPage() {
 
   return (
     <AuthShell title="Welcome back" subtitle="Log in to continue to TalentQ.">
+      {passwordReset && (
+        <p className="flex items-center gap-2 text-sm text-[#3E8E5A] bg-[#EAF6EC] rounded-lg px-3.5 py-2.5 mb-4">
+          <CheckCircle2 size={16} className="shrink-0" />
+          Your password has been reset. Log in with your new password.
+        </p>
+      )}
+
+      {sessionExpired && !passwordReset && (
+        <p className="flex items-center gap-2 text-sm text-[#8A6D1F] bg-[#FBF3DE] rounded-lg px-3.5 py-2.5 mb-4">
+          <Clock size={16} className="shrink-0" />
+          You were logged out due to inactivity. Please log in again.
+        </p>
+      )}
+
       {error && (
         <p className="text-sm text-[#C6543A] bg-[#FBEBE9] rounded-lg px-3.5 py-2.5 mb-4">
           {error}
@@ -151,5 +165,13 @@ export default function LoginPage() {
           {t("app_auth_login_page.sign_up")}</Link>
       </p>
     </AuthShell>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }

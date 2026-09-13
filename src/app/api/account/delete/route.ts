@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sanitizeError, safeError } from "@/lib/api/sanitizeError";
 
 export async function POST() {
   const supabase = await createClient();
@@ -11,7 +12,7 @@ export async function POST() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return safeError("Unauthorized", 401);
   }
 
   // contracts carry financial history (milestones, transactions) and have
@@ -25,26 +26,19 @@ export async function POST() {
     .eq("employer_id", user.id);
 
   if (contractsError) {
-    return NextResponse.json(
-      { error: "Couldn't verify account status" },
-      { status: 500 },
-    );
+    return sanitizeError(contractsError, "account/delete:contracts-check");
   }
 
   if (count && count > 0) {
-    return NextResponse.json(
-      {
-        error:
-          "Your account has contract history and can't be deleted automatically. Contact support to close your account.",
-      },
-      { status: 400 },
+    return safeError(
+      "Your account has contract history and can't be deleted automatically. Contact support to close your account.",
     );
   }
 
   const { error } = await admin.auth.admin.deleteUser(user.id);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return sanitizeError(error, "account/delete:deleteUser");
   }
 
   return NextResponse.json({ success: true });

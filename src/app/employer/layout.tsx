@@ -1,10 +1,16 @@
 // layout.tsx
 import EmployerShell from "./components/EmployerShell";
+import SessionHeartbeat from "@/components/SessionHeartbeat";
 
 export default function EmployerLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <EmployerShell>{children}</EmployerShell>;
+  return (
+    <>
+      <SessionHeartbeat />
+      <EmployerShell>{children}</EmployerShell>
+    </>
+  );
 }
