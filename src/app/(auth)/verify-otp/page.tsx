@@ -10,7 +10,7 @@ import OtpInput from "../components/OtpInput";
 import { createClient } from "@/lib/supabase/client";
 
 function VerifyOtpForm() {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
   const searchParams = useSearchParams();
@@ -37,20 +37,23 @@ function VerifyOtpForm() {
     setError(null);
     setLoading(true);
 
-    const { error } = await supabase.auth.verifyOtp({
-      email,
-      token: code.join(""),
-      type,
-    });
+    try {
+      const res = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, token: code.join(""), type }),
+      });
+      const data = await res.json();
 
-    setLoading(false);
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
 
-    if (error) {
-      setError(error.message);
-      return;
+      router.push(next);
+    } finally {
+      setLoading(false);
     }
-
-    router.push(next);
   };
 
   const handleResend = async () => {
