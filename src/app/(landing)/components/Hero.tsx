@@ -62,7 +62,7 @@ export default function Hero() {
         >
           <motion.span
             variants={item}
-            className="rounded-full border border-[#749389] bg-[#48655C] px-3 sm:px-4 py-1.5 text-xs sm:text-sm text-[#C36A34] mb-6 sm:mb-8"
+            className="rounded-full border border-[#749389] bg-[#48655C] px-3 sm:px-4 py-1.5 text-2xl sm:text-sm text-[#C36A34] mb-6 sm:mb-8 font-bold"
           >
             <TypingText text="Built for African freelancers and businesses" />
           </motion.span>
