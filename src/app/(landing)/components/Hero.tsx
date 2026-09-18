@@ -69,7 +69,7 @@ export default function Hero() {
 
           <motion.h1
             variants={item}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight max-w-2xl"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#ffffff] leading-tight max-w-2xl"
           >
             {t("app_landing_components_hero.find_work_you_can_trust")}<br />
             {t("app_landing_components_hero.hire_talent_you_can_verify")}</motion.h1>
