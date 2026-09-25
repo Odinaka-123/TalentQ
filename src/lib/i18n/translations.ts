@@ -634,7 +634,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
       "app_freelancer_components_top_bar.good_night": "Good evening",
       "app_employer_components_top_bar.good_morning": "Good morning",
       "app_employer_components_top_bar.good_afternoon": "Good afternoon",
-      "app_employer_components_top_bar.good_night": "Good evening"
+      "app_employer_components_top_bar.good_night": "Good evening",
+      "app_employer_payments_components_active_escrow_milestones.send_back": "Send Back",
+      "app_employer_payments_components_active_escrow_milestones.approve": "Approve",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_approve_this_milestone": "Couldn't approve this milestone",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_send_this_back": "Couldn't send this back"
 },
   "en-US": {
     "settings.appearance.density.title": "Density",
@@ -1257,7 +1261,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
       "app_freelancer_components_top_bar.good_night": "Good evening",
       "app_employer_components_top_bar.good_morning": "Good morning",
       "app_employer_components_top_bar.good_afternoon": "Good afternoon",
-      "app_employer_components_top_bar.good_night": "Good evening"
+      "app_employer_components_top_bar.good_night": "Good evening",
+      "app_employer_payments_components_active_escrow_milestones.send_back": "Send Back",
+      "app_employer_payments_components_active_escrow_milestones.approve": "Approve",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_approve_this_milestone": "Couldn't approve this milestone",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_send_this_back": "Couldn't send this back"
 },
   fr: {
     "settings.appearance.density.title": "Densité",
@@ -1881,7 +1889,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
       "app_freelancer_components_top_bar.good_night": "Bonsoir",
       "app_employer_components_top_bar.good_morning": "Bonjour",
       "app_employer_components_top_bar.good_afternoon": "Bonjour",
-      "app_employer_components_top_bar.good_night": "Bonsoir"
+      "app_employer_components_top_bar.good_night": "Bonsoir",
+      "app_employer_payments_components_active_escrow_milestones.send_back": "Renvoyer",
+      "app_employer_payments_components_active_escrow_milestones.approve": "Approuver",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_approve_this_milestone": "Je n'ai pas pu valider cette étape",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_send_this_back": "Je n'ai pas pu le renvoyer"
 },
   pt: {
     "settings.appearance.density.title": "Densidade",
@@ -2504,6 +2516,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
       "app_freelancer_components_top_bar.good_night": "Boa noite",
       "app_employer_components_top_bar.good_morning": "Bom dia",
       "app_employer_components_top_bar.good_afternoon": "Boa tarde",
-      "app_employer_components_top_bar.good_night": "Boa noite"
+      "app_employer_components_top_bar.good_night": "Boa noite",
+      "app_employer_payments_components_active_escrow_milestones.send_back": "Devolver",
+      "app_employer_payments_components_active_escrow_milestones.approve": "Aprovar",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_approve_this_milestone": "Não foi possível aprovar este marco",
+      "app_employer_payments_components_active_escrow_milestones.couldnt_send_this_back": "Não consegui devolver isso"
 },
 };

@@ -14,7 +14,9 @@ import { Project, SyntaxKind } from "ts-morph";
 const project = new Project({ tsConfigFilePath: "tsconfig.json" });
 const file = project.addSourceFileAtPath("src/lib/i18n/translations.ts");
 const varDecl = file.getVariableDeclarationOrThrow("translations");
-const objLit = varDecl.getInitializerIfKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+const objLit = varDecl.getInitializerIfKindOrThrow(
+  SyntaxKind.ObjectLiteralExpression,
+);
 
 const entries = [
   // Employer sidebar
@@ -51,17 +53,40 @@ const entries = [
   ["app_employer_components_employer_shell.help_support", "Help & Support"],
   ["app_employer_components_employer_shell.messages", "Messages"],
   ["app_employer_components_employer_shell.active", "Active"],
+
+  // Active escrow milestones (employer payments)
+  [
+    "app_employer_payments_components_active_escrow_milestones.send_back",
+    "Send Back",
+  ],
+  [
+    "app_employer_payments_components_active_escrow_milestones.approve",
+    "Approve",
+  ],
+  [
+    "app_employer_payments_components_active_escrow_milestones.couldnt_approve_this_milestone",
+    "Couldn't approve this milestone",
+  ],
+  [
+    "app_employer_payments_components_active_escrow_milestones.couldnt_send_this_back",
+    "Couldn't send this back",
+  ],
 ];
 
 const langs = { "en-GB": true, "en-US": true, fr: false, pt: false };
 
 for (const [langKey, useOriginal] of Object.entries(langs)) {
-  const langProp = objLit.getProperty(`"${langKey}"`) ?? objLit.getProperty(langKey);
+  const langProp =
+    objLit.getProperty(`"${langKey}"`) ?? objLit.getProperty(langKey);
   if (!langProp) {
-    console.warn(`Could not find "${langKey}" block in translations.ts — skipping.`);
+    console.warn(
+      `Could not find "${langKey}" block in translations.ts — skipping.`,
+    );
     continue;
   }
-  const langObj = langProp.getInitializerIfKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+  const langObj = langProp.getInitializerIfKindOrThrow(
+    SyntaxKind.ObjectLiteralExpression,
+  );
   const existing = new Set(langObj.getProperties().map((p) => p.getName?.()));
 
   let added = 0;
@@ -69,12 +94,19 @@ for (const [langKey, useOriginal] of Object.entries(langs)) {
     const propName = `"${key}"`;
     if (existing.has(propName)) continue;
     const value = useOriginal ? text : `TODO_TRANSLATE: ${text}`;
-    langObj.addPropertyAssignment({ name: propName, initializer: JSON.stringify(value) });
+    langObj.addPropertyAssignment({
+      name: propName,
+      initializer: JSON.stringify(value),
+    });
     existing.add(propName);
     added++;
   }
-  console.log(`${langKey}: added ${added} key(s), skipped ${entries.length - added} existing.`);
+  console.log(
+    `${langKey}: added ${added} key(s), skipped ${entries.length - added} existing.`,
+  );
 }
 
 project.saveSync();
-console.log("Done. Run `node scripts/i18n/translate-fill.mjs` next to fill in fr/pt.");
+console.log(
+  "Done. Run `node scripts/i18n/translate-fill.mjs` next to fill in fr/pt.",
+);
