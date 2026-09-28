@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useDensity } from "@/lib/density/DensityContext";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,9 +43,10 @@ interface SidebarProps {
 interface NavLinksProps {
   pathname: string;
   onNavigate: () => void;
+  collapsed?: boolean;
 }
 
-function TopNav({ pathname, onNavigate }: NavLinksProps) {
+function TopNav({ pathname, onNavigate, collapsed = false }: NavLinksProps) {
   return (
     <nav className="flex flex-col gap-1">
       {navItems.map((item) => {
@@ -54,14 +56,16 @@ function TopNav({ pathname, onNavigate }: NavLinksProps) {
             key={item.href}
             href={item.href}
             onClick={onNavigate}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-              isActive ?
-                "bg-[#8CABA1] text-white"
-              : "text-[#8CABA1] hover:bg-[#1B3A2F] hover:text-white"
-            }`}
+            title={collapsed ? item.label : undefined}
+            aria-label={collapsed ? item.label : undefined}
+            className={`flex items-center rounded-lg py-2.5 text-sm transition-colors ${collapsed ? "justify-center px-0" : "gap-3 px-3"
+              } ${isActive
+                ? "bg-[#8CABA1] text-white"
+                : "text-[#8CABA1] hover:bg-[#1B3A2F] hover:text-white"
+              }`}
           >
             <item.icon size={18} />
-            {item.label}
+            {!collapsed && item.label}
           </Link>
         );
       })}
@@ -72,6 +76,7 @@ function TopNav({ pathname, onNavigate }: NavLinksProps) {
 function BottomNav({
   pathname,
   onNavigate,
+  collapsed = false,
   name,
   avatarUrl,
   isVerified,
@@ -80,7 +85,7 @@ function BottomNav({
   avatarUrl: string | null;
   isVerified: boolean;
 }) {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   return (
     <div>
       <div className="border-t border-white mb-4" />
@@ -93,17 +98,19 @@ function BottomNav({
               key={item.href}
               href={item.href}
               onClick={onNavigate}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                isActive ?
-                  "bg-[#C6543A] text-white"
-                : "text-[#8CABA1] hover:bg-[#1B3A2F] hover:text-white"
-              }`}
+              title={collapsed ? item.label : undefined}
+              aria-label={collapsed ? item.label : undefined}
+              className={`flex items-center rounded-lg py-2.5 text-sm transition-colors ${collapsed ? "justify-center px-0" : "gap-3 px-3"
+                } ${isActive
+                  ? "bg-[#C6543A] text-white"
+                  : "text-[#8CABA1] hover:bg-[#1B3A2F] hover:text-white"
+                }`}
             >
               <item.icon
                 size={18}
                 className={isHelp && !isActive ? "text-[#C6543A]" : ""}
               />
-              {item.label}
+              {!collapsed && item.label}
             </Link>
           );
         })}
@@ -112,22 +119,28 @@ function BottomNav({
       <Link
         href="/profile"
         onClick={onNavigate}
-        className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-[#1B3A2F] transition-colors"
+        title={collapsed ? name : undefined}
+        className={`flex items-center rounded-lg py-2.5 hover:bg-[#1B3A2F] transition-colors ${collapsed ? "justify-center px-0" : "gap-3 px-3"
+          }`}
       >
         <Avatar src={avatarUrl} name={name} size={36} />
-        <div className="min-w-0">
-          <div className="flex items-center gap-1">
-            <p className="text-sm font-medium text-white truncate">{name}</p>
-            {isVerified && (
-              <BadgeCheck
-                size={14}
-                className="text-[#3E9AFF] shrink-0"
-                aria-label="Identity verified"
-              />
-            )}
+        {!collapsed && (
+          <div className="min-w-0">
+            <div className="flex items-center gap-1">
+              <p className="text-sm font-medium text-white truncate">{name}</p>
+              {isVerified && (
+                <BadgeCheck
+                  size={14}
+                  className="text-[#3E9AFF] shrink-0"
+                  aria-label="Identity verified"
+                />
+              )}
+            </div>
+            <p className="text-xs text-[#8CABA1]">
+              {t("app_freelancer_components_sidebar.freelancer")}
+            </p>
           </div>
-          <p className="text-xs text-[#8CABA1]">{t("app_freelancer_components_sidebar.freelancer")}</p>
-        </div>
+        )}
       </Link>
     </div>
   );
@@ -136,6 +149,7 @@ function BottomNav({
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const supabase = createClient();
+  const { sidebarCollapsed } = useDensity();
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isVerified, setIsVerified] = useState(false);
@@ -164,46 +178,64 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      <aside className="hidden md:flex flex-col justify-between w-60 shrink-0 h-screen sticky top-0 bg-[#0F2A20] px-4 py-6">
+      {/* Desktop sidebar: collapses when density is "spacious" */}
+      <aside
+        className={`hidden md:flex flex-col justify-between shrink-0 h-screen sticky top-0 bg-[#0F2A20] py-6 transition-[width] duration-200 ${sidebarCollapsed ? "w-20 px-3" : "w-60 px-4"
+          }`}
+      >
         <div>
-          <Link href="/dashboard" className="flex items-center gap-2 px-2 mb-8">
-            <Image
-              src="/Icons/logo-light.png"
-              alt="TalentQ"
-              width={180}
-              height={48}
-              className="h-12 w-auto"
-            />
+          <Link
+            href="/dashboard"
+            className={`flex items-center mb-8 ${sidebarCollapsed ? "justify-center" : "gap-2 px-2"
+              }`}
+          >
+            {sidebarCollapsed ? (
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#1B3A2F] text-lg font-bold text-white">
+                T
+              </span>
+            ) : (
+              <Image
+                src="/Icons/logo-light.png"
+                alt="TalentQ"
+                width={180}
+                height={48}
+                className="h-12 w-auto"
+              />
+            )}
           </Link>
-          <TopNav pathname={pathname} onNavigate={onClose} />
+          <TopNav
+            pathname={pathname}
+            onNavigate={onClose}
+            collapsed={sidebarCollapsed}
+          />
         </div>
 
         <BottomNav
           pathname={pathname}
           onNavigate={onClose}
+          collapsed={sidebarCollapsed}
           name={name}
           avatarUrl={avatarUrl}
           isVerified={isVerified}
         />
       </aside>
 
+      {/* Mobile drawer: always full, ignores density */}
       <div
         aria-hidden={!isOpen}
         onClick={onClose}
-        className={`md:hidden fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 ${
-          isOpen ?
-            "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
-        }`}
+        className={`md:hidden fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 ${isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+          }`}
       />
 
       <aside
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
-        className={`md:hidden fixed inset-y-0 left-0 z-50 w-72 max-w-[80vw] flex flex-col justify-between bg-[#0F2A20] px-4 py-6 transform transition-transform duration-200 ease-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`md:hidden fixed inset-y-0 left-0 z-50 w-72 max-w-[80vw] flex flex-col justify-between bg-[#0F2A20] px-4 py-6 transform transition-transform duration-200 ease-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <div>
           <div className="flex items-center justify-between px-2 mb-8">

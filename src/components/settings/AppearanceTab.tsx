@@ -6,8 +6,8 @@ import { useCurrency } from "@/lib/currency/CurrencyContext";
 import type { CurrencyCode } from "@/lib/queries/currency";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { languageOptions, type LanguageCode } from "@/lib/i18n/translations";
+import { useDensity, type Density } from "@/lib/density/DensityContext";
 
-type Density = "compact" | "comfortable" | "spacious";
 type Theme = "light" | "dark";
 
 const currencyOptions: { value: CurrencyCode; label: string }[] = [
@@ -18,7 +18,7 @@ const currencyOptions: { value: CurrencyCode; label: string }[] = [
 ];
 
 export default function AppearanceTab() {
-    const [density, setDensity] = useState<Density>("compact");
+    const { density, setDensity } = useDensity();
     const [theme, setTheme] = useState<Theme>("light");
     const [dateFormat, setDateFormat] = useState("DD/MM/YYYY");
     const [timezone, setTimezone] = useState("Nigeria (GMT+1)");
@@ -49,6 +49,7 @@ export default function AppearanceTab() {
                                 key={option.key}
                                 type="button"
                                 onClick={() => setDensity(option.key)}
+                                aria-pressed={isActive}
                                 className={`rounded-xl border px-4 py-3 text-sm transition-colors ${isActive ?
                                     "border-[#DE814A] bg-[#FBF0E4] text-[#C6543A] font-medium"
                                     : "border-[#E5E0D6] text-[#1F2A22] hover:border-[#DE814A]"
