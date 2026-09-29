@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { Sun, Moon, ChevronDown } from "lucide-react";
 import { useCurrency } from "@/lib/currency/CurrencyContext";
 import type { CurrencyCode } from "@/lib/queries/currency";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { languageOptions, type LanguageCode } from "@/lib/i18n/translations";
 import { useDensity, type Density } from "@/lib/density/DensityContext";
-
-type Theme = "light" | "dark";
+import { useTheme } from "@/lib/theme/ThemeContext";
+import { useState } from "react";
 
 const currencyOptions: { value: CurrencyCode; label: string }[] = [
     { value: "USD", label: "USD ($)" },
@@ -19,7 +18,7 @@ const currencyOptions: { value: CurrencyCode; label: string }[] = [
 
 export default function AppearanceTab() {
     const { density, setDensity } = useDensity();
-    const [theme, setTheme] = useState<Theme>("light");
+    const { theme, setTheme } = useTheme();
     const [dateFormat, setDateFormat] = useState("DD/MM/YYYY");
     const [timezone, setTimezone] = useState("Nigeria (GMT+1)");
     const { currency, setCurrency } = useCurrency();
@@ -149,6 +148,7 @@ export default function AppearanceTab() {
                     <button
                         type="button"
                         onClick={() => setTheme("light")}
+                        aria-pressed={theme === "light"}
                         className={`flex flex-col items-center gap-2 rounded-xl border px-4 py-4 transition-colors ${theme === "light" ?
                             "border-[#DE814A] bg-[#FBF0E4]"
                             : "border-[#E5E0D6] hover:border-[#DE814A]"
@@ -170,6 +170,7 @@ export default function AppearanceTab() {
                     <button
                         type="button"
                         onClick={() => setTheme("dark")}
+                        aria-pressed={theme === "dark"}
                         className={`flex flex-col items-center gap-2 rounded-xl border px-4 py-4 transition-colors ${theme === "dark" ?
                             "border-[#DE814A] bg-[#FBF0E4]"
                             : "border-[#E5E0D6] hover:border-[#DE814A]"
